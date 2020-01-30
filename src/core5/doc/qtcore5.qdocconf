@@ -1,0 +1,35 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+
+project                 = QtCore5Compat
+description             = Qt 5 Core Compatibility APIs Documentation
+version                 = $QT_VERSION
+
+qhp.projects            = QtCore5Compat
+
+qhp.QtCore5Compat.file                = qtcore5.qhp
+qhp.QtCore5Compat.namespace           = org.qt-project.qtcore5.$QT_VERSION_TAG
+qhp.QtCore5Compat.virtualFolder       = qtcore5
+qhp.QtCore5Compat.indexTitle          = Qt 5 Core Compatibility APIs
+qhp.QtCore5Compat.indexRoot           =
+
+qhp.QtCore5Compat.filterAttributes    = qtcore5 $QT_VERSION qtrefdoc
+qhp.QtCore5Compat.customFilters.Qt.name = QtCore5Compat $QT_VERSION
+qhp.QtCore5Compat.customFilters.Qt.filterAttributes = qtcore5 $QT_VERSION
+
+qhp.QtCore5Compat.subprojects         = classes
+
+qhp.QtCore5Compat.subprojects.classes.title = C++ Classes
+qhp.QtCore5Compat.subprojects.classes.indexTitle = Qt 5 Compat C++ Classes
+qhp.QtCore5Compat.subprojects.classes.selectors = class fake:headerfile
+qhp.QtCore5Compat.subprojects.classes.sortPages = true
+
+headerdirs  += ..
+sourcedirs  += ..
+exampledirs += snippets
+imagedirs   += images
+excludedirs += snippets
+
+depends += qtcore qtdoc qmake
+
+navigation.landingpage = "Qt 5 Core Compatibility APIs"
+navigation.cppclassespage = "Qt 5 Core Compatibility C++ Classes"

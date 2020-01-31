@@ -215,6 +215,8 @@ private slots:
     void constSharedNullMovable() const;
     void constSharedNullComplex() const;
 
+    void iterators() const;
+
 private:
     template<typename T>
     void length() const;
@@ -1083,6 +1085,128 @@ void tst_QLinkedList::constSharedNullComplex() const
     const int liveCount = Complex::getLiveCount();
     constSharedNull<Complex>();
     QCOMPARE(liveCount, Complex::getLiveCount());
+}
+
+void tst_QLinkedList::iterators() const
+{
+    QLinkedList<int> list;
+    QVERIFY(list.isEmpty());
+    list.append(1);
+    list.push_back(2);
+    list += (3);
+    list << 4 << 5 << 6;
+    QVERIFY(!list.isEmpty());
+    QVERIFY(list.size() == 6);
+    {
+        int sum = 0;
+        QLinkedListIterator<int> i = list;
+        while (i.hasNext()) {
+            sum += i.next();
+        }
+        QVERIFY(sum == 21);
+    }
+    {
+        int sum = 0;
+        QLinkedList<int>::const_iterator i = list.begin();
+        while (i != list.end())
+            sum += *i++;
+        QVERIFY(sum == 21);
+    }
+    {
+        QMutableLinkedListIterator<int> i = list;
+        while (i.hasNext())
+            i.setValue(2 * i.next());
+    }
+    {
+        int sum = 0;
+        QLinkedListIterator<int> i = list;
+        i.toBack();
+        while (i.hasPrevious())
+            sum += i.previous();
+        QVERIFY(sum == 2 * 21);
+    }
+    {
+        QMutableLinkedListIterator<int> i = list;
+        i.toBack();
+        while (i.hasPrevious())
+            i.setValue(2 * i.previous());
+    }
+    {
+        int sum = 0;
+        QLinkedListIterator<int> i = list;
+        i.toBack();
+        while (i.hasPrevious())
+            sum += i.previous();
+        QVERIFY(sum == 2 * 2 * 21);
+    }
+    {
+        QMutableLinkedListIterator<int> i = list;
+        while (i.hasNext()) {
+            int a = i.next();
+            i.insert(a);
+        }
+    }
+    {
+        int sum = 0;
+        QLinkedList<int>::iterator i = list.begin();
+        while (i != list.end())
+            sum += *i++;
+        QVERIFY(sum == 2 * 2 * 2 * 21);
+    }
+    {
+        int duplicates = 0;
+        QLinkedListIterator<int> i = list;
+        while (i.hasNext()) {
+            int a = i.next();
+            if (i.hasNext() && a == i.peekNext())
+                duplicates++;
+        }
+        QVERIFY(duplicates == 6);
+    }
+    {
+        int duplicates = 0;
+        QLinkedListIterator<int> i = list;
+        i.toBack();
+        while (i.hasPrevious()) {
+            int a = i.previous();
+            if (i.hasPrevious() && a == i.peekPrevious())
+                duplicates++;
+        }
+        QVERIFY(duplicates == 6);
+    }
+    {
+        QMutableLinkedListIterator<int> i = list;
+        while (i.hasNext()) {
+            int a = i.next();
+            if (i.hasNext() && i.peekNext() == a)
+                i.remove();
+        }
+    }
+    {
+        int duplicates = 0;
+        QMutableLinkedListIterator<int> i = list;
+        i.toBack();
+        while (i.hasPrevious()) {
+            int a = i.previous();
+            if (i.hasPrevious() && a == i.peekPrevious())
+                duplicates++;
+        }
+        QVERIFY(duplicates == 0);
+    }
+    {
+        QVERIFY(list.size() == 6);
+        QMutableLinkedListIterator<int> i = list;
+        while (i.hasNext()) {
+            int a = i.peekNext();
+            i.insert(42);
+            QVERIFY(i.peekPrevious() == 42 && i.peekNext() == a);
+            i.next();
+        }
+        QVERIFY(list.size() == 12);
+        i.toFront();
+        while (i.findNext(42))
+            i.remove();
+    }
 }
 
 } // namespace Qt5

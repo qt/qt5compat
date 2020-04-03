@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
 
 namespace Qt5 {
 
-struct Q_CORE5_EXPORT QLinkedListData
+struct Q_CORE5COMPAT_EXPORT QLinkedListData
 {
     QLinkedListData *n, *p;
     QtPrivate::RefCount ref;

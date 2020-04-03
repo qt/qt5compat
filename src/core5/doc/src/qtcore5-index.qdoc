@@ -63,7 +63,7 @@
     To link against the module, add this line to your \l qmake \c .pro file:
 
     \code
-    QT += core5
+    QT += core5compat
     \endcode
 
     \section1 Related Information

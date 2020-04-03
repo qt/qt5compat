@@ -1,5 +1,6 @@
 TARGET = QtCore5Compat
 QT     = core
+MODULE = core5compat
 
 QMAKE_DOCS = $$PWD/doc/qtcore5.qdocconf
 

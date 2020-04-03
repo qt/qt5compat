@@ -29,7 +29,7 @@
     \module QtCore5Compat
     \title Qt 5 Core Compatibility C++ Classes
     \ingroup modules
-    \qtvariable core5
+    \qtvariable core5compat
 
     \brief Contains the Qt 5 Core APIs removed from Qt 6.
 

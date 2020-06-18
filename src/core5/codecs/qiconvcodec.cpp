@@ -181,12 +181,7 @@ QString QIconvCodec::convertToUnicode(const char* chars, int len, ConverterState
     IconvState *state = *pstate;
     size_t inBytesLeft = len;
     // best case assumption, each byte is converted into one UTF-16 character, plus 2 bytes for the BOM
-#if !QT_CONFIG(posix_libiconv)
-    // GNU doesn't disagree with POSIX :/
-    const char *inBytes = chars;
-#else
-    char *inBytes = const_cast<char *>(chars);
-#endif
+    char *inBytes = const_cast<char *>(chars); // GNU and posix don't agree
 
     QByteArray in;
     if (remainingCount) {
@@ -280,11 +275,7 @@ static bool setByteOrder(iconv_t cd)
     size_t outBytesLeft = sizeof buf;
     size_t inBytesLeft = sizeof bom;
 
-#if !QT_CONFIG(posix_libiconv)
-    const char **inBytesPtr = const_cast<const char **>(&inBytes);
-#else
-    char **inBytesPtr = &inBytes;
-#endif
+    char **inBytesPtr = &inBytes; // GNU and posix don't agree
 
     if (iconv(cd, inBytesPtr, &inBytesLeft, &outBytes, &outBytesLeft) == (size_t) -1) {
         return false;
@@ -302,11 +293,7 @@ QByteArray QIconvCodec::convertFromUnicode(const QChar *uc, int len, ConverterSt
     char *outBytes;
     size_t inBytesLeft;
 
-#if !QT_CONFIG(posix_libiconv)
-    const char **inBytesPtr = const_cast<const char **>(&inBytes);
-#else
-    char **inBytesPtr = &inBytes;
-#endif
+    char **inBytesPtr = &inBytes; // GNU and posix don't agree
 
     IconvState *temporaryState = 0;
     QThreadStorage<QIconvCodec::IconvState *> *ts = fromUnicodeState();

@@ -40,7 +40,7 @@
 #ifndef QT5LINKEDLIST_H
 #define QT5LINKEDLIST_H
 
-#include <qcore5global.h>
+#include <QtCore5Compat/qcore5global.h>
 
 #include <QtCore/qiterator.h>
 #include <QtCore/qrefcount.h>

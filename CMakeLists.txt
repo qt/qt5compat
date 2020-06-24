@@ -2,8 +2,9 @@
 
 cmake_minimum_required(VERSION 3.15.0)
 
+include(.cmake.conf)
 project(Qt5Compat # special case
-    VERSION 6.0.0
+    VERSION "${QT_REPO_MODULE_VERSION}"
     DESCRIPTION "Qt 5 Compatibility Libraries" # special case
     HOMEPAGE_URL "https://qt.io/"
     LANGUAGES CXX C

@@ -1,4 +1,5 @@
 include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+include($QT_INSTALL_DOCS/config/exampleurl-qtbase.qdocconf)
 
 project                 = QtCore5Compat
 description             = Qt 5 Core Compatibility APIs Documentation
@@ -25,9 +26,13 @@ qhp.QtCore5Compat.subprojects.classes.sortPages = true
 
 headerdirs  += ..
 sourcedirs  += ..
-exampledirs += snippets
+exampledirs += snippets \
+               ../../../examples/core5
+examplesinstallpath = core5
 imagedirs   += images
 excludedirs += snippets
+
+excludefiles += ../../../examples/core5/widgets/tools/codecs/doc/src/codecs.qdoc
 
 depends += qtcore qtdoc qmake
 

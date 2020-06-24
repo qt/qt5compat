@@ -10,7 +10,7 @@ qt_add_test(tst_qlinkedlist
     DEFINES
         -QT_NO_JAVA_STYLE_ITERATORS
     PUBLIC_LIBRARIES
-        core5
+        Qt::Core5Compat
 )
 
 ## Scopes:

@@ -60,7 +60,7 @@ qt_extend_target(Core5Compat CONDITION QT_FEATURE_iconv AND QT_FEATURE_textcodec
     SOURCES
         codecs/qiconvcodec.cpp codecs/qiconvcodec_p.h
     LIBRARIES
-        iconv
+        WrapIconv::WrapIconv
 )
 
 qt_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec AND WIN32 AND NOT QT_FEATURE_icu

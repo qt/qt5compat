@@ -5,11 +5,6 @@
 
 
 #### Libraries
-# special case begin
-if(NOT TARGET ICU::i18n)
-    qt_find_package(ICU COMPONENTS i18n uc data PROVIDED_TARGETS ICU::i18n ICU::uc ICU::data MODULE_NAME qt5compat QMAKE_LIB icu)
-endif()
-# special case end
 
 qt_find_package(WrapIconv PROVIDED_TARGETS WrapIconv::WrapIconv MODULE_NAME core5compat QMAKE_LIB iconv)
 

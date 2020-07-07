@@ -188,7 +188,7 @@ PreviewForm::PreviewForm(QWidget *parent)
     resize(screenGeometry.width() * 2 / 5, screenGeometry.height() / 2);
 }
 
-void PreviewForm::setCodecList(const QVector<Qt5::QTextCodec *> &list)
+void PreviewForm::setCodecList(const QList<Qt5::QTextCodec *> &list)
 {
     encodingComboBox->clear();
     for (const auto codec : list) {

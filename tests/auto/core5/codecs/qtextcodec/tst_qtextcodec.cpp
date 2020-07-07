@@ -2147,16 +2147,16 @@ public:
 void tst_QTextCodec::threadSafety()
 {
     QList<QByteArray> codecList = QTextCodec::availableCodecs();
-    const QVector<int> mibList = QTextCodec::availableMibs().toVector();
+    const QList<int> mibList = QTextCodec::availableMibs().toVector();
     QThreadPool::globalInstance()->setMaxThreadCount(12);
 
-    QVector<QByteArray> res;
+    QList<QByteArray> res;
     res.resize(codecList.size());
     for (int i = 0; i < codecList.size(); ++i) {
         QThreadPool::globalInstance()->start(new LoadAndConvert(codecList.at(i), &res[i]));
     }
 
-    QVector<int> res2;
+    QList<int> res2;
     res2.resize(mibList.size());
     for (int i = 0; i < mibList.size(); ++i) {
         QThreadPool::globalInstance()->start(new LoadAndConvertMIB(mibList.at(i), &res2[i]));

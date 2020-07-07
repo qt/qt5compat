@@ -51,7 +51,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QVector>
+#include <QList>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -83,10 +83,10 @@ private:
     void findCodecs();
     void createMenus();
 
-    QVector<QAction *> saveAsActs;
+    QList<QAction *> saveAsActs;
     QPlainTextEdit *textEdit;
     PreviewForm *previewForm;
-    QVector<Qt5::QTextCodec *> codecs;
+    QList<Qt5::QTextCodec *> codecs;
     EncodingDialog *m_encodingDialog = nullptr;
 };
 

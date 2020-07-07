@@ -69,21 +69,17 @@ const QLinkedListData QLinkedListData::shared_null = {
     stores a list of values and provides iterator-based access as
     well as \l{constant time} insertions and removals.
 
-    QList\<T\>, QLinkedList\<T\>, and QVector\<T\> provide similar
-    functionality. Here's an overview:
+    QList\<T\> and QLinkedList\<T\> provide similar functionality.
+    Here's an overview:
 
     \list
     \li For most purposes, QList is the right class to use. Its
        index-based API is more convenient than QLinkedList's
-       iterator-based API, and it is usually faster than
-       QVector because of the way it stores its items in
-       memory (see \l{Algorithmic Complexity} for details).
+       iterator-based API. Its items occupy adjacent memory positions.
        It also expands to less code in your executable.
     \li If you need a real linked list, with guarantees of \l{constant
        time} insertions in the middle of the list and iterators to
        items rather than indexes, use QLinkedList.
-    \li If you want the items to occupy adjacent memory positions,
-       use QVector.
     \endlist
 
     Here's an example of a QLinkedList that stores integers and a
@@ -124,7 +120,7 @@ const QLinkedListData QLinkedListData::shared_null = {
     (QLinkedList::const_iterator and QLinkedList::iterator). See the
     documentation for these classes for details.
 
-    \sa QLinkedListIterator, QMutableLinkedListIterator, QList, QVector
+    \sa QLinkedListIterator, QMutableLinkedListIterator, QList
 */
 
 /*! \fn template <class T> Qt5::QLinkedList<T>::QLinkedList()

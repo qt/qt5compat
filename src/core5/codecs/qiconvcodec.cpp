@@ -417,7 +417,6 @@ iconv_t QIconvCodec::createIconv_t(const char *to, const char *from) const
         init();
 
     iconv_t cd = (iconv_t) -1;
-#if defined(__GLIBC__) || !QT_CONFIG(posix_libiconv) || defined(Q_OS_QNX)
 #if defined(Q_OS_QNX)
     // on QNX the default locale is UTF-8, and an empty string will cause iconv_open to fail
     static const char empty_codeset[] = "UTF-8";
@@ -427,9 +426,6 @@ iconv_t QIconvCodec::createIconv_t(const char *to, const char *from) const
 #endif
     const char *codeset = empty_codeset;
     cd = iconv_open(to ? to : codeset, from ? from : codeset);
-#else
-    char *codeset = 0;
-#endif
 
 #if defined(_XOPEN_UNIX) && !defined(Q_OS_QNX)
     if (cd == (iconv_t) -1) {

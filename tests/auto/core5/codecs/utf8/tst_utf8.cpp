@@ -47,7 +47,7 @@ class tst_Utf8 : public QObject
 public:
     // test data:
     QTextCodec *codec;
-    QString (*from8BitPtr)(const char *, int);
+    QString (*from8BitPtr)(const char *, qsizetype);
     static QByteArray to8Bit(const QString &);
 
     inline QString from8Bit(const QByteArray &ba)

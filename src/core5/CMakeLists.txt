@@ -10,6 +10,7 @@ qt_add_module(Core5Compat
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
         qcore5global.h
         qlinkedlist.cpp qlinkedlist.h
+        qregexp.cpp qregexp.h
     LIBRARIES
         Qt::CorePrivate
     PUBLIC_LIBRARIES

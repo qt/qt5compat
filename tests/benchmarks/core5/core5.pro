@@ -1,2 +1,4 @@
 TEMPLATE = subdirs
-SUBDIRS = codecs
+SUBDIRS = \
+    codecs \
+    qregexp

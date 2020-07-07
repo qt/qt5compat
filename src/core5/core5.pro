@@ -11,12 +11,14 @@ include(codecs/codecs.pri)
 
 PUBLIC_HEADERS += \
     qcore5global.h \
-    qlinkedlist.h
+    qlinkedlist.h \
+    qregexp.h
 
 PRIVATE_HEADERS +=
 
 SOURCES += \
-    qlinkedlist.cpp
+    qlinkedlist.cpp \
+    qregexp.cpp
 
 HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
 

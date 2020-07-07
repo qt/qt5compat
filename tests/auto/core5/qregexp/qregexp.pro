@@ -1,0 +1,5 @@
+CONFIG += testcase
+TARGET = tst_qregexp
+QT = core5compat core testlib
+SOURCES = tst_qregexp.cpp
+RESOURCES += qregexp.qrc

@@ -62,8 +62,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #if QT_CONFIG(textcodec)
 
 class QUtf8Codec : public QTextCodec {
@@ -143,10 +141,7 @@ public:
     int mibEnum() const override;
 };
 
-
 #endif // textcodec
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

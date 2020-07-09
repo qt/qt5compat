@@ -42,8 +42,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 /*!
     \class QIsciiCodec
     \inmodule QtCore
@@ -289,7 +287,5 @@ QString QIsciiCodec::convertToUnicode(const char* chars, int len, ConverterState
     }
     return result;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

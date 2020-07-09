@@ -42,8 +42,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #define LAST_MIB 2004
 
 static const struct {
@@ -722,7 +720,5 @@ int QSimpleTextCodec::mibEnum() const
 {
     return unicodevalues[forwardIndex].mib;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

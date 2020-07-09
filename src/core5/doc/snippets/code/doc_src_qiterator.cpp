@@ -49,8 +49,6 @@
 ****************************************************************************/
 
 //! [2]
-using namespace Qt5;
-
 QLinkedList<float> list;
 ...
 QLinkedListIterator<float> i(list);
@@ -60,8 +58,6 @@ while (i.hasNext())
 
 
 //! [3]
-using namespace Qt5;
-
 QLinkedListIterator<float> i(list);
 i.toBack();
 while (i.hasPrevious())
@@ -69,8 +65,6 @@ while (i.hasPrevious())
 //! [3]
 
 //! [11]
-using namespace Qt5;
-
 QLinkedList<float> list;
 ...
 QMutableLinkedListIterator<float> i(list);
@@ -80,8 +74,6 @@ while (i.hasNext())
 
 
 //! [12]
-using namespace Qt5;
-
 QMutableLinkedListIterator<float> i(list);
 i.toBack();
 while (i.hasPrevious())
@@ -90,8 +82,6 @@ while (i.hasPrevious())
 
 
 //! [13]
-using namespace Qt5;
-
 QMutableLinkedListIterator<int> i(list);
 while (i.hasNext()) {
     int val = i.next();
@@ -104,8 +94,6 @@ while (i.hasNext()) {
 //! [13]
 
 //! [20]
-using namespace Qt5;
-
 QMutableLinkedListIterator<int> i(list);
 while (i.hasNext()) {
     int val = i.next();
@@ -115,8 +103,6 @@ while (i.hasNext()) {
 //! [20]
 
 //! [24]
-using namespace Qt5;
-
 QMutableLinkedListIterator<double> i(list);
 while (i.hasNext()) {
     double val = i.next();

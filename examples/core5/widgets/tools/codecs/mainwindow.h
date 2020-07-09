@@ -56,9 +56,7 @@
 
 QT_BEGIN_NAMESPACE
 class QAction;
-namespace Qt5 {
-    class QTextCodec;
-}
+class QTextCodec;
 class QPlainTextEdit;
 QT_END_NAMESPACE
 
@@ -86,7 +84,7 @@ private:
     QList<QAction *> saveAsActs;
     QPlainTextEdit *textEdit;
     PreviewForm *previewForm;
-    QList<Qt5::QTextCodec *> codecs;
+    QList<QTextCodec *> codecs;
     EncodingDialog *m_encodingDialog = nullptr;
 };
 

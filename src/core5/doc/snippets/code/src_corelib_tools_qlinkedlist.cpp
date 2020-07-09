@@ -49,16 +49,12 @@
 ****************************************************************************/
 
 //! [0]
-using namespace Qt5;
-
 QLinkedList<int> integerList;
 QLinkedList<QTime> timeList;
 //! [0]
 
 
 //! [1]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 list << "one" << "two" << "three";
 // list: ["one", "two", "three"]
@@ -66,8 +62,6 @@ list << "one" << "two" << "three";
 
 
 //! [2]
-using namespace Qt5;
-
 QLinkedList<QWidget *> list;
 ...
 while (!list.isEmpty())
@@ -76,8 +70,6 @@ while (!list.isEmpty())
 
 
 //! [3]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 list.append("one");
 list.append("two");
@@ -87,8 +79,6 @@ list.append("three");
 
 
 //! [4]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 list.prepend("one");
 list.prepend("two");
@@ -98,8 +88,6 @@ list.prepend("three");
 
 
 //! [5]
-using namespace Qt5;
-
 QList<QString> list;
 list << "sun" << "cloud" << "sun" << "rain";
 list.removeAll("sun");
@@ -108,8 +96,6 @@ list.removeAll("sun");
 
 
 //! [6]
-using namespace Qt5;
-
 QList<QString> list;
 list << "sun" << "cloud" << "sun" << "rain";
 list.removeOne("sun");
@@ -118,8 +104,6 @@ list.removeOne("sun");
 
 
 //! [7]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 list.append("January");
 list.append("February");
@@ -133,8 +117,6 @@ for (i = list.begin(); i != list.end(); ++i)
 
 
 //! [8]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 ...
 QLinkedList<QString>::iterator it = std::find(list.begin(),
@@ -145,8 +127,6 @@ if (it != list.end())
 
 
 //! [9]
-using namespace Qt5;
-
 QLinkedList<int>::iterator i;
 for (i = list.begin(); i != list.end(); ++i)
     *i += 2;
@@ -154,8 +134,6 @@ for (i = list.begin(); i != list.end(); ++i)
 
 
 //! [10]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 ...
 QLinkedList<QString>::iterator i = list.begin();
@@ -169,8 +147,6 @@ while (i != list.end()) {
 
 
 //! [11]
-using namespace Qt5;
-
 QLinkedList<QString>::iterator i = list.begin();
 while (i != list.end()) {
     QLinkedList<QString>::iterator previous = i;
@@ -198,8 +174,6 @@ if (*it == "Hello")
 
 
 //! [14]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 list.append("January");
 list.append("February");
@@ -213,8 +187,6 @@ for (i = list.constBegin(); i != list.constEnd(); ++i)
 
 
 //! [15]
-using namespace Qt5;
-
 QLinkedList<QString> list;
 ...
 QLinkedList<QString>::const_iterator it = std::find(list.constBegin(),
@@ -225,8 +197,6 @@ if (it != list.constEnd())
 
 
 //! [16]
-using namespace Qt5;
-
 std::list<double> stdlist;
 list.push_back(1.2);
 list.push_back(0.5);
@@ -237,8 +207,6 @@ QLinkedList<double> list = QLinkedList<double>::fromStdList(stdlist);
 
 
 //! [17]
-using namespace Qt5;
-
 QLinkedList<double> list;
 list << 1.2 << 0.5 << 3.14;
 

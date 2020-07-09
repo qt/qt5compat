@@ -56,8 +56,6 @@ QT_REQUIRE_CONFIG(textcodec);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QWindowsLocalCodec : public QTextCodec
 {
 public:
@@ -71,8 +69,6 @@ public:
     int mibEnum() const override;
 
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

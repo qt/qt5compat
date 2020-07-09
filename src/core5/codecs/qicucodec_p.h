@@ -61,8 +61,6 @@ QT_REQUIRE_CONFIG(textcodec);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QIcuCodec : public QTextCodec
 {
 public:
@@ -89,8 +87,6 @@ private:
 
     const char *m_name;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

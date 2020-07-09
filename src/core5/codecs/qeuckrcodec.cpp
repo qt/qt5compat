@@ -72,8 +72,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 unsigned int qt_Ksc5601ToUnicode(unsigned int code);
 
 unsigned int qt_UnicodeToKsc5601(unsigned int unicode);
@@ -3523,7 +3521,5 @@ QString QCP949Codec::convertToUnicode(const char* chars, int len, ConverterState
     }
     return result;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

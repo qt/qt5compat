@@ -40,8 +40,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class tst_QTextCodec : public QObject
 {
     Q_OBJECT
@@ -2459,9 +2457,7 @@ struct DontCrashAtExit {
     }
 } dontCrashAtExit;
 
-} // namespace Qt5
-
 QT_END_NAMESPACE
 
-QTEST_MAIN(Qt5::tst_QTextCodec)
+QTEST_MAIN(tst_QTextCodec)
 #include "tst_qtextcodec.moc"

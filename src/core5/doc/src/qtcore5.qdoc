@@ -35,6 +35,4 @@
 
     Some of the Qt 5 APIs won't be maintained anymore in Qt 6. This module
     provides the non-GUI APIs removed from Qt Core.
-
-    \note All the classes and declarations are declared inside Qt5 namespace.
 */

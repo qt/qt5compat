@@ -54,8 +54,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 typedef QList<QTextCodec*>::ConstIterator TextCodecListConstIt;
 typedef QList<QByteArray>::ConstIterator ByteArrayListConstIt;
 
@@ -704,7 +702,5 @@ int QIcuCodec::mibEnum() const
 
     return 0;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

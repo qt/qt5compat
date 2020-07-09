@@ -41,19 +41,14 @@
     #include <QtCore5Compat>
     \endcode
 
-    \note This module introduces the \c Qt5 namespace for all the classes
-    and declarations moved to it. For example, instead of \c QLinkedList you
-    need to use Qt5::QLinkedList:
-
     \code
-    Qt5::QLinkedList<int> list;
+    QLinkedList<int> list;
     ...
     \endcode
 
     Or:
 
     \code
-    using namespace Qt5;
     QLinkedList<int> list;
     ...
     \endcode

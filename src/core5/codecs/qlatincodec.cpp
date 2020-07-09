@@ -42,8 +42,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 QLatin1Codec::~QLatin1Codec()
 {
 }
@@ -236,7 +234,5 @@ int QLatin15Codec::mibEnum() const
 {
     return 111;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

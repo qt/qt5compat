@@ -57,9 +57,8 @@ QT_REQUIRE_CONFIG(codecs);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
-class QIsciiCodec : public QTextCodec {
+class QIsciiCodec : public QTextCodec
+{
 public:
     explicit QIsciiCodec(int i) : idx(i) {}
     ~QIsciiCodec();
@@ -75,8 +74,6 @@ public:
 private:
     int idx;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

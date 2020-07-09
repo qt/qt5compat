@@ -123,7 +123,7 @@ void MainWindow::save()
         return;
     }
 
-    auto codec = Qt5::QTextCodec::codecForName(codecName.constData());
+    auto codec = QTextCodec::codecForName(codecName.constData());
     QByteArray text = codec->fromUnicode(textEdit->toPlainText());
     file.write(text);
 }
@@ -140,20 +140,20 @@ void MainWindow::aboutToShowSaveAsMenu()
     const QString currentText = textEdit->toPlainText();
     for (QAction *action : qAsConst(saveAsActs)) {
         const QByteArray codecName = action->data().toByteArray();
-        const auto codec = Qt5::QTextCodec::codecForName(codecName);
+        const auto codec = QTextCodec::codecForName(codecName);
         action->setVisible(codec && codec->canEncode(currentText));
     }
 }
 
 void MainWindow::findCodecs()
 {
-    QMap<QString, Qt5::QTextCodec *> codecMap;
+    QMap<QString, QTextCodec *> codecMap;
     QRegularExpression iso8859RegExp("^ISO[- ]8859-([0-9]+).*$");
     QRegularExpressionMatch match;
 
-    const QList<int> mibs = Qt5::QTextCodec::availableMibs();
+    const QList<int> mibs = QTextCodec::availableMibs();
     for (int mib : mibs) {
-        auto codec = Qt5::QTextCodec::codecForMib(mib);
+        auto codec = QTextCodec::codecForMib(mib);
 
         QString sortKey = codec->name().toUpper();
         char rank;

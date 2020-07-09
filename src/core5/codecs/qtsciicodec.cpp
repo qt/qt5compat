@@ -46,8 +46,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 static unsigned char qt_UnicodeToTSCII(ushort u1, ushort u2, ushort u3);
 static unsigned int qt_TSCIIToUnicode(unsigned int code, uint *s);
 
@@ -491,7 +489,5 @@ static unsigned int qt_TSCIIToUnicode(uint code, uint *s)
 
     return len;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

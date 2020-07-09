@@ -41,8 +41,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 static int qt_Big5hkscsToUnicode(const uchar *s, uint *pwc);
 static int qt_UnicodeToBig5hkscs(uint wc, uchar *r);
 
@@ -12662,7 +12660,5 @@ int qt_UnicodeToBig5hkscs (uint wc, uchar *r)
 
 
 /* ====================================================================== */
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

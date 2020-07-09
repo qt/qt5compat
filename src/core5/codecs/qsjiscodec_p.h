@@ -89,8 +89,6 @@ QT_REQUIRE_CONFIG(big_codecs);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QSjisCodec : public QTextCodec {
 public:
     static QByteArray _name();
@@ -110,8 +108,6 @@ public:
 protected:
     const QJpUnicodeConv *conv;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

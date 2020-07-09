@@ -48,8 +48,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #if QT_CONFIG(textcodec)
 
 QUtf8Codec::~QUtf8Codec()
@@ -226,7 +224,5 @@ QList<QByteArray> QUtf32LECodec::aliases() const
 }
 
 #endif // textcodec
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

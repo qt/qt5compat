@@ -57,8 +57,6 @@ QT_REQUIRE_CONFIG(textcodec);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QLatin1Codec : public QTextCodec
 {
 public:
@@ -86,8 +84,6 @@ public:
     QList<QByteArray> aliases() const override;
     int mibEnum() const override;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

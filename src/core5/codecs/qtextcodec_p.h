@@ -63,8 +63,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #if QT_CONFIG(textcodec)
 
 #if defined(Q_OS_MAC) || defined(Q_OS_ANDROID) || defined(Q_OS_QNX) || defined(Q_OS_WASM)
@@ -117,8 +115,6 @@ public:
 };
 
 #endif // textcodec
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

@@ -74,8 +74,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 QIconvCodec::QIconvCodec()
     : utf16Codec(0)
 {
@@ -507,7 +505,5 @@ iconv_t QIconvCodec::createIconv_t(const char *to, const char *from) const
 
     return cd;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

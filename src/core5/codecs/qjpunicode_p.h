@@ -86,8 +86,6 @@ QT_REQUIRE_CONFIG(big_codecs);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QJpUnicodeConv {
 public:
     virtual ~QJpUnicodeConv() {}
@@ -181,8 +179,6 @@ protected:
 private:
     int rule;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

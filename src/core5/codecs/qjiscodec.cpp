@@ -52,8 +52,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 enum {
     Esc = 0x1b,
     So = 0x0e,         // Shift Out
@@ -369,7 +367,5 @@ QList<QByteArray> QJisCodec::_aliases()
     list << "JIS7"; // Qt 3 compat
     return list;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

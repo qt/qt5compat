@@ -59,8 +59,6 @@ QT_BEGIN_NAMESPACE
 
 template <typename T> class QAtomicPointer;
 
-namespace Qt5 {
-
 class QSimpleTextCodec: public QTextCodec
 {
 public:
@@ -79,8 +77,6 @@ private:
     int forwardIndex;
     mutable QAtomicPointer<QByteArray> reverseMap;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

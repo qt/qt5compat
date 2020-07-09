@@ -39,8 +39,8 @@ int main(int argc, char **argv)
     QCoreApplication app(argc, argv);
 
     QString string(QChar(0x410));
-    Qt5::QTextCodec *locale = Qt5::QTextCodec::codecForLocale();
-    Qt5::QTextEncoder *encoder = locale->makeEncoder();
+    QTextCodec *locale = QTextCodec::codecForLocale();
+    QTextEncoder *encoder = locale->makeEncoder();
     QByteArray output = encoder->fromUnicode(string);
     printf("%s\n", output.data());
     delete encoder;

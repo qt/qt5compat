@@ -47,8 +47,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #define InRange(c, lower, upper)  (((c) >= (lower)) && ((c) <= (upper)))
 #define IsLatin(c)        ((c) <= 0x7F)
 #define IsByteInGb2312(c)        (InRange((c), 0xA1, 0xFE))
@@ -9113,7 +9111,5 @@ int qt_UnicodeToGbk(uint uni, uchar *gbchar) {
     gbchar[1] = (uchar)(gb & 0xFF);
     return 2;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

@@ -50,8 +50,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 #define        USE_JISX0212
 
 #define        Q_STRICT
@@ -10733,7 +10731,5 @@ uint QJpUnicodeConv::unicodeToCp932(uint h, uint l) const
 
 \internal
 */
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

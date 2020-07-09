@@ -52,8 +52,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 enum {
     Esc = 0x1b
 };
@@ -224,7 +222,5 @@ QList<QByteArray> QSjisCodec::_aliases()
          << "MS_Kanji";
     return list;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

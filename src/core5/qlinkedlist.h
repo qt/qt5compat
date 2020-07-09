@@ -53,18 +53,7 @@
 #include <iterator>
 #include <list>
 
-#if 0
-// This is needed for generating the forward headers for classes declared in a namespace
-#pragma qt_class(QLinkedList)
-#pragma qt_class(QLinkedListData)
-#pragma qt_class(QLinkedListNode)
-#pragma qt_class(QLinkedListIterator)
-#pragma qt_class(QMutableLinkedListIterator)
-#endif
-
 QT_BEGIN_NAMESPACE
-
-namespace Qt5 {
 
 struct Q_CORE5COMPAT_EXPORT QLinkedListData
 {
@@ -732,13 +721,11 @@ inline QDataStream &operator<<(QDataStream &s, const QLinkedList<T> &l)
 }
 #endif
 
-} // namespace Qt5
-
 template<typename T>
-Q_DECLARE_TYPEINFO_BODY(Qt5::QLinkedList<T>, Q_MOVABLE_TYPE | Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO_BODY(QLinkedList<T>, Q_MOVABLE_TYPE | Q_RELOCATABLE_TYPE);
 
 QT_END_NAMESPACE
 
-Q_DECLARE_SEQUENTIAL_CONTAINER_METATYPE(Qt5::QLinkedList)
+Q_DECLARE_SEQUENTIAL_CONTAINER_METATYPE(QLinkedList)
 
 #endif // QT5LINKEDLIST_H

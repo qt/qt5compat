@@ -57,8 +57,6 @@ QT_REQUIRE_CONFIG(textcodec);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QTextDecoder;
 class QTextEncoder;
 
@@ -168,8 +166,6 @@ namespace Qt
 {
     Q_CORE5COMPAT_EXPORT QTextCodec *codecForHtml(const QByteArray &ba);
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

@@ -42,8 +42,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 QWindowsLocalCodec::QWindowsLocalCodec()
 {
 }
@@ -77,7 +75,5 @@ int QWindowsLocalCodec::mibEnum() const
 {
     return 0;
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

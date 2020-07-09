@@ -97,8 +97,6 @@ QT_BEGIN_NAMESPACE
 // in qstring.cpp:
 void qt_from_latin1(char16_t *dst, const char *str, size_t size) noexcept;
 
-namespace Qt5 {
-
 typedef QList<QTextCodec*>::ConstIterator TextCodecListConstIt;
 typedef QList<QByteArray>::ConstIterator ByteArrayListConstIt;
 
@@ -343,7 +341,7 @@ static void setup() {}
 #endif // icu
 
 /*!
-    \enum Qt5::QTextCodec::ConversionFlag
+    \enum QTextCodec::ConversionFlag
 
     \value DefaultConversion  No flag is set.
     \value ConvertInvalidToNull  If this flag is set, each invalid input
@@ -354,13 +352,13 @@ static void setup() {}
 */
 
 /*!
-    \fn Qt5::QTextCodec::ConverterState::ConverterState(Qt5::ConversionFlags flags)
+    \fn QTextCodec::ConverterState::ConverterState(ConversionFlags flags)
 
     Constructs a ConverterState object initialized with the given \a flags.
 */
 
 /*!
-    \class Qt5::QTextCodec
+    \class QTextCodec
     \inmodule QtCore5Compat
     \brief The QTextCodec class provides conversions between text encodings.
     \reentrant
@@ -535,7 +533,7 @@ QTextCodec::~QTextCodec()
 }
 
 /*!
-    \fn Qt5::QTextCodec *Qt5::QTextCodec::codecForName(const char *name)
+    \fn QTextCodec *QTextCodec::codecForName(const char *name)
 
     Searches all installed QTextCodec objects and returns the one
     which best matches \a name; the match is case-insensitive. Returns
@@ -738,7 +736,7 @@ QTextCodec* QTextCodec::codecForLocale()
 
 
 /*!
-    \fn QByteArray Qt5::QTextCodec::name() const
+    \fn QByteArray QTextCodec::name() const
 
     QTextCodec subclasses must reimplement this function. It returns
     the name of the encoding supported by the subclass.
@@ -750,7 +748,7 @@ QTextCodec* QTextCodec::codecForLocale()
 */
 
 /*!
-    \fn int Qt5::QTextCodec::mibEnum() const
+    \fn int QTextCodec::mibEnum() const
 
     Subclasses of QTextCodec must reimplement this function. It
     returns the \l{QTextCodec::mibEnum()}{MIBenum} (see \l{IANA character-sets encoding file}
@@ -770,8 +768,8 @@ QList<QByteArray> QTextCodec::aliases() const
 }
 
 /*!
-    \fn QString Qt5::QTextCodec::convertToUnicode(const char *chars, int len,
-                                                  Qt5::ConverterState *state) const
+    \fn QString QTextCodec::convertToUnicode(const char *chars, int len,
+                                             ConverterState *state) const
 
     QTextCodec subclasses must reimplement this function.
 
@@ -786,8 +784,8 @@ QList<QByteArray> QTextCodec::aliases() const
 */
 
 /*!
-    \fn QByteArray Qt5::QTextCodec::convertFromUnicode(const QChar *input, int number,
-                                                       Qt5::ConverterState *state) const
+    \fn QByteArray QTextCodec::convertFromUnicode(const QChar *input, int number,
+                                                  ConverterState *state) const
 
     QTextCodec subclasses must reimplement this function.
 
@@ -828,8 +826,8 @@ QTextEncoder* QTextCodec::makeEncoder(QTextCodec::ConversionFlags flags) const
 }
 
 /*!
-    \fn QByteArray Qt5::QTextCodec::fromUnicode(const QChar *input, int number,
-                                                Qt5::ConverterState *state) const
+    \fn QByteArray QTextCodec::fromUnicode(const QChar *input, int number,
+                                           ConverterState *state) const
 
     Converts the first \a number of characters from the \a input array
     from Unicode to the encoding of this codec, and returns the result
@@ -862,8 +860,8 @@ QByteArray QTextCodec::fromUnicode(QStringView str) const
 }
 
 /*!
-    \fn QString Qt5::QTextCodec::toUnicode(const char *input, int size,
-                                           Qt5::ConverterState *state) const
+    \fn QString QTextCodec::toUnicode(const char *input, int size,
+                                      ConverterState *state) const
 
     Converts the first \a size characters from the \a input from the
     encoding of this codec to Unicode, and returns the result in a
@@ -935,7 +933,7 @@ QString QTextCodec::toUnicode(const char *chars) const
 
 
 /*!
-    \class Qt5::QTextEncoder
+    \class QTextEncoder
     \inmodule QtCore5Compat
     \brief The QTextEncoder class provides a state-based encoder.
     \reentrant
@@ -951,7 +949,7 @@ QString QTextCodec::toUnicode(const char *chars) const
 */
 
 /*!
-    \fn Qt5::QTextEncoder::QTextEncoder(const Qt5::QTextCodec *codec)
+    \fn QTextEncoder::QTextEncoder(const QTextCodec *codec)
 
     Constructs a text encoder for the given \a codec.
 */
@@ -1034,7 +1032,7 @@ QByteArray QTextEncoder::fromUnicode(const QChar *uc, int len)
 */
 
 /*!
-    \fn  Qt5::QTextDecoder::QTextDecoder(const  Qt5::QTextCodec *codec)
+    \fn  QTextDecoder::QTextDecoder(const QTextCodec *codec)
 
     Constructs a text decoder for the given \a codec.
 */
@@ -1059,7 +1057,7 @@ QTextDecoder::~QTextDecoder()
 }
 
 /*!
-    \fn QString  Qt5::QTextDecoder::toUnicode(const char *chars, int len)
+    \fn QString QTextDecoder::toUnicode(const char *chars, int len)
 
     Converts the first \a len bytes in \a chars to Unicode, returning
     the result.
@@ -1248,7 +1246,7 @@ QTextCodec *QTextCodec::codecForUtfText(const QByteArray &ba)
 }
 
 /*!
-    \fn QTextCodec *Qt5::QTextCodec::codecForTr ()
+    \fn QTextCodec *QTextCodec::codecForTr ()
     \obsolete
 
     Returns the codec used by QObject::tr() on its argument. If this
@@ -1281,7 +1279,7 @@ bool QTextDecoder::needsMoreData() const
 }
 
 /*!
-    \fn QTextCodec * Qt5::Qt::codecForHtml(const QByteArray &ba)
+    \fn QTextCodec * Qt::codecForHtml(const QByteArray &ba)
     \internal
 
     This function is defined in the \c <QTextCodec> header file.
@@ -1290,7 +1288,5 @@ QTextCodec *Qt::codecForHtml(const QByteArray &ba)
 {
     return QTextCodec::codecForHtml(ba);
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

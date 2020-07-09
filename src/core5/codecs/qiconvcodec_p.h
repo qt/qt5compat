@@ -59,8 +59,6 @@ QT_REQUIRE_CONFIG(iconv);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QIconvCodec: public QTextCodec
 {
 private:
@@ -94,8 +92,6 @@ public:
         void saveChars(const char *c, int count);
     };
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

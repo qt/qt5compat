@@ -34,8 +34,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 void loadInvalidUtf8Rows()
 {
     // Wrong continuations
@@ -167,9 +165,6 @@ void loadNonCharactersRows()
     QTest::newRow("ffff") << QByteArray("\xEF\xBF\xBF") << QString(QChar(0xffff));
 }
 
-} // namespace Qt5
-
 QT_END_NAMESPACE
 
 #endif
-

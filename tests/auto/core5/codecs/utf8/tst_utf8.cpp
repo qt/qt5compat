@@ -36,8 +36,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 static const char utf8bom[] = "\xEF\xBB\xBF";
 
 class tst_Utf8 : public QObject
@@ -278,9 +276,7 @@ void tst_Utf8::nonCharacters()
         qWarning("System codec reports failure when it shouldn't. Should report bug upstream.");
 }
 
-} // namespace Qt5
-
 QT_END_NAMESPACE
 
-QTEST_MAIN(Qt5::tst_Utf8)
+QTEST_MAIN(tst_Utf8)
 #include "tst_utf8.moc"

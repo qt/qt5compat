@@ -188,7 +188,7 @@ PreviewForm::PreviewForm(QWidget *parent)
     resize(screenGeometry.width() * 2 / 5, screenGeometry.height() / 2);
 }
 
-void PreviewForm::setCodecList(const QList<Qt5::QTextCodec *> &list)
+void PreviewForm::setCodecList(const QList<QTextCodec *> &list)
 {
     encodingComboBox->clear();
     for (const auto codec : list) {
@@ -220,10 +220,10 @@ void PreviewForm::updateTextEdit()
 {
     int mib = encodingComboBox->itemData(
                       encodingComboBox->currentIndex()).toInt();
-    const auto codec = Qt5::QTextCodec::codecForMib(mib);
+    const auto codec = QTextCodec::codecForMib(mib);
     const QString name = QLatin1String(codec->name());
 
-    Qt5::QTextCodec::ConverterState state;
+    QTextCodec::ConverterState state;
     decodedStr = codec->toUnicode(encodedData.constData(), encodedData.size(), &state);
 
     bool success = true;

@@ -76,8 +76,6 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 static const uchar Ss2 = 0x8e;        // Single Shift 2
 static const uchar Ss3 = 0x8f;        // Single Shift 3
 
@@ -255,7 +253,5 @@ QByteArray QEucJpCodec::_name()
 {
     return "EUC-JP";
 }
-
-} // namespace Qt5
 
 QT_END_NAMESPACE

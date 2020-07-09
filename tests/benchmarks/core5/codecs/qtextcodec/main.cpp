@@ -31,11 +31,9 @@
 
 #include <QtCore5Compat/qtextcodec.h>
 
-Q_DECLARE_METATYPE(Qt5::QTextCodec *)
+Q_DECLARE_METATYPE(QTextCodec *)
 
 QT_BEGIN_NAMESPACE
-
-namespace Qt5 {
 
 class tst_QTextCodec: public QObject
 {
@@ -164,10 +162,8 @@ void tst_QTextCodec::toUnicode() const
     }
 }
 
-} // namespace Qt5
-
 QT_END_NAMESPACE
 
-QTEST_MAIN(Qt5::tst_QTextCodec)
+QTEST_MAIN(tst_QTextCodec)
 
 #include "main.moc"

@@ -49,8 +49,6 @@
 ****************************************************************************/
 
 //! [0]
-using namespace Qt5;
-
 QByteArray encodedString = "...";
 QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
 QString string = codec->toUnicode(encodedString);
@@ -58,8 +56,6 @@ QString string = codec->toUnicode(encodedString);
 
 
 //! [1]
-using namespace Qt5;
-
 QString string = "...";
 QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
 QByteArray encodedString = codec->fromUnicode(string);
@@ -67,8 +63,6 @@ QByteArray encodedString = codec->fromUnicode(string);
 
 
 //! [2]
-using namespace Qt5;
-
 QTextCodec *codec = QTextCodec::codecForName("Shift-JIS");
 QTextDecoder *decoder = codec->makeDecoder();
 

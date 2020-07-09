@@ -63,8 +63,6 @@ QT_REQUIRE_CONFIG(big_codecs);
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt5 {
-
 class QBig5Codec : public QTextCodec {
 public:
     static QByteArray _name();
@@ -92,8 +90,6 @@ public:
     QString convertToUnicode(const char *, int, ConverterState *) const override;
     QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const override;
 };
-
-} // namespace Qt5
 
 QT_END_NAMESPACE
 

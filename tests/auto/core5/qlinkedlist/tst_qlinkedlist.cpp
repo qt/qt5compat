@@ -84,7 +84,7 @@ QT_END_NAMESPACE
 
 Q_DECLARE_METATYPE(Movable);
 
-Q_DECLARE_METATYPE(Qt5::QLinkedList<int>);
+Q_DECLARE_METATYPE(QLinkedList<int>);
 
 int qHash(const Movable &movable)
 {
@@ -145,8 +145,6 @@ Q_STATIC_ASSERT(QTypeInfo<Complex>::isStatic);
 Q_STATIC_ASSERT(QTypeInfo<Complex>::isComplex);
 
 QT_BEGIN_NAMESPACE
-
-namespace Qt5 {
 
 class tst_QLinkedList : public QObject
 {
@@ -1209,9 +1207,7 @@ void tst_QLinkedList::iterators() const
     }
 }
 
-} // namespace Qt5
-
 QT_END_NAMESPACE
 
-QTEST_APPLESS_MAIN(Qt5::tst_QLinkedList)
+QTEST_APPLESS_MAIN(tst_QLinkedList)
 #include "tst_qlinkedlist.moc"

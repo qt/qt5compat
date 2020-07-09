@@ -61,9 +61,7 @@ class QLabel;
 class QPlainTextEdit;
 class QPushButton;
 class QTabWidget;
-namespace Qt5 {
-    class QTextCodec;
-}
+class QTextCodec;
 QT_END_NAMESPACE
 
 class PreviewForm : public QDialog
@@ -73,7 +71,7 @@ class PreviewForm : public QDialog
 public:
     explicit PreviewForm(QWidget *parent = nullptr);
 
-    void setCodecList(const QList<Qt5::QTextCodec *> &list);
+    void setCodecList(const QList<QTextCodec *> &list);
     void setEncodedData(const QByteArray &data);
     QString decodedString() const { return decodedStr; }
 

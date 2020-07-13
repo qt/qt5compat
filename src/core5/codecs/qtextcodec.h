@@ -48,13 +48,6 @@
 
 QT_REQUIRE_CONFIG(textcodec);
 
-#if 0
-// This is needed for generating the forward headers for classes declared in a namespace
-#pragma qt_class(QTextCodec)
-#pragma qt_class(QTextDecoder)
-#pragma qt_class(QTextEncoder)
-#endif
-
 QT_BEGIN_NAMESPACE
 
 class QTextDecoder;

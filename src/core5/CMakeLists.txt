@@ -11,6 +11,10 @@ qt_add_module(Core5Compat
         qcore5global.h
         qlinkedlist.cpp qlinkedlist.h
         qregexp.cpp qregexp.h
+        serialization/qbinaryjson.cpp serialization/qbinaryjson.h serialization/qbinaryjson_p.h
+        serialization/qbinaryjsonarray.cpp serialization/qbinaryjsonarray_p.h
+        serialization/qbinaryjsonobject.cpp serialization/qbinaryjsonobject_p.h
+        serialization/qbinaryjsonvalue.cpp serialization/qbinaryjsonvalue_p.h
     LIBRARIES
         Qt::CorePrivate
     PUBLIC_LIBRARIES

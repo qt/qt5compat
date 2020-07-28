@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     qlinkedlist \
     qregexp \
-    codecs
+    codecs \
+    serialization

@@ -8,6 +8,7 @@ QT_FOR_PRIVATE += core-private
 QMAKE_DOCS = $$PWD/doc/qtcore5.qdocconf
 
 include(codecs/codecs.pri)
+include(serialization/serialization.pri)
 
 PUBLIC_HEADERS += \
     qcore5global.h \

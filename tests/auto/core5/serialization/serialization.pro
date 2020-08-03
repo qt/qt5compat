@@ -1,2 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = json
+SUBDIRS = json \
+          qtextstream

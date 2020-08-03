@@ -9,6 +9,7 @@ QMAKE_DOCS = $$PWD/doc/qtcore5.qdocconf
 
 include(codecs/codecs.pri)
 include(serialization/serialization.pri)
+include(text/text.pri)
 
 PUBLIC_HEADERS += \
     qcore5global.h \

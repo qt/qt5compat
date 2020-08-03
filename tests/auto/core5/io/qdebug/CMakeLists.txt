@@ -1,13 +1,12 @@
-# Generated from utf8.pro.
+# Generated from qdebug.pro.
 
 #####################################################################
-## tst_utf8 Test:
+## tst_qdebug Test:
 #####################################################################
 
-add_qt_test(tst_utf8
+qt_add_test(tst_qdebug
     SOURCES
-        tst_utf8.cpp
-        utf8data.h
+        tst_qdebug.cpp
     PUBLIC_LIBRARIES
         Qt::Core5Compat
 )

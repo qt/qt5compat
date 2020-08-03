@@ -3,4 +3,6 @@ SUBDIRS += \
     qlinkedlist \
     qregexp \
     codecs \
-    serialization
+    serialization \
+    text \
+    io

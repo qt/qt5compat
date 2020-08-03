@@ -15,6 +15,10 @@ qt_add_module(Core5Compat
         serialization/qbinaryjsonarray.cpp serialization/qbinaryjsonarray_p.h
         serialization/qbinaryjsonobject.cpp serialization/qbinaryjsonobject_p.h
         serialization/qbinaryjsonvalue.cpp serialization/qbinaryjsonvalue_p.h
+        text/qstringref.cpp text/qstringref.h
+    DEFINES
+        QT_USE_FAST_OPERATOR_PLUS
+        QT_USE_QSTRINGBUILDER
     LIBRARIES
         Qt::CorePrivate
     PUBLIC_LIBRARIES

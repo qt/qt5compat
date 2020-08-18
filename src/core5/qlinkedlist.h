@@ -46,6 +46,7 @@
 #include <QtCore/qrefcount.h>
 #include <QtCore/qcontainertools_impl.h>
 #include <QtCore/qdatastream.h>
+#include <QtCore/qmetatype.h>
 #include <QtCore/qtypeinfo.h>
 
 #include <algorithm>

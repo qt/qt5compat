@@ -10,17 +10,12 @@ QMAKE_DOCS = $$PWD/doc/qtcore5.qdocconf
 include(codecs/codecs.pri)
 include(serialization/serialization.pri)
 include(text/text.pri)
+include(tools/tools.pri)
 
 PUBLIC_HEADERS += \
-    qcore5global.h \
-    qlinkedlist.h \
-    qregexp.h
+    qcore5global.h
 
 PRIVATE_HEADERS +=
-
-SOURCES += \
-    qlinkedlist.cpp \
-    qregexp.cpp
 
 HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
 

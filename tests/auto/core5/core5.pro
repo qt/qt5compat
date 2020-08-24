@@ -1,8 +1,7 @@
 TEMPLATE = subdirs
 SUBDIRS += \
-    qlinkedlist \
-    qregexp \
     codecs \
     serialization \
     text \
-    io
+    io \
+    tools

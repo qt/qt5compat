@@ -9,13 +9,13 @@ qt_add_module(Core5Compat
         codecs/qtextcodec_p.h
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
         qcore5global.h
-        qlinkedlist.cpp qlinkedlist.h
-        qregexp.cpp qregexp.h
         serialization/qbinaryjson.cpp serialization/qbinaryjson.h serialization/qbinaryjson_p.h
         serialization/qbinaryjsonarray.cpp serialization/qbinaryjsonarray_p.h
         serialization/qbinaryjsonobject.cpp serialization/qbinaryjsonobject_p.h
         serialization/qbinaryjsonvalue.cpp serialization/qbinaryjsonvalue_p.h
+        text/qregexp.cpp text/qregexp.h
         text/qstringref.cpp text/qstringref.h
+        tools/qlinkedlist.cpp tools/qlinkedlist.h
     DEFINES
         QT_USE_FAST_OPERATOR_PLUS
         QT_USE_QSTRINGBUILDER

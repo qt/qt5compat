@@ -44,7 +44,6 @@
 #include <QtCore/qstringconverter.h>
 
 #include <QtCore5Compat/qcore5global.h>
-#include <QtCore5Compat/qtcore5compat-config.h>
 
 QT_REQUIRE_CONFIG(textcodec);
 

@@ -41,6 +41,7 @@
 #define QCORE5GLOBAL_H
 
 #include <QtCore/qglobal.h>
+#include <QtCore5Compat/qtcore5compat-config.h>
 
 QT_BEGIN_NAMESPACE
 

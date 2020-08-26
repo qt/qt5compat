@@ -1617,8 +1617,6 @@ void tst_QRegExp::datastream()
 {
     QFETCH(QString, device); \
 
-    qRegisterMetaTypeStreamOperators<QRegExp>("QRegExp");
-
     if (device == "bytearray") { \
         QByteArray ba; \
         QDataStream sout(&ba, QIODevice::WriteOnly); \

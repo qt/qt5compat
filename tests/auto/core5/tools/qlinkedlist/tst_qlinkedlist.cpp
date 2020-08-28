@@ -137,11 +137,11 @@ int Complex::liveCount = 0;
 Q_DECLARE_METATYPE(Complex);
 
 // Tests depend on the fact that:
-Q_STATIC_ASSERT(!QTypeInfo<int>::isStatic);
+Q_STATIC_ASSERT(QTypeInfo<int>::isRelocatable);
 Q_STATIC_ASSERT(!QTypeInfo<int>::isComplex);
-Q_STATIC_ASSERT(!QTypeInfo<Movable>::isStatic);
+Q_STATIC_ASSERT(QTypeInfo<Movable>::isRelocatable);
 Q_STATIC_ASSERT(QTypeInfo<Movable>::isComplex);
-Q_STATIC_ASSERT(QTypeInfo<Complex>::isStatic);
+Q_STATIC_ASSERT(!QTypeInfo<Complex>::isRelocatable);
 Q_STATIC_ASSERT(QTypeInfo<Complex>::isComplex);
 
 QT_BEGIN_NAMESPACE

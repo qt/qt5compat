@@ -43,6 +43,7 @@
 #include <QtCore5Compat/qcore5global.h>
 
 #include <QtCore/qglobal.h>
+#include <QtCore/qcontainerfwd.h>
 
 #include <QtCore/qstring.h>
 #include <QtCore/qvariant.h>
@@ -51,7 +52,6 @@ QT_BEGIN_NAMESPACE
 
 
 struct QRegExpPrivate;
-class QStringList;
 class QRegExp;
 
 Q_CORE5COMPAT_EXPORT size_t qHash(const QRegExp &key, size_t seed = 0) noexcept;

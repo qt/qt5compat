@@ -9,6 +9,7 @@ qt_add_module(Core5Compat
         codecs/qtextcodec_p.h
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
         qcore5global.h
+        sax/qxml.cpp sax/qxml.h sax/qxml_p.h
         serialization/qbinaryjson.cpp serialization/qbinaryjson.h serialization/qbinaryjson_p.h
         serialization/qbinaryjsonarray.cpp serialization/qbinaryjsonarray_p.h
         serialization/qbinaryjsonobject.cpp serialization/qbinaryjsonobject_p.h

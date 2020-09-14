@@ -8,6 +8,7 @@ QT_FOR_PRIVATE += core-private
 QMAKE_DOCS = $$PWD/doc/qtcore5.qdocconf
 
 include(codecs/codecs.pri)
+include(sax/sax.pri)
 include(serialization/serialization.pri)
 include(text/text.pri)
 include(tools/tools.pri)

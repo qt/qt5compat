@@ -1615,44 +1615,43 @@ static int dataIndex(const QString &tag)
 
 void tst_QRegExp::datastream()
 {
-    QFETCH(QString, device); \
+    QFETCH(QString, device);
 
-    if (device == "bytearray") { \
-        QByteArray ba; \
-        QDataStream sout(&ba, QIODevice::WriteOnly); \
-        writeQRegExp(&sout); \
-        QDataStream sin(&ba, QIODevice::ReadOnly); \
-        readQRegExp(&sin); \
-    } else if (device == "file") { \
-        QString fileName = "qdatastream.out"; \
-        QFile fOut(fileName); \
-        QVERIFY(fOut.open(QIODevice::WriteOnly)); \
-        QDataStream sout(&fOut); \
-        writeQRegExp(&sout); \
-        fOut.close(); \
-        QFile fIn(fileName); \
-        QVERIFY(fIn.open(QIODevice::ReadOnly)); \
-        QDataStream sin(&fIn); \
-        readQRegExp(&sin); \
-        fIn.close(); \
-    } else if (device == "buffer") { \
-        QByteArray ba(10000, '\0'); \
-        QBuffer bOut(&ba); \
-        bOut.open(QIODevice::WriteOnly); \
-        QDataStream sout(&bOut); \
-        writeQRegExp(&sout); \
-        bOut.close(); \
-        QBuffer bIn(&ba); \
-        bIn.open(QIODevice::ReadOnly); \
-        QDataStream sin(&bIn); \
-        readQRegExp(&sin); \
-        bIn.close(); \
+    if (device == "bytearray") {
+        QByteArray ba;
+        QDataStream sout(&ba, QIODevice::WriteOnly);
+        writeQRegExp(&sout);
+        QDataStream sin(&ba, QIODevice::ReadOnly);
+        readQRegExp(&sin);
+    } else if (device == "file") {
+        QString fileName = "qdatastream.out";
+        QFile fOut(fileName);
+        QVERIFY(fOut.open(QIODevice::WriteOnly));
+        QDataStream sout(&fOut);
+        writeQRegExp(&sout);
+        fOut.close();
+        QFile fIn(fileName);
+        QVERIFY(fIn.open(QIODevice::ReadOnly));
+        QDataStream sin(&fIn);
+        readQRegExp(&sin);
+        fIn.close();
+    } else if (device == "buffer") {
+        QByteArray ba(10000, '\0');
+        QBuffer bOut(&ba);
+        bOut.open(QIODevice::WriteOnly);
+        QDataStream sout(&bOut);
+        writeQRegExp(&sout);
+        bOut.close();
+        QBuffer bIn(&ba);
+        bIn.open(QIODevice::ReadOnly);
+        QDataStream sin(&bIn);
+        readQRegExp(&sin);
+        bIn.close();
     }
 }
 
 static void saveQVariantFromDataStream(const QString &fileName, QDataStream::Version version)
 {
-
     QFile file(fileName);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QDataStream dataFileStream(&file);

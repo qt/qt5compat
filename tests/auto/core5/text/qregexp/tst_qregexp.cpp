@@ -1670,6 +1670,7 @@ static void saveQVariantFromDataStream(const QString &fileName, QDataStream::Ver
     QCOMPARE(constructedVariant.userType(), id);
     stream << constructedVariant;
 
+    QEXPECT_FAIL("", "Disable, see QTBUG-86703", Continue);
     // We are testing QVariant there is no point in testing full array.
     QCOMPARE(buffer.data().left(5), data.left(5));
 

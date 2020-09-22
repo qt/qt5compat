@@ -4,7 +4,7 @@
 ## Core5Compat Module:
 #####################################################################
 
-qt_add_module(Core5Compat
+qt_internal_add_module(Core5Compat
     SOURCES
         codecs/qtextcodec_p.h
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
@@ -35,27 +35,27 @@ qt_add_module(Core5Compat
 ## Scopes:
 #####################################################################
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec
     SOURCES
         codecs/qlatincodec.cpp codecs/qlatincodec_p.h
         codecs/qsimplecodec.cpp codecs/qsimplecodec_p.h
         codecs/qtextcodec.cpp codecs/qtextcodec.h
 )
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_codecs AND QT_FEATURE_textcodec
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_codecs AND QT_FEATURE_textcodec
     SOURCES
         codecs/qisciicodec.cpp codecs/qisciicodec_p.h
         codecs/qtsciicodec.cpp codecs/qtsciicodec_p.h
 )
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_icu AND QT_FEATURE_textcodec
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_icu AND QT_FEATURE_textcodec
     SOURCES
         codecs/qicucodec.cpp codecs/qicucodec_p.h
     LIBRARIES
         ICU::i18n ICU::uc ICU::data
 )
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_big_codecs AND QT_FEATURE_textcodec AND NOT QT_FEATURE_icu
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_big_codecs AND QT_FEATURE_textcodec AND NOT QT_FEATURE_icu
     SOURCES
         codecs/qbig5codec.cpp codecs/qbig5codec_p.h
         codecs/qeucjpcodec.cpp codecs/qeucjpcodec_p.h
@@ -66,18 +66,18 @@ qt_extend_target(Core5Compat CONDITION QT_FEATURE_big_codecs AND QT_FEATURE_text
         codecs/qsjiscodec.cpp codecs/qsjiscodec_p.h
 )
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_iconv AND QT_FEATURE_textcodec AND NOT QT_FEATURE_icu
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_iconv AND QT_FEATURE_textcodec AND NOT QT_FEATURE_icu
     SOURCES
         codecs/qiconvcodec.cpp codecs/qiconvcodec_p.h
     LIBRARIES
         WrapIconv::WrapIconv
 )
 
-qt_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec AND WIN32 AND NOT QT_FEATURE_icu
+qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec AND WIN32 AND NOT QT_FEATURE_icu
     SOURCES
         codecs/qwindowscodec.cpp codecs/qwindowscodec_p.h
 )
-qt_add_docs(Core5Compat
+qt_internal_add_docs(Core5Compat
     doc/qtcore5.qdocconf
 )
 

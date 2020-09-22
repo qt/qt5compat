@@ -4,7 +4,7 @@
 ## tst_qlinkedlist Test:
 #####################################################################
 
-qt_add_test(tst_qlinkedlist
+qt_internal_add_test(tst_qlinkedlist
     SOURCES
         tst_qlinkedlist.cpp
     DEFINES

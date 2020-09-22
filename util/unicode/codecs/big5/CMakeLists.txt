@@ -4,7 +4,7 @@
 ## big5 Binary:
 #####################################################################
 
-qt_add_executable(big5
+qt_internal_add_executable(big5
     GUI
     SOURCES
         main.cpp
@@ -17,7 +17,7 @@ set(big5_resource_files
     "BIG5"
 )
 
-qt_add_resource(big5 "big5"
+qt_internal_add_resource(big5 "big5"
     PREFIX
         "/"
     FILES

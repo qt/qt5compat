@@ -4,7 +4,7 @@
 ## tst_qxmlinputsource Test:
 #####################################################################
 
-qt_add_test(tst_qxmlinputsource
+qt_internal_add_test(tst_qxmlinputsource
     SOURCES
         tst_qxmlinputsource.cpp
     PUBLIC_LIBRARIES

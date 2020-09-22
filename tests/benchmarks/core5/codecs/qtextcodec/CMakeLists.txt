@@ -4,7 +4,7 @@
 ## tst_bench_qtextcodec Binary:
 #####################################################################
 
-qt_add_benchmark(tst_bench_qtextcodec
+qt_internal_add_benchmark(tst_bench_qtextcodec
     SOURCES
         main.cpp
     PUBLIC_LIBRARIES

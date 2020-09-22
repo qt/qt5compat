@@ -4,7 +4,7 @@
 ## tst_qregexp Test:
 #####################################################################
 
-qt_add_test(tst_qregexp
+qt_internal_add_test(tst_qregexp
     SOURCES
         tst_qregexp.cpp
     PUBLIC_LIBRARIES
@@ -17,7 +17,7 @@ set(qregexp_resource_files
     "data/qdatastream_5.0.bin"
 )
 
-qt_add_resource(tst_qregexp "qregexp"
+qt_internal_add_resource(tst_qregexp "qregexp"
     PREFIX
         "/"
     FILES

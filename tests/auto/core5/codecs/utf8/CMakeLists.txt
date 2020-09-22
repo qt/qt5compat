@@ -4,7 +4,7 @@
 ## tst_utf8 Test:
 #####################################################################
 
-qt_add_test(tst_utf8
+qt_internal_add_test(tst_utf8
     SOURCES
         tst_utf8.cpp
         utf8data.h

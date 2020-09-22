@@ -12,7 +12,7 @@ project(Qt5Compat # special case
 
 # special case begin
 find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core)
-# find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS SET_ME_TO_SOMETHING_USEFUL)
+find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS Network Xml)
 # special case end
 
 qt_build_repo()

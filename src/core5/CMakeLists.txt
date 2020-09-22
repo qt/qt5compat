@@ -25,7 +25,7 @@ qt_add_module(Core5Compat
     PUBLIC_LIBRARIES
         Qt::Core
     PRIVATE_MODULE_INTERFACE
-        Qt::CorePrivate
+        Qt::CorePrivate Qt::CorePrivate
 )
 
 #### Keys ignored in scope 1:.:.:core5.pro:<TRUE>:

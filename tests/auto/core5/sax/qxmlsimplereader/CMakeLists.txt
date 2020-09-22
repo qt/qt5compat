@@ -14,10 +14,6 @@ file(GLOB_RECURSE test_data_glob
     xmldocs/*)
 list(APPEND test_data ${test_data_glob})
 
-find_package(Qt6 COMPONENTS Core5Compat)
-find_package(Qt6 COMPONENTS Network)
-find_package(Qt6 COMPONENTS Xml)
-
 qt_add_test(tst_qxmlsimplereader
     SOURCES
         parser/parser.cpp parser/parser.h

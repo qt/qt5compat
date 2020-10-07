@@ -59,7 +59,7 @@ QByteArray QUtf8Codec::convertFromUnicode(const QChar *uc, int len, ConverterSta
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf8::convertFromUnicode(uc, len, state);
+    return QUtf8::convertFromUnicode(QStringView(uc, len), state);
 }
 
 void QUtf8Codec::convertToUnicode(QString *target, const char *chars, int len, ConverterState *state) const
@@ -67,7 +67,7 @@ void QUtf8Codec::convertToUnicode(QString *target, const char *chars, int len, C
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    *target += QUtf8::convertToUnicode(chars, len, state);
+    *target += QUtf8::convertToUnicode(QByteArrayView(chars, len), state);
 }
 
 QString QUtf8Codec::convertToUnicode(const char *chars, int len, ConverterState *state) const
@@ -75,7 +75,7 @@ QString QUtf8Codec::convertToUnicode(const char *chars, int len, ConverterState 
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf8::convertToUnicode(chars, len, state);
+    return QUtf8::convertToUnicode(QByteArrayView(chars, len), state);
 }
 
 QByteArray QUtf8Codec::name() const
@@ -97,7 +97,7 @@ QByteArray QUtf16Codec::convertFromUnicode(const QChar *uc, int len, ConverterSt
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf16::convertFromUnicode(uc, len, state, e);
+    return QUtf16::convertFromUnicode(QStringView(uc, len), state, e);
 }
 
 QString QUtf16Codec::convertToUnicode(const char *chars, int len, ConverterState *state) const
@@ -105,7 +105,7 @@ QString QUtf16Codec::convertToUnicode(const char *chars, int len, ConverterState
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf16::convertToUnicode(chars, len, state, e);
+    return QUtf16::convertToUnicode(QByteArrayView(chars, len), state, e);
 }
 
 int QUtf16Codec::mibEnum() const
@@ -164,7 +164,7 @@ QByteArray QUtf32Codec::convertFromUnicode(const QChar *uc, int len, ConverterSt
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf32::convertFromUnicode(uc, len, state, e);
+    return QUtf32::convertFromUnicode(QStringView(uc, len), state, e);
 }
 
 QString QUtf32Codec::convertToUnicode(const char *chars, int len, ConverterState *state) const
@@ -172,7 +172,7 @@ QString QUtf32Codec::convertToUnicode(const char *chars, int len, ConverterState
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QUtf32::convertToUnicode(chars, len, state, e);
+    return QUtf32::convertToUnicode(QByteArrayView(chars, len), state, e);
 }
 
 int QUtf32Codec::mibEnum() const

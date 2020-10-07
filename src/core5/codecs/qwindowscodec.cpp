@@ -55,7 +55,7 @@ QString QWindowsLocalCodec::convertToUnicode(const char *chars, int length, Conv
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QLocal8Bit::convertToUnicode(chars, length, state);
+    return QLocal8Bit::convertToUnicode(QByteArrayView(chars, length), state);
 }
 
 QByteArray QWindowsLocalCodec::convertFromUnicode(const QChar *ch, int uclen, ConverterState *state) const
@@ -63,7 +63,7 @@ QByteArray QWindowsLocalCodec::convertFromUnicode(const QChar *ch, int uclen, Co
     ConverterState s(QStringConverter::Flag::Stateless);
     if (!state)
         state = &s;
-    return QLocal8Bit::convertFromUnicode(ch, uclen, state);
+    return QLocal8Bit::convertFromUnicode(QStringView(ch, uclen), state);
 }
 
 QByteArray QWindowsLocalCodec::name() const

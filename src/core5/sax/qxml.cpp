@@ -1332,7 +1332,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
         d->encodingDeclChars.clear();
         d->lookingForEncodingDecl = true;
 
-        auto encoding = QStringConverter::encodingForData(data.constData(), data.size(), char16_t('<'));
+        auto encoding = QStringConverter::encodingForData(data, char16_t('<'));
         if (encoding) {
             d->lookingForEncodingDecl = false;
             d->toUnicode = QStringDecoder(*encoding);
@@ -1341,7 +1341,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
         }
     }
 
-    QString input = d->toUnicode(data.constData(), data.size());
+    QString input = d->toUnicode(data);
 
     if (d->lookingForEncodingDecl) {
         d->encodingDeclChars += input;
@@ -1350,7 +1350,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
         QByteArray encoding = extractEncodingDecl(d->encodingDeclChars, &needMoreText).toLatin1();
 
         if (!encoding.isEmpty()) {
-            auto e = QStringDecoder::encodingForData(encoding.constData(), encoding.size());
+            auto e = QStringDecoder::encodingForData(encoding);
             if (e && *e != QStringDecoder::Utf8) {
                 d->toUnicode = QStringDecoder(*e);
 
@@ -1360,9 +1360,9 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
                 input.clear();
 
                 // prime the decoder with the data so far
-                d->toUnicode(d->encodingDeclBytes.constData(), d->encodingDeclBytes.size());
+                d->toUnicode(d->encodingDeclBytes);
                 // now feed it the new data
-                input = d->toUnicode(data.constData(), data.size());
+                input = d->toUnicode(data);
             }
         }
 

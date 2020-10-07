@@ -213,7 +213,7 @@ static QByteArray qt_convert_to_utf8(QStringView str)
     if (str.isNull())
         return QByteArray();
 
-    return QUtf8::convertFromUnicode(str.data(), str.length());
+    return QUtf8::convertFromUnicode(str);
 }
 
 static QList<uint> qt_convert_to_ucs4(QStringView string)
@@ -257,7 +257,7 @@ int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const char
     // ### make me nothrow in all cases
     QVarLengthArray<ushort> s2(length2);
     const auto beg = reinterpret_cast<QChar *>(s2.data());
-    const auto end = QUtf8::convertToUnicode(beg, data2, length2);
+    const auto end = QUtf8::convertToUnicode(beg, QByteArrayView(data2, length2));
     return qt_compare_strings(QStringView(data1, length1), QStringView(beg, end - beg), cs);
 }
 

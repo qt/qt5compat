@@ -4,9 +4,7 @@
 ## tst_json Test:
 #####################################################################
 
-# special case begin
-qt_internal_add_test(tst_qt5compat_json
-# special case end
+qt_internal_add_test(tst_json
     SOURCES
         tst_qtjson.cpp
     PUBLIC_LIBRARIES
@@ -30,9 +28,7 @@ if(ANDROID)
         "test3.json"
     )
 
-# special case begin
-    qt_internal_add_resource(tst_qt5compat_json "json"
-# special case end
+    qt_internal_add_resource(tst_json "json"
         PREFIX
             "/"
         FILES
@@ -40,9 +36,7 @@ if(ANDROID)
     )
 endif()
 
-# special case begin
-qt_internal_extend_target(tst_qt5compat_json CONDITION NOT QT_FEATURE_doubleconversion AND NOT QT_FEATURE_system_doubleconversion
-# special case end
+qt_internal_extend_target(tst_json CONDITION NOT QT_FEATURE_doubleconversion AND NOT QT_FEATURE_system_doubleconversion
     DEFINES
         QT_NO_DOUBLECONVERSION
 )

@@ -4,7 +4,9 @@
 ## tst_qdebug Test:
 #####################################################################
 
-qt_internal_add_test(tst_qdebug
+# special case begin
+qt_internal_add_test(tst_qt5compat_qdebug
+#special case end
     SOURCES
         tst_qdebug.cpp
     PUBLIC_LIBRARIES

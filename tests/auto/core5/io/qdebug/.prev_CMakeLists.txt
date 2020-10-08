@@ -1,14 +1,12 @@
-# Generated from qtextstream.pro.
+# Generated from qdebug.pro.
 
 #####################################################################
-## tst_qtextstream Test:
+## tst_qdebug Test:
 #####################################################################
 
-# special case begin
-qt_internal_add_test(tst_qt5compat_qtextstream
-# special case end
+qt_internal_add_test(tst_qdebug
     SOURCES
-        tst_qtextstream.cpp
+        tst_qdebug.cpp
     PUBLIC_LIBRARIES
         Qt::Core5Compat
 )

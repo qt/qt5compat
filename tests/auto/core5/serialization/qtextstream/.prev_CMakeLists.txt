@@ -4,9 +4,7 @@
 ## tst_qtextstream Test:
 #####################################################################
 
-# special case begin
-qt_internal_add_test(tst_qt5compat_qtextstream
-# special case end
+qt_internal_add_test(tst_qtextstream
     SOURCES
         tst_qtextstream.cpp
     PUBLIC_LIBRARIES

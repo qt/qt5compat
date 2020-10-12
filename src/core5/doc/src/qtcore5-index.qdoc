@@ -41,18 +41,6 @@
     #include <QtCore5Compat>
     \endcode
 
-    \code
-    QLinkedList<int> list;
-    ...
-    \endcode
-
-    Or:
-
-    \code
-    QLinkedList<int> list;
-    ...
-    \endcode
-
     \section2 Building with qmake
 
     To link against the module, add this line to your \l qmake \c .pro file:

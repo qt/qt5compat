@@ -1,5 +1,5 @@
 include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
-include($QT_INSTALL_DOCS/config/exampleurl-qtbase.qdocconf)
+url.examples = "https://code.qt.io/cgit/qt/qt5compat.git/tree/examples/\1?h=$QT_VER"
 
 project                 = QtCore5Compat
 description             = Qt 5 Core Compatibility APIs Documentation
@@ -21,20 +21,21 @@ qhp.QtCore5Compat.subprojects         = classes
 
 qhp.QtCore5Compat.subprojects.classes.title = C++ Classes
 qhp.QtCore5Compat.subprojects.classes.indexTitle = Qt 5 Compat C++ Classes
-qhp.QtCore5Compat.subprojects.classes.selectors = class fake:headerfile
+qhp.QtCore5Compat.subprojects.classes.selectors = class headerfile
 qhp.QtCore5Compat.subprojects.classes.sortPages = true
 
 headerdirs  += ..
 sourcedirs  += ..
 exampledirs += snippets \
                ../../../examples/core5
+
 examplesinstallpath = core5
 imagedirs   += images
 excludedirs += snippets
 
 excludefiles += ../../../examples/core5/widgets/tools/codecs/doc/src/codecs.qdoc
 
-depends += qtcore qtdoc qmake
+depends += qtcore qtdoc qmake qtnetwork
 
 navigation.landingpage = "Qt 5 Core Compatibility APIs"
 navigation.cppclassespage = "Qt 5 Core Compatibility C++ Classes"

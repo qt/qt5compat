@@ -98,7 +98,7 @@ namespace QBinaryJson {
     deleted or modified as long as any QJsonDocument, QJsonObject or QJsonArray
     still referenced the data. From Qt 5.15 on, this is not necessary anymore.
 
-    \sa rawData(), fromBinaryData(), DataValidation, QCborValue
+    \sa toRawData(), fromBinaryData(), DataValidation, QCborValue
 */
 QJsonDocument fromRawData(const char *data, int size, DataValidation validation)
 {

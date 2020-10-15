@@ -690,9 +690,7 @@ QT_BEGIN_NAMESPACE
     the position in the string where the match was made (or -1 if
     there was no match).
 
-    \sa QString, QStringList, QSortFilterProxyModel,
-        {tools/regexp}{Regular Expression Example}
-
+    \sa QString, QStringList, QSortFilterProxyModel
 
     \section1 Porting to QRegularExpression
 
@@ -4688,7 +4686,10 @@ int QRegExp::countIn(const QString &str) const
     expression does not match anywhere in the string, split() returns a
     single-element list containing \a str.
 
-    \sa QStringList::join(), section(), QString::split()
+    If \a behavior is set to Qt::KeepEmptyParts, empty fields are
+    included in the resulting list.
+
+    \sa QStringList::join(), QString::split()
 */
 QStringList QRegExp::splitString(const QString &str, Qt::SplitBehavior behavior) const
 {
@@ -4740,7 +4741,7 @@ QStringList QRegExp::replaceIn(const QStringList &stringList, const QString &aft
     \a list, searching forward from index position \a from. Returns
     -1 if no item matched.
 
-    \sa lastIndexIn(), contains(), exactMatch()
+    \sa lastIndexIn(), exactMatch()
 */
 int QRegExp::indexIn(const QStringList &list, int from) const
 {
@@ -4760,7 +4761,7 @@ int QRegExp::indexIn(const QStringList &list, int from) const
     from is -1 (the default), the search starts at the last item.
     Returns -1 if no item matched.
 
-    \sa indexOf(), contains(), QRegExp::exactMatch()
+    \sa QRegExp::exactMatch()
 */
 int QRegExp::lastIndexIn(const QStringList &list, int from) const
 {

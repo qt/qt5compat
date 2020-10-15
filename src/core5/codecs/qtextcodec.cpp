@@ -341,7 +341,7 @@ static void setup() {}
 #endif // icu
 
 /*!
-    \enum QTextCodec::ConversionFlag
+    \typealias QTextCodec::ConversionFlags
 
     \value DefaultConversion  No flag is set.
     \value ConvertInvalidToNull  If this flag is set, each invalid input
@@ -352,9 +352,7 @@ static void setup() {}
 */
 
 /*!
-    \fn QTextCodec::ConverterState::ConverterState(ConversionFlags flags)
-
-    Constructs a ConverterState object initialized with the given \a flags.
+    \typealias QTextCodec::ConverterState
 */
 
 /*!
@@ -423,11 +421,6 @@ static void setup() {}
 
     \snippet code/src_corelib_codecs_qtextcodec.cpp 1
 
-    To read or write files in various encodings, use QTextStream and
-    its \l{QTextStream::setCodec()}{setCodec()} function. See the
-    \l{tools/codecs}{Codecs} example for an application of QTextCodec
-    to file I/O.
-
     Some care must be taken when trying to convert the data in chunks,
     for example, when receiving it over a network. In such cases it is
     possible that a multi-byte character will be split over two
@@ -483,7 +476,7 @@ static void setup() {}
          \li Converts a Unicode string to an 8-bit character string.
     \endtable
 
-    \sa QTextStream, QTextDecoder, QTextEncoder, {Text Codecs Example}
+    \sa QTextStream, QTextDecoder, QTextEncoder
 */
 
 /*!

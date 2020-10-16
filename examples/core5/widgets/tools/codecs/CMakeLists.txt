@@ -20,7 +20,7 @@ find_package(Qt6 COMPONENTS Gui)
 find_package(Qt6 COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Core5Compat)
 
-add_qt_gui_executable(codecs
+qt_add_executable(codecs
     encodingdialog.cpp encodingdialog.h
     main.cpp
     mainwindow.cpp mainwindow.h

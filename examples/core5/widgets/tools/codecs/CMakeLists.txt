@@ -26,6 +26,10 @@ qt_add_executable(codecs
     mainwindow.cpp mainwindow.h
     previewform.cpp previewform.h
 )
+set_target_properties(codecs PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
+)
 target_link_libraries(codecs PUBLIC
     Qt::Core
     Qt::Core5Compat

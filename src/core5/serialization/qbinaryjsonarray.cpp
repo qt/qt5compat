@@ -53,7 +53,7 @@ QBinaryJsonArray::~QBinaryJsonArray()
 QBinaryJsonArray QBinaryJsonArray::fromJsonArray(const QJsonArray &array)
 {
     QBinaryJsonArray binary;
-    for (const QJsonValue &value : array)
+    for (const QJsonValue value : array)
         binary.append(QBinaryJsonValue::fromJsonValue(value));
     if (binary.d) // We want to compact it as it is a root item now
         binary.d->compactionCounter++;

@@ -607,7 +607,7 @@ void tst_QLinkedList::cpp17ctad() const
 #ifdef __cpp_deduction_guides
 #    define QVERIFY_IS_LIST_OF(obj, Type)                                                          \
         QVERIFY2((std::is_same<decltype(obj), QLinkedList<Type>>::value),                          \
-                 QMetaType::typeName(qMetaTypeId<decltype(obj)::value_type>()))
+                 QMetaType(qMetaTypeId<decltype(obj)::value_type>()).name())
 #    define CHECK(Type, One, Two, Three)                                                           \
         do {                                                                                       \
             const Type v[] = { One, Two, Three };                                                  \

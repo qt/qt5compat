@@ -1659,15 +1659,15 @@ static void saveQVariantFromDataStream(const QString &fileName, QDataStream::Ver
     QString typeName;
     dataFileStream >> typeName;
     QByteArray data = file.readAll();
-    const int id = QMetaType::type(typeName.toLatin1());
+    const int id = QMetaType::fromName(typeName.toLatin1()).id();
 
     QBuffer buffer;
     buffer.open(QIODevice::ReadWrite);
     QDataStream stream(&buffer);
     stream.setVersion(version);
 
-    QVariant constructedVariant(static_cast<QVariant::Type>(id));
-    QCOMPARE(constructedVariant.userType(), id);
+    QVariant constructedVariant(static_cast<QMetaType>(id));
+    QCOMPARE(constructedVariant.typeId(), id);
     stream << constructedVariant;
 
     QCOMPARE(buffer.data().left(5), data.left(5));
@@ -1675,7 +1675,7 @@ static void saveQVariantFromDataStream(const QString &fileName, QDataStream::Ver
     buffer.seek(0);
     QVariant recunstructedVariant;
     stream >> recunstructedVariant;
-    QCOMPARE(recunstructedVariant.userType(), constructedVariant.userType());
+    QCOMPARE(recunstructedVariant.typeId(), constructedVariant.typeId());
 }
 
 void tst_QRegExp::datastream2()
@@ -1714,7 +1714,7 @@ void tst_QRegExp::readQRegExp(QDataStream *s)
     *s >> R;
     QCOMPARE(R, test);
     *s >> V;
-    QCOMPARE(V.userType(), qMetaTypeId<QRegExp>());
+    QCOMPARE(V.typeId(), qMetaTypeId<QRegExp>());
     QCOMPARE(qvariant_cast<QRegExp>(V), test);
 }
 

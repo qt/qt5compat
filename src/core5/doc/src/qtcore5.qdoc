@@ -33,6 +33,5 @@
 
     \brief Contains the Qt 5 Core APIs removed from Qt 6.
 
-    Some of the Qt 5 APIs won't be maintained anymore in Qt 6. This module
-    provides the non-GUI APIs removed from Qt Core.
+    Qt 5 Core APIs that are no longer supported in Qt 6.
 */

@@ -334,7 +334,7 @@ QByteArray QIconvCodec::convertFromUnicode(const QChar *uc, int len, ConverterSt
         in.resize(sizeof(QChar) + len);
         inBytes = in.data();
 
-        QChar remaining = convState->state_data[0];
+        QChar remaining(convState->state_data[0]);
         memcpy(in.data(), &remaining, sizeof(QChar));
         memcpy(in.data() + sizeof(QChar), uc, inBytesLeft);
 

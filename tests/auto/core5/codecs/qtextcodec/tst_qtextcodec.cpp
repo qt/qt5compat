@@ -58,6 +58,8 @@ private slots:
     void codecForLocale();
 
     void asciiToIscii() const;
+    void unicodeToISCII();
+
     void nonFlaggedCodepointFFFF() const;
     void flagF7808080() const;
     void nonFlaggedEFBFBF() const;
@@ -402,6 +404,39 @@ void tst_QTextCodec::asciiToIscii() const
                                                          .arg(QString::fromLatin1(textCodec->name().constData()))));
         QVERIFY(textCodec->canEncode(QStringView(ascii)));
     }
+}
+
+void tst_QTextCodec::unicodeToISCII()
+{
+    auto codec = QTextCodec::codecForName("iscii-tml");
+    QVERIFY(codec != nullptr);
+
+    auto ba = QByteArray::fromHex("ABA3B3DD");
+    auto steel = QString("\u0b8e\u0b83\u0b95\u0bc1");
+
+    QTextCodec::ConverterState state;
+    QCOMPARE(codec->fromUnicode(steel.constData(), steel.size(), &state), ba);
+    state.clear();
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), steel);
+
+    codec = QTextCodec::codecForName("iscii-dev");
+    QVERIFY(codec != nullptr);
+
+    ba = QByteArray::fromHex("e8e8");
+    auto zwnj = QString("\u094d\u200c");
+
+    state.clear();
+    QCOMPARE(codec->fromUnicode(zwnj.constData(), zwnj.size(), &state), ba);
+    state.clear();
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), zwnj);
+
+    ba = QByteArray::fromHex("e8e9");
+    auto zwj = QString("\u094d\u200d");
+
+    state.clear();
+    QCOMPARE(codec->fromUnicode(zwj.constData(), zwj.size(), &state), ba);
+    state.clear();
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), zwj);
 }
 
 void tst_QTextCodec::nonFlaggedCodepointFFFF() const

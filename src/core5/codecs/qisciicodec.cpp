@@ -70,11 +70,14 @@ static const Codecs codecs [] = {
 
 QTextCodec *QIsciiCodec::create(const char *name)
 {
+    QIsciiCodec *codec = nullptr;
     for (int i = 0; i < 9; ++i) {
-        if (qTextCodecNameMatch(name, codecs[i].name))
-            return new QIsciiCodec(i);
+        if (qTextCodecNameMatch(name, codecs[i].name)) {
+            codec = new QIsciiCodec(i);
+            break;
+        }
     }
-    return nullptr;
+    return codec;
 }
 
 QIsciiCodec::~QIsciiCodec()
@@ -267,11 +270,11 @@ QString QIsciiCodec::convertToUnicode(const char* chars, int len, ConverterState
             *uc++ = ch;
         else {
             ushort c = iscii_to_uni_table[ch - 0xa0];
-            if (halant && (c == inv || c == 0xe9)) {
+            if (halant && (ch == inv || ch == 0xe9)) {
                 // Consonant Halant inv -> Consonant Halant ZWJ
                 // Consonant Halant Nukta -> Consonant Halant ZWJ
                 *uc++ = QChar(0x200d);
-            } else if (halant && c == 0xe8) {
+            } else if (halant && ch == 0xe8) {
                 // Consonant Halant Halant -> Consonant Halant ZWNJ
                 *uc++ = QChar(0x200c);
             } else {

@@ -44,7 +44,6 @@
 
 #include <private/qbinaryjsonarray_p.h>
 #include <private/qbinaryjsonobject_p.h>
-#include <private/qmemory_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -111,7 +110,7 @@ QJsonDocument fromRawData(const char *data, int size, DataValidation validation)
         return QJsonDocument();
 
     std::unique_ptr<QBinaryJsonPrivate::ConstData> binaryData
-            = qt_make_unique<QBinaryJsonPrivate::ConstData>(data, size);
+            = std::make_unique<QBinaryJsonPrivate::ConstData>(data, size);
 
     return (validation == BypassValidation || binaryData->isValid())
             ? binaryData->toJsonDocument()
@@ -190,7 +189,7 @@ QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation)
         return QJsonDocument();
 
     std::unique_ptr<QBinaryJsonPrivate::ConstData> d
-            = qt_make_unique<QBinaryJsonPrivate::ConstData>(data.constData(), size);
+            = std::make_unique<QBinaryJsonPrivate::ConstData>(data.constData(), size);
 
     return (validation == BypassValidation || d->isValid())
             ? d->toJsonDocument()

@@ -103,6 +103,9 @@ private slots:
 
     void shiftJis();
     void userCodec();
+
+    void nullInputZeroOrNegativLength_data();
+    void nullInputZeroOrNegativLength();
 };
 
 void tst_QTextCodec::toUnicode_data()
@@ -2539,6 +2542,107 @@ struct DontCrashAtExit {
 
     }
 } dontCrashAtExit;
+
+void tst_QTextCodec::nullInputZeroOrNegativLength_data()
+{
+    QTest::addColumn<QString>("codecName");
+    QTest::addColumn<int>("mibEnum");
+
+    QTest::newRow("Big5") << "Big5" << 2026;
+    QTest::newRow("Big5-HKSCS") << "Big5-HKSCS" << 2101;
+    QTest::newRow("EUC-JP") << "EUC-JP" << 18;
+    QTest::newRow("iscii-dev") << "iscii-dev" << -3000;
+    QTest::newRow("iscii-bng") << "iscii-bng" << -3001;
+    QTest::newRow("iscii-pnj") << "iscii-pnj" << -3002;
+    QTest::newRow("iscii-gjr") << "iscii-gjr" << -3003;
+    QTest::newRow("iscii-ori") << "iscii-ori" << -3004;
+    QTest::newRow("iscii-tml") << "iscii-tml" << -3005;
+    QTest::newRow("iscii-tlg") << "iscii-tlg" << -3006;
+    QTest::newRow("iscii-knd") << "iscii-knd" << -3007;
+    QTest::newRow("iscii-mlm") << "iscii-mlm" << -3008;
+    QTest::newRow("ISO-2022-JP") << "ISO-2022-JP" << 39;
+    QTest::newRow("ISO-8859-1") << "ISO-8859-1" << 4;
+    QTest::newRow("ISO-8859-15") << "ISO-8859-15" << 111;
+    QTest::newRow("KOI8-R") << "KOI8-R" << 2084;
+    QTest::newRow("KOI8-U") << "KOI8-U" << 2088;
+    QTest::newRow("ISO-8859-1") << "ISO-8859-1" << 4;
+    QTest::newRow("ISO-8859-2") << "ISO-8859-2" << 5;
+    QTest::newRow("ISO-8859-3") << "ISO-8859-3" << 6;
+    QTest::newRow("ISO-8859-4") << "ISO-8859-4" << 7;
+    QTest::newRow("ISO-8859-5") << "ISO-8859-5" << 8;
+    QTest::newRow("ISO-8859-9") << "ISO-8859-9" << 12;
+    QTest::newRow("ISO-8859-10") << "ISO-8859-10" << 13;
+    QTest::newRow("ISO-8859-13") << "ISO-8859-13" << 109;
+    QTest::newRow("ISO-8859-14") << "ISO-8859-14" << 110;
+    QTest::newRow("ISO-8859-16") << "ISO-8859-16" << 112;
+    QTest::newRow("IBM850") << "IBM850" << 2009;
+    QTest::newRow("IBM866") << "IBM866" << 2086;
+    QTest::newRow("windows-1250") << "windows-1250" << 2250;
+    QTest::newRow("windows-1251") << "windows-1251" << 2251;
+    QTest::newRow("windows-1252") << "windows-1252" << 2252;
+    QTest::newRow("windows-1253") << "windows-1253" << 2253;
+    QTest::newRow("windows-1254") << "windows-1254" << 2254;
+    QTest::newRow("windows-1255") << "windows-1255" << 2255;
+    QTest::newRow("windows-1256") << "windows-1256" << 2256;
+    QTest::newRow("windows-1257") << "windows-1257" << 2257;
+    QTest::newRow("windows-1258") << "windows-1258" << 2258;
+    QTest::newRow("macintosh") << "macintosh" << 2027;
+    QTest::newRow("TIS-620") << "TIS-620" << 2259;
+    QTest::newRow("hp-roman8") << "hp-roman8" << 2004;
+    QTest::newRow("Shift_JIS") << "Shift_JIS" << 17;
+    QTest::newRow("TSCII") << "TSCII" << 2107;
+    QTest::newRow("UTF-8") << "UTF-8" << 106;
+    QTest::newRow("UTF-16") << "UTF-16" << 1015;
+    QTest::newRow("UTF-16BE") << "UTF-16BE" << 1013;
+    QTest::newRow("UTF-16LE") << "UTF-16LE" << 1014;
+    QTest::newRow("UTF-32") << "UTF-32" << 1017;
+    QTest::newRow("UTF-32BE") << "UTF-32BE" << 1018;
+    QTest::newRow("UTF-32LE") << "UTF-32LE" << 1019;
+#ifdef Q_OS_WIN
+    QTest::newRow("EUC-KR") << "EUC-KR" << 38;
+    QTest::newRow("windows-949") << "windows-949" << -949;
+    QTest::newRow("GBK") << "GBK" << 113;
+    QTest::newRow("GB2312") << "GB2312" << 2025;
+    QTest::newRow("ISO-8859-6") << "ISO-8859-6" << 82;
+    QTest::newRow("ISO-8859-7") << "ISO-8859-7" << 10;
+    QTest::newRow("ISO-8859-8") << "ISO-8859-8" << 85;
+    QTest::newRow("IBM874") << "IBM874" << -874;
+    QTest::newRow("WINSAMI2") << "WINSAMI2" << -165;
+    QTest::newRow("System") << "System" << 0;
+#endif
+}
+
+void tst_QTextCodec::nullInputZeroOrNegativLength()
+{
+    QFETCH(QString, codecName);
+    QFETCH(int, mibEnum);
+
+    QTextCodec* codec = QTextCodec::codecForName(codecName.toLatin1());
+    QVERIFY(codec != nullptr);
+    QCOMPARE(codec->mibEnum(), mibEnum);
+
+    // null input
+    QCOMPARE(codec->toUnicode(nullptr), QString());
+    QCOMPARE(codec->toUnicode(nullptr, 0), QString());
+    QCOMPARE(codec->toUnicode(nullptr, -1), QString());
+    QCOMPARE(codec->toUnicode(nullptr, 128), QString());
+
+    // zero, negative length
+    QCOMPARE(codec->toUnicode("abc", 0), QString());
+    QCOMPARE(codec->toUnicode("abc", -1), QString());
+
+    // null input
+    QChar* dummy = nullptr;
+    QStringView view{ dummy };
+    QCOMPARE(codec->fromUnicode(view), QByteArray());
+    QCOMPARE(codec->fromUnicode(nullptr, 0), QByteArray());
+    QCOMPARE(codec->fromUnicode(nullptr, -1), QByteArray());
+    QCOMPARE(codec->fromUnicode(nullptr, 128), QByteArray());
+
+    // zero, negative length
+    QCOMPARE(codec->fromUnicode(QString("abc").constData(), 0), QByteArray());
+    QCOMPARE(codec->fromUnicode(QString("abc").constData(), -1), QByteArray());
+}
 
 QT_END_NAMESPACE
 

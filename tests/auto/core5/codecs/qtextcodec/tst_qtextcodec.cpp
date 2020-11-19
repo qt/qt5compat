@@ -70,6 +70,8 @@ private slots:
     void asciiToTSCII();
     void unicodeToTSCII();
 
+    void iso8859_1() const;
+    void iso8859_15() const;
     void iso8859_16() const;
 
     void utf8Codec_data();
@@ -599,6 +601,49 @@ void tst_QTextCodec::unicodeToTSCII()
     ba = QByteArray::fromHex("c5bdecb8f5");
 
     state.clear();
+    QCOMPARE(codec->fromUnicode(st.constData(), st.size(), &state), ba);
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), st);
+}
+
+void tst_QTextCodec::iso8859_1() const
+{
+    QTextCodec* codec = QTextCodec::codecForName("ISO8859-1");
+    QVERIFY(codec);
+    QCOMPARE(codec->name(), QByteArray("ISO-8859-1"));
+
+    auto st = QString("Invalid unicode character "
+        "\u20AC"); // EURO SIGN
+    auto ba = QByteArray::fromHex("496e76616c696420756e69636f646520636861726163746572203f");
+    QTextCodec::ConverterState state;
+    QCOMPARE(codec->fromUnicode(st.constData(), st.size(), &state), ba);
+}
+
+void tst_QTextCodec::iso8859_15() const
+{
+    QTextCodec* codec = QTextCodec::codecForName("ISO8859-15");
+    QVERIFY(codec);
+    QCOMPARE(codec->name(), QByteArray("ISO-8859-15"));
+
+    auto st = QString("Special unicode characters "
+        "\u20AC, " // EURO SIGN
+        "\u0160, " // LATIN CAPITAL LETTER S WITH CARON
+        "\u0161, " // LATIN SMALL LETTER S WITH CARON
+        "\u017d, " // LATIN CAPITAL LETTER Z WITH CARON
+        "\u017e, " // LATIN SMALL LETTER Z WITH CARON
+        "\u0152, " // LATIN CAPITAL LIGATURE OE
+        "\u0153, " // LATIN SMALL LIGATURE OE
+        "\u0178"); // LATIN CAPITAL LETTER Y WITH DIAERESIS
+    auto ba = QByteArray::fromHex("5370656369616c20756e69636f6465206368617261637465727320"
+        "a42C20" // EURO SIGN
+        "a62C20" // LATIN CAPITAL LETTER S WITH CARON
+        "a82C20" // LATIN SMALL LETTER S WITH CARON
+        "b42C20" // LATIN CAPITAL LETTER Z WITH CARON
+        "b82C20" // LATIN SMALL LETTER Z WITH CARON
+        "bc2C20" // LATIN CAPITAL LIGATURE OE
+        "bd2C20" // LATIN SMALL LIGATURE OE
+        "be");   // LATIN CAPITAL LETTER Y WITH DIAERESIS
+
+    QTextCodec::ConverterState state;
     QCOMPARE(codec->fromUnicode(st.constData(), st.size(), &state), ba);
     QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), st);
 }

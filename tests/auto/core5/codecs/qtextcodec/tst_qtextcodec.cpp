@@ -67,6 +67,9 @@ private slots:
     void aliasForUTF16() const;
     void mibForTSCII() const;
     void codecForTSCII() const;
+    void asciiToTSCII();
+    void unicodeToTSCII();
+
     void iso8859_16() const;
 
     void utf8Codec_data();
@@ -550,6 +553,51 @@ void tst_QTextCodec::codecForTSCII() const
     QTextCodec *codec = QTextCodec::codecForMib(2107);
     QVERIFY(codec);
     QCOMPARE(codec->mibEnum(), 2107);
+}
+
+void tst_QTextCodec::asciiToTSCII()
+{
+    /* Add all low, 7-bit ASCII characters. */
+    QString ascii;
+    const int len = 0x7F - 1;
+    ascii.resize(len);
+
+    for (int i = 0; i < len; ++i)
+        ascii[i] = QChar(i + 1);
+
+    QTextCodec* textCodec = QTextCodec::codecForName("TSCII");
+    QVERIFY(textCodec);
+
+    for (int i2 = 0; i2 < len; ++i2) {
+        /* For each character in ascii. */
+        const QChar c(ascii[i2]);
+        QVERIFY2(textCodec->canEncode(c),
+            qPrintable(QString::fromLatin1("Failed to encode %1 with encoding TSCII")
+                .arg(QString::number(c.unicode()))));
+    }
+
+    QVERIFY(textCodec->canEncode(QStringView(ascii)));
+    QVERIFY2(textCodec->canEncode(ascii), "Failed for full string with encoding TSCII");
+}
+
+void tst_QTextCodec::unicodeToTSCII()
+{
+    QTextCodec* codec = QTextCodec::codecForName("TSCII");
+    QVERIFY(codec != nullptr);
+
+    auto st = QString("\u0BA4\u0BBE\u0BAF\u0BCDKCharselect unicode block name");
+    auto ba = QByteArray::fromHex("BEA1F6") + "KCharselect unicode block name";
+
+    QTextCodec::ConverterState state;
+    QCOMPARE(codec->fromUnicode(st.constData(), st.size(), &state), ba);
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), st);
+
+    st = QString("\u0BB5\u0BA3\u0B95\u0BCD\u0B95\u0BAE\u0BCD"); // Welcome
+    ba = QByteArray::fromHex("c5bdecb8f5");
+
+    state.clear();
+    QCOMPARE(codec->fromUnicode(st.constData(), st.size(), &state), ba);
+    QCOMPARE(codec->toUnicode(ba.constData(), ba.size(), &state), st);
 }
 
 void tst_QTextCodec::iso8859_16() const

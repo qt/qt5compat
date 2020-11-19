@@ -640,9 +640,6 @@ static QByteArray *buildReverseMap(int forwardIndex)
 
 QString QSimpleTextCodec::convertToUnicode(const char* chars, int len, ConverterState *) const
 {
-    if (len <= 0 || chars == nullptr)
-        return QString();
-
     const unsigned char * c = (const unsigned char *)chars;
 
     QString r(len, QT_PREPEND_NAMESPACE(Qt::Uninitialized));

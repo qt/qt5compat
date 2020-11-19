@@ -95,9 +95,17 @@ public:
     QByteArray fromUnicode(QStringView uc) const;
 
     QString toUnicode(const char *in, int length, ConverterState *state = nullptr) const
-        { return convertToUnicode(in, length, state); }
+    {
+        if (in == nullptr || length <= 0)
+            return {};
+        return convertToUnicode(in, length, state);
+    }
     QByteArray fromUnicode(const QChar *in, int length, ConverterState *state = nullptr) const
-        { return convertFromUnicode(in, length, state); }
+    {
+        if (in == nullptr || length <= 0)
+            return {};
+        return convertFromUnicode(in, length, state);
+    }
 
     QTextDecoder* makeDecoder(ConversionFlags flags = DefaultConversion) const;
     QTextEncoder* makeEncoder(ConversionFlags flags = DefaultConversion) const;

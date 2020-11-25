@@ -38,7 +38,7 @@
 ****************************************************************************/
 
 /*! \class QGb18030Codec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
   \reentrant
   \internal
 */
@@ -265,7 +265,7 @@ QString QGb18030Codec::convertToUnicode(const char* chars, int len, ConverterSta
 
 
 /*! \class QGbkCodec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \reentrant
     \internal
 
@@ -428,7 +428,7 @@ QByteArray QGbkCodec::convertFromUnicode(const QChar *uc, int len, ConverterStat
 
 
 /*! \class QGb2312Codec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \internal
 
   \brief The QGb2312Codec class provides conversion to and from the Chinese

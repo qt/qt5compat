@@ -1010,7 +1010,7 @@ QByteArray QTextEncoder::fromUnicode(const QChar *uc, int len)
 
 /*!
     \class QTextDecoder
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \brief The QTextDecoder class provides a state-based decoder.
     \reentrant
     \ingroup i18n

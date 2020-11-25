@@ -44,7 +44,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QIsciiCodec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \brief The QIsciiCodec class provides conversion to and from the ISCII encoding.
 
     \internal

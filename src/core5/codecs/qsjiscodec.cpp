@@ -42,7 +42,7 @@
 // and the grateful thanks of the Qt team.
 
 /*! \class QSjisCodec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \reentrant
     \internal
 */

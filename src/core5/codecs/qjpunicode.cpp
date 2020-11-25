@@ -38,7 +38,7 @@
 ****************************************************************************/
 
 /*! \class QJpUnicodeConv
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \reentrant
     \internal
 */

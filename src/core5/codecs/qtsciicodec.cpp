@@ -52,7 +52,7 @@ static unsigned int qt_TSCIIToUnicode(unsigned int code, uint *s);
 #define IsTSCIIChar(c)        (((c) >= 0x80) && ((c) <= 0xfd))
 
 /*! \class QTsciiCodec
-    \inmodule QtCore
+    \inmodule QtCore5Compat
     \reentrant
     \internal
 */

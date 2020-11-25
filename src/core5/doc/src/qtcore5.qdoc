@@ -28,6 +28,7 @@
 /*!
     \module QtCore5Compat
     \title Qt 5 Core Compatibility C++ Classes
+    \qtcmakepackage Core5Compat
     \ingroup modules
     \qtvariable core5compat
 

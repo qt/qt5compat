@@ -33,17 +33,19 @@
     longer supported in Qt 6 and therefore were removed from Qt 6. The module is
     provided to facilitate the transition to Qt 6.
 
-    \section1 Using the Module
-
-    To include the definitions of the module's classes, use the following directive:
+    \include module-use.qdocinc using qt module
 
     \code
-    #include <QtCore5Compat>
+    find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
+    target_link_libraries(mytarget PUBLIC Qt6::Core5Compat)
     \endcode
+
+    See also the \l {Build with CMake} overview.
 
     \section2 Building with qmake
 
-    To link against the module, add this line to your \l qmake \c .pro file:
+    To configure the module for building with qmake, add the module as a value
+    of the \c QT variable in the project's .pro file:
 
     \code
     QT += core5compat

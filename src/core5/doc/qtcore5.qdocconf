@@ -35,7 +35,7 @@ excludedirs += snippets
 
 excludefiles += ../../../examples/core5/widgets/tools/codecs/doc/src/codecs.qdoc
 
-depends += qtcore qtdoc qmake qtnetwork
+depends += qtcore qtdoc qmake qtnetwork qtcmake
 
 navigation.landingpage = "Qt 5 Core Compatibility APIs"
 navigation.cppclassespage = "Qt 5 Core Compatibility C++ Classes"

@@ -280,7 +280,6 @@ class QXmlDefaultHandlerPrivate
 
 /*!
     \class QXmlParseException
-    \obsolete
     \reentrant
     \brief The QXmlParseException class is used to report errors with
     the QXmlErrorHandler interface.
@@ -398,7 +397,6 @@ QString QXmlParseException::systemId() const
 
 /*!
     \class QXmlLocator
-    \obsolete
     \reentrant
     \brief The QXmlLocator class provides the XML handler classes with
     information about the parsing position within a file.
@@ -491,7 +489,6 @@ public:
 
 /*!
     \class QXmlNamespaceSupport
-    \obsolete
     \since 4.4
     \reentrant
     \brief The QXmlNamespaceSupport class is a helper class for XML
@@ -736,7 +733,6 @@ void QXmlNamespaceSupport::reset()
 
 /*!
     \class QXmlAttributes
-    \obsolete
     \reentrant
     \brief The QXmlAttributes class provides XML attributes.
 
@@ -1005,7 +1001,6 @@ void QXmlAttributes::append(const QString &qName, const QString &uri, const QStr
 
 /*!
     \class QXmlInputSource
-    \obsolete
     \reentrant
     \brief The QXmlInputSource class provides the input data for the
     QXmlReader subclasses.
@@ -1381,7 +1376,6 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
 
 /*!
     \class QXmlContentHandler
-    \obsolete
     \reentrant
     \brief The QXmlContentHandler class provides an interface to
     report the logical content of XML data.
@@ -1623,7 +1617,6 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
 
 /*!
     \class QXmlErrorHandler
-    \obsolete
     \reentrant
     \brief The QXmlErrorHandler class provides an interface to report
     errors in XML data.
@@ -1698,7 +1691,6 @@ events are reported.
 
 /*!
     \class QXmlDTDHandler
-    \obsolete
     \reentrant
     \brief The QXmlDTDHandler class provides an interface to report
     DTD content of XML data.
@@ -1765,7 +1757,6 @@ events are reported.
 
 /*!
     \class QXmlEntityResolver
-    \obsolete
     \reentrant
     \brief The QXmlEntityResolver class provides an interface to
     resolve external entities contained in XML data.
@@ -1821,7 +1812,6 @@ events are reported.
 
 /*!
     \class QXmlLexicalHandler
-    \obsolete
     \reentrant
     \brief The QXmlLexicalHandler class provides an interface to
     report the lexical content of XML data.
@@ -1972,7 +1962,6 @@ events are reported.
 
 /*!
     \class QXmlDeclHandler
-    \obsolete
     \reentrant
     \brief The QXmlDeclHandler class provides an interface to report declaration
     content of XML data.
@@ -2059,7 +2048,6 @@ events are reported.
 
 /*!
     \class QXmlDefaultHandler
-    \obsolete
     \reentrant
     \brief The QXmlDefaultHandler class provides a default implementation of all
     the XML handler classes.
@@ -2493,7 +2481,6 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
 
 /*!
     \class QXmlReader
-    \obsolete
     \reentrant
     \brief The QXmlReader class provides an interface for XML readers (i.e.
     parsers).
@@ -2722,7 +2709,6 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
 
 /*!
     \class QXmlSimpleReader
-    \obsolete
     \nonreentrant
     \brief The QXmlSimpleReader class provides an implementation of a
     simple XML parser.

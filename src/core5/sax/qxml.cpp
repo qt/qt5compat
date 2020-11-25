@@ -284,7 +284,7 @@ class QXmlDefaultHandlerPrivate
     \brief The QXmlParseException class is used to report errors with
     the QXmlErrorHandler interface.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     The XML subsystem constructs an instance of this class when it
@@ -401,7 +401,7 @@ QString QXmlParseException::systemId() const
     \brief The QXmlLocator class provides the XML handler classes with
     information about the parsing position within a file.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     The reader reports a QXmlLocator to the content handler before it
@@ -494,7 +494,7 @@ public:
     \brief The QXmlNamespaceSupport class is a helper class for XML
     readers which want to include namespace support.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     You can set the prefix for the current namespace with setPrefix(),
@@ -736,7 +736,7 @@ void QXmlNamespaceSupport::reset()
     \reentrant
     \brief The QXmlAttributes class provides XML attributes.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     If attributes are reported by QXmlContentHandler::startElement()
@@ -1005,7 +1005,7 @@ void QXmlAttributes::append(const QString &qName, const QString &uri, const QStr
     \brief The QXmlInputSource class provides the input data for the
     QXmlReader subclasses.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     All subclasses of QXmlReader read the input XML document from this
@@ -1380,7 +1380,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
     \brief The QXmlContentHandler class provides an interface to
     report the logical content of XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     If the application needs to be informed of basic parsing events,
@@ -1621,7 +1621,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
     \brief The QXmlErrorHandler class provides an interface to report
     errors in XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     If you want your application to report errors to the user or to
@@ -1695,7 +1695,7 @@ events are reported.
     \brief The QXmlDTDHandler class provides an interface to report
     DTD content of XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     If an application needs information about notations and unparsed
@@ -1761,7 +1761,7 @@ events are reported.
     \brief The QXmlEntityResolver class provides an interface to
     resolve external entities contained in XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     If an application needs to implement customized handling for
@@ -1816,7 +1816,7 @@ events are reported.
     \brief The QXmlLexicalHandler class provides an interface to
     report the lexical content of XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     The events in the lexical handler apply to the entire document,
@@ -1966,7 +1966,7 @@ events are reported.
     \brief The QXmlDeclHandler class provides an interface to report declaration
     content of XML data.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     You can set the declaration handler with
@@ -2052,7 +2052,7 @@ events are reported.
     \brief The QXmlDefaultHandler class provides a default implementation of all
     the XML handler classes.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     This class gathers together the features of
@@ -2485,7 +2485,7 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
     \brief The QXmlReader class provides an interface for XML readers (i.e.
     parsers).
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     This abstract class provides an interface for all of Qt's XML
@@ -2713,7 +2713,7 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
     \brief The QXmlSimpleReader class provides an implementation of a
     simple XML parser.
 
-    \inmodule QtXml
+    \inmodule QtCore5Compat
     \ingroup xml-tools
 
     This XML reader is suitable for a wide range of applications. It

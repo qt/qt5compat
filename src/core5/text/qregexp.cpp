@@ -75,7 +75,6 @@ QT_BEGIN_NAMESPACE
 /*!
     \class QRegExp
     \inmodule QtCore5Compat
-    \obsolete Use QRegularExpression instead
     \reentrant
     \brief The QRegExp class provides pattern matching using regular expressions.
 

@@ -170,7 +170,7 @@ namespace QCharPrivate
         return uc + fold.diff;
     }
 
-    static inline char32_t foldCase(char32_t ch, char32_t &last) noexcept
+    [[maybe_unused]] static inline char32_t foldCase(char32_t ch, char32_t &last) noexcept
     {
         char32_t ucs4 = ch;
         if (QChar::isLowSurrogate(ucs4) && QChar::isHighSurrogate(last))

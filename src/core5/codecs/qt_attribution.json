@@ -2,7 +2,7 @@
     {
         "Id": "qbig5codecs",
         "Name": "Text Codecs: Big5, Big5-HKSCS",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qbig5codec.cpp",
 
@@ -16,7 +16,7 @@
     {
         "Id": "qeucjpcodec",
         "Name": "Text Codec: EUC-JP",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qeucjpcodec.cpp",
 
@@ -30,7 +30,7 @@
     {
         "Id": "qeuckrcodec",
         "Name": "Text Codec: EUC-KR",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qeuckrcodec.cpp",
 
@@ -44,7 +44,7 @@
     {
         "Id": "qjiscodec",
         "Name": "Text Codec: ISO 2022-JP (JIS)",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qjiscodec.cpp",
 
@@ -58,7 +58,7 @@
     {
         "Id": "qsjiscodec",
         "Name": "Text Codec: Shift-JIS",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qsjiscodec.cpp",
 
@@ -72,7 +72,7 @@
     {
         "Id": "qtsciicodec",
         "Name": "Text Codec: TSCII",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core.",
         "Path": "qtsciicodec.cpp",
 
@@ -86,7 +86,7 @@
     {
         "Id": "qbkcodec",
         "Name": "Text Codec: GBK",
-        "QDocModule": "qtcore5",
+        "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
         "Path": "qgb18030codec.cpp",
 

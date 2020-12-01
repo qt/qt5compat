@@ -78,6 +78,6 @@ qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_textcodec AND WIN32 A
         codecs/qwindowscodec.cpp codecs/qwindowscodec_p.h
 )
 qt_internal_add_docs(Core5Compat
-    doc/qtcore5.qdocconf
+    doc/qtcore5compat.qdocconf
 )
 

@@ -920,7 +920,7 @@ bool QTextCodec::canEncode(QStringView s) const
 */
 QString QTextCodec::toUnicode(const char *chars) const
 {
-    int len = qstrlen(chars);
+    const auto len = int(qstrlen(chars));
     return convertToUnicode(chars, len, nullptr);
 }
 
@@ -1115,14 +1115,14 @@ QTextCodec *QTextCodec::codecForHtml(const QByteArray &ba, QTextCodec *defaultCo
     if (!c) {
         static Q_RELAXED_CONSTEXPR auto matcher = qMakeStaticByteArrayMatcher("meta ");
         QByteArray header = ba.left(1024).toLower();
-        int pos = matcher.indexIn(header);
+        qsizetype pos = matcher.indexIn(header);
         if (pos != -1) {
             static Q_RELAXED_CONSTEXPR auto matcher = qMakeStaticByteArrayMatcher("charset=");
             pos = matcher.indexIn(header, pos);
             if (pos != -1) {
                 pos += qstrlen("charset=");
 
-                int pos2 = pos;
+                qsizetype pos2 = pos;
                 // The attribute can be closed with either """, "'", ">" or "/",
                 // none of which are valid charset characters.
                 while (++pos2 < header.size()) {

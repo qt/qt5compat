@@ -15,7 +15,7 @@ project(Qt5Compat # special case
 set(QT_NO_INTERNAL_COMPATIBILITY_FUNCTIONS TRUE)
 
 find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core)
-find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml)
+find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml Gui Quick)
 # special case end
 
 qt_build_repo()

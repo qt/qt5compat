@@ -1,0 +1,38 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+
+project                 = QtGraphicalEffects5Compat
+description             = Qt 5 Compatibility APIs: Graphical Effects Reference Documentation
+version                 = $QT_VERSION
+moduleheader            =
+
+qhp.projects            = QtGraphicalEffects5Compat
+
+qhp.QtGraphicalEffects.file                = qtgraphicaleffects5compat.qhp
+qhp.QtGraphicalEffects.namespace           = org.qt-project.qtgraphicaleffects5.$QT_VERSION_TAG
+qhp.QtGraphicalEffects.virtualFolder       = qtgraphicaleffects5compat
+qhp.QtGraphicalEffects.indexTitle          = Qt 5 Compatibility APIs: Qt Graphical Effects
+qhp.QtGraphicalEffects.indexRoot           =
+
+qhp.QtGraphicalEffects.filterAttributes    = qtgraphicaleffects5compat $QT_VERSION qtrefdoc
+qhp.QtGraphicalEffects.customFilters.Qt.name = QtGraphicalEffects5Compat $QT_VERSION
+qhp.QtGraphicalEffects.customFilters.Qt.filterAttributes = qtgraphicaleffects5 $QT_VERSION
+
+qhp.QtGraphicalEffects.subprojects         = qmltypes
+qhp.QtGraphicalEffects.subprojects.qmltypes.title = QML Types
+qhp.QtGraphicalEffects.subprojects.qmltypes.indexTitle = Qt 5 Compatibility APIs: Graphical Effects
+qhp.QtGraphicalEffects.subprojects.qmltypes.selectors = qmlclass
+qhp.QtGraphicalEffects.subprojects.qmltypes.sortPages = true
+
+headerdirs  += .. \
+
+sourcedirs  += .. \
+
+
+exampledirs += snippets/
+
+imagedirs   += images
+
+depends += qtqml qtquick qtdoc qtcore
+
+navigation.landingpage = "Qt 5 Compatibility APIs: Graphical Effects"
+navigation.qmltypespage = "Qt 5 Compatibility APIs: Graphical Effect QML Types"

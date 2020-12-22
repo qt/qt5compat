@@ -1102,7 +1102,7 @@ struct QRegExpAutomatonState
 #endif
 };
 
-Q_DECLARE_TYPEINFO(QRegExpAutomatonState, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(QRegExpAutomatonState, Q_RELOCATABLE_TYPE);
 
 /*
   The struct QRegExpCharClassRange represents a range of characters (e.g.,
@@ -1199,7 +1199,7 @@ struct QRegExpCharClass
 };
 #endif
 
-Q_DECLARE_TYPEINFO(QRegExpCharClass, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(QRegExpCharClass, Q_RELOCATABLE_TYPE);
 
 /*
   The QRegExpEngine class encapsulates a modified nondeterministic

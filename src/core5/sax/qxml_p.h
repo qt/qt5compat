@@ -309,9 +309,9 @@ private:
     friend class QDomHandler;
 };
 Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::ParseState, Q_PRIMITIVE_TYPE);
-Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::XmlRef, Q_MOVABLE_TYPE);
-Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::ExternParameterEntity, Q_MOVABLE_TYPE);
-Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::ExternEntity, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::XmlRef, Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::ExternParameterEntity, Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(QXmlSimpleReaderPrivate::ExternEntity, Q_RELOCATABLE_TYPE);
 
 QT_END_NAMESPACE
 

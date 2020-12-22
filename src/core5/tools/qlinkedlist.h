@@ -723,7 +723,7 @@ inline QDataStream &operator<<(QDataStream &s, const QLinkedList<T> &l)
 #endif
 
 template<typename T>
-Q_DECLARE_TYPEINFO_BODY(QLinkedList<T>, Q_MOVABLE_TYPE | Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO_BODY(QLinkedList<T>, Q_RELOCATABLE_TYPE);
 
 QT_END_NAMESPACE
 

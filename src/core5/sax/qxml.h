@@ -158,7 +158,7 @@ private:
     QXmlAttributesPrivate *d;
 };
 
-Q_DECLARE_TYPEINFO(QXmlAttributes::Attribute, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(QXmlAttributes::Attribute, Q_RELOCATABLE_TYPE);
 Q_DECLARE_SHARED(QXmlAttributes)
 
 //

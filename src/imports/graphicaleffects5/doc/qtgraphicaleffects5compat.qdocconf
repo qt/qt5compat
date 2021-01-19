@@ -7,21 +7,21 @@ moduleheader            =
 
 qhp.projects            = QtGraphicalEffects5Compat
 
-qhp.QtGraphicalEffects.file                = qtgraphicaleffects5compat.qhp
-qhp.QtGraphicalEffects.namespace           = org.qt-project.qtgraphicaleffects5.$QT_VERSION_TAG
-qhp.QtGraphicalEffects.virtualFolder       = qtgraphicaleffects5compat
-qhp.QtGraphicalEffects.indexTitle          = Qt 5 Compatibility APIs: Qt Graphical Effects
-qhp.QtGraphicalEffects.indexRoot           =
+qhp.QtGraphicalEffects5Compat.file                = qtgraphicaleffects5compat.qhp
+qhp.QtGraphicalEffects5Compat.namespace           = org.qt-project.qtgraphicaleffects5.$QT_VERSION_TAG
+qhp.QtGraphicalEffects5Compat.virtualFolder       = qtgraphicaleffects5compat
+qhp.QtGraphicalEffects5Compat.indexTitle          = Qt 5 Compatibility APIs: Qt Graphical Effects
+qhp.QtGraphicalEffects5Compat.indexRoot           =
 
-qhp.QtGraphicalEffects.filterAttributes    = qtgraphicaleffects5compat $QT_VERSION qtrefdoc
-qhp.QtGraphicalEffects.customFilters.Qt.name = QtGraphicalEffects5Compat $QT_VERSION
-qhp.QtGraphicalEffects.customFilters.Qt.filterAttributes = qtgraphicaleffects5 $QT_VERSION
+qhp.QtGraphicalEffects5Compat.filterAttributes    = qtgraphicaleffects5compat $QT_VERSION qtrefdoc
+qhp.QtGraphicalEffects5Compat.customFilters.Qt.name = QtGraphicalEffects5Compat $QT_VERSION
+qhp.QtGraphicalEffects5Compat.customFilters.Qt.filterAttributes = qtgraphicaleffects5 $QT_VERSION
 
-qhp.QtGraphicalEffects.subprojects         = qmltypes
-qhp.QtGraphicalEffects.subprojects.qmltypes.title = QML Types
-qhp.QtGraphicalEffects.subprojects.qmltypes.indexTitle = Qt 5 Compatibility APIs: Graphical Effects
-qhp.QtGraphicalEffects.subprojects.qmltypes.selectors = qmlclass
-qhp.QtGraphicalEffects.subprojects.qmltypes.sortPages = true
+qhp.QtGraphicalEffects5Compat.subprojects         = qmltypes
+qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.title = QML Types
+qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.indexTitle = Qt 5 Compatibility APIs: Graphical Effects
+qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.selectors = qmlclass
+qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.sortPages = true
 
 headerdirs  += .. \
 

@@ -48,60 +48,60 @@ class MyXmlEntityResolver : public QXmlEntityResolver
 {
 public:
     MyXmlEntityResolver() : QXmlEntityResolver() {}
-    QString errorString() const { return QString(); }
-    bool resolveEntity(const QString &, const QString &, QXmlInputSource *&) { return false; }
+    QString errorString() const override { return QString(); }
+    bool resolveEntity(const QString &, const QString &, QXmlInputSource *&) override { return false; }
 };
 
 class MyXmlContentHandler : public QXmlContentHandler
 {
 public:
     MyXmlContentHandler() : QXmlContentHandler() {}
-    bool characters(const QString &) { return false; }
-    bool endDocument() { return false; }
-    bool endElement(const QString &, const QString &, const QString &) { return false; }
-    bool endPrefixMapping(const QString &) { return false; }
-    QString errorString() const { return QString(); }
-    bool ignorableWhitespace(const QString &) { return false; }
-    bool processingInstruction(const QString &, const QString &) { return false; }
-    void setDocumentLocator(QXmlLocator *) { }
-    bool skippedEntity(const QString &) { return false; }
-    bool startDocument() { return false; }
-    bool startElement(const QString &, const QString &, const QString &, const QXmlAttributes &) { return false; }
-    bool startPrefixMapping(const QString &, const QString &) { return false; }
+    bool characters(const QString &) override { return false; }
+    bool endDocument() override { return false; }
+    bool endElement(const QString &, const QString &, const QString &) override { return false; }
+    bool endPrefixMapping(const QString &) override { return false; }
+    QString errorString() const override { return QString(); }
+    bool ignorableWhitespace(const QString &) override { return false; }
+    bool processingInstruction(const QString &, const QString &) override { return false; }
+    void setDocumentLocator(QXmlLocator *) override { }
+    bool skippedEntity(const QString &) override { return false; }
+    bool startDocument() override { return false; }
+    bool startElement(const QString &, const QString &, const QString &, const QXmlAttributes &) override { return false; }
+    bool startPrefixMapping(const QString &, const QString &) override { return false; }
 };
 
 class MyXmlErrorHandler : public QXmlErrorHandler
 {
 public:
     MyXmlErrorHandler() : QXmlErrorHandler() {}
-    QString errorString() const { return QString(); }
-    bool error(const QXmlParseException &) { return false; }
-    bool fatalError(const QXmlParseException &) { return false; }
-    bool warning(const QXmlParseException &) { return false; }
+    QString errorString() const override { return QString(); }
+    bool error(const QXmlParseException &) override { return false; }
+    bool fatalError(const QXmlParseException &) override { return false; }
+    bool warning(const QXmlParseException &) override { return false; }
 };
 
 class MyXmlLexicalHandler : public QXmlLexicalHandler
 {
 public:
     MyXmlLexicalHandler() : QXmlLexicalHandler() {}
-    bool comment(const QString &) { return false; }
-    bool endCDATA() { return false; }
-    bool endDTD() { return false; }
-    bool endEntity(const QString &) { return false; }
-    QString errorString() const { return QString(); }
-    bool startCDATA() { return false; }
-    bool startDTD(const QString &, const QString &, const QString &) { return false; }
-    bool startEntity(const QString &) { return false; }
+    bool comment(const QString &) override { return false; }
+    bool endCDATA() override { return false; }
+    bool endDTD() override { return false; }
+    bool endEntity(const QString &) override { return false; }
+    QString errorString() const override { return QString(); }
+    bool startCDATA() override { return false; }
+    bool startDTD(const QString &, const QString &, const QString &) override { return false; }
+    bool startEntity(const QString &) override { return false; }
 };
 
 class MyXmlDeclHandler : public QXmlDeclHandler
 {
 public:
     MyXmlDeclHandler() : QXmlDeclHandler() {}
-    bool attributeDecl(const QString &, const QString &, const QString &, const QString &, const QString &) { return false; }
-    QString errorString() const { return QString(); }
-    bool externalEntityDecl(const QString &, const QString &, const QString &) { return false; }
-    bool internalEntityDecl(const QString &, const QString &) { return false; }
+    bool attributeDecl(const QString &, const QString &, const QString &, const QString &, const QString &) override { return false; }
+    QString errorString() const override { return QString(); }
+    bool externalEntityDecl(const QString &, const QString &, const QString &) override { return false; }
+    bool internalEntityDecl(const QString &, const QString &) override { return false; }
 };
 
 // Testing get/set functions
@@ -164,7 +164,7 @@ void tst_QXml::interpretedAs0D() const
         virtual bool startElement(const QString &namespaceURI,
                                   const QString &localName,
                                   const QString &qName,
-                                  const QXmlAttributes &atts)
+                                  const QXmlAttributes &atts) override
         {
             Q_UNUSED(namespaceURI);
             Q_UNUSED(localName);

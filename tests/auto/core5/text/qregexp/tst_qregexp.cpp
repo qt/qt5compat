@@ -994,7 +994,7 @@ class Thread : public QThread
 public:
     Thread(const QRegExp &rx) : rx(rx) {}
 
-    void run();
+    void run() override;
 
     QRegExp rx;
 };
@@ -1033,7 +1033,7 @@ void tst_QRegExp::reentrancy()
 class Thread2 : public QThread
 {
 public:
-    void run();
+    void run() override;
 };
 
 void Thread2::run()

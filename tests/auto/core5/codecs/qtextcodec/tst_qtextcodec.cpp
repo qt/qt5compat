@@ -2236,7 +2236,7 @@ public:
     {}
     QByteArray codecName;
     QByteArray *target;
-    void run()
+    void run() override
     {
         QTextCodec *c = QTextCodec::codecForName(codecName);
         if (!c) {
@@ -2258,7 +2258,7 @@ public:
     {}
     int mib;
     int *target;
-    void run()
+    void run() override
     {
         QTextCodec *c = QTextCodec::codecForMib(mib);
         if (!c) {

@@ -55,7 +55,7 @@ public:
     QAtomicInt quitSoon;
 
 protected:
-    virtual void run();
+    void run() override;
 };
 
 #define CHUNK_SIZE 2048
@@ -175,24 +175,24 @@ public:
     QString publicId;
     QString systemId;
 
-    virtual bool error(const QXmlParseException &)
+    bool error(const QXmlParseException &) override
     {
         return false;
     }
 
-    virtual QString errorString() const
+    QString errorString() const override
     {
         return QString();
     }
 
-    virtual bool fatalError(const QXmlParseException &exception)
+    bool fatalError(const QXmlParseException &exception) override
     {
         publicId = exception.publicId();
         systemId = exception.systemId();
         return true;
     }
 
-    virtual bool warning(const QXmlParseException &)
+    bool warning(const QXmlParseException &) override
     {
         return true;
     }
@@ -594,7 +594,7 @@ void tst_QXmlSimpleReader::preserveCharacterReferences() const
     class Handler : public QXmlDefaultHandler
     {
     public:
-        virtual bool characters(const QString &chars)
+        bool characters(const QString &chars) override
         {
             received = chars;
             return true;
@@ -637,10 +637,10 @@ void tst_QXmlSimpleReader::reportNamespace() const
     class Handler : public QXmlDefaultHandler
     {
     public:
-        virtual bool startElement(const QString &namespaceURI,
-                                  const QString &localName,
-                                  const QString &qName,
-                                  const QXmlAttributes &)
+        bool startElement(const QString &namespaceURI,
+                          const QString &localName,
+                          const QString &qName,
+                          const QXmlAttributes &) override
         {
             startNamespaceURI = namespaceURI;
             startLocalName = localName;
@@ -649,9 +649,9 @@ void tst_QXmlSimpleReader::reportNamespace() const
             return true;
         }
 
-        virtual bool endElement(const QString &namespaceURI,
-                                const QString &localName,
-                                const QString &qName)
+        bool endElement(const QString &namespaceURI,
+                        const QString &localName,
+                        const QString &qName) override
         {
             endNamespaceURI = namespaceURI;
             endLocalName = localName;
@@ -760,7 +760,7 @@ public:
     {
     }
 
-    bool internalEntityDecl(const QString &name, const QString &value)
+    bool internalEntityDecl(const QString &name, const QString &value) override
     {
         ++recursionCount;
         return QXmlDefaultHandler::internalEntityDecl(name, value);

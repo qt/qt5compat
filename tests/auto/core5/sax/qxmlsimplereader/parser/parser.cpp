@@ -37,54 +37,54 @@ public:
     ContentHandler();
 
     // QXmlContentHandler methods
-    bool startDocument();
-    bool endDocument();
+    bool startDocument() override;
+    bool endDocument() override;
     bool startElement(const QString &namespaceURI,
                       const QString &localName,
                       const QString &qName,
-                      const QXmlAttributes &atts);
+                      const QXmlAttributes &atts) override;
     bool endElement(const QString &namespaceURI,
                     const QString &localName,
-                    const QString &qName);
-    bool characters(const QString &ch);
-    void setDocumentLocator(QXmlLocator *locator);
-    bool startPrefixMapping(const QString &prefix, const QString &uri);
-    bool endPrefixMapping(const QString &prefix);
-    bool ignorableWhitespace(const QString &ch);
-    bool processingInstruction(const QString &target, const QString &data);
-    bool skippedEntity(const QString &name);
+                    const QString &qName) override;
+    bool characters(const QString &ch) override;
+    void setDocumentLocator(QXmlLocator *locator) override;
+    bool startPrefixMapping(const QString &prefix, const QString &uri) override;
+    bool endPrefixMapping(const QString &prefix) override;
+    bool ignorableWhitespace(const QString &ch) override;
+    bool processingInstruction(const QString &target, const QString &data) override;
+    bool skippedEntity(const QString &name) override;
 
     // QXmlErrorHandler methods
-    bool warning(const QXmlParseException &exception);
-    bool error(const QXmlParseException &exception);
-    bool fatalError(const QXmlParseException &exception);
+    bool warning(const QXmlParseException &exception) override;
+    bool error(const QXmlParseException &exception) override;
+    bool fatalError(const QXmlParseException &exception) override;
 
     // QXmlDTDHandler methods
     bool notationDecl(const QString &name, const QString &publicId,
-                      const QString &systemId);
+                      const QString &systemId) override;
     bool unparsedEntityDecl(const QString &name,
                             const QString &publicId,
                             const QString &systemId,
-                            const QString &notationName);
+                            const QString &notationName) override;
 
     // QXmlEntityResolver methods
     bool resolveEntity(const QString &publicId,
                        const QString &systemId,
-                       QXmlInputSource *&);
+                       QXmlInputSource *&) override;
 
     // QXmlLexicalHandler methods
-    bool startDTD (const QString &name, const QString &publicId, const QString &systemId);
-    bool endDTD();
-    bool startEntity(const QString &name);
-    bool endEntity(const QString &name);
-    bool startCDATA();
-    bool endCDATA();
-    bool comment(const QString &ch);
+    bool startDTD (const QString &name, const QString &publicId, const QString &systemId) override;
+    bool endDTD() override;
+    bool startEntity(const QString &name) override;
+    bool endEntity(const QString &name) override;
+    bool startCDATA() override;
+    bool endCDATA() override;
+    bool comment(const QString &ch) override;
 
     // QXmlDeclHandler methods
-    bool attributeDecl(const QString &eName, const QString &aName, const QString &type, const QString &valueDefault, const QString &value);
-    bool internalEntityDecl(const QString &name, const QString &value);
-    bool externalEntityDecl(const QString &name, const QString &publicId, const QString &systemId);
+    bool attributeDecl(const QString &eName, const QString &aName, const QString &type, const QString &valueDefault, const QString &value) override;
+    bool internalEntityDecl(const QString &name, const QString &value) override;
+    bool externalEntityDecl(const QString &name, const QString &publicId, const QString &systemId) override;
 
     const QString &result() const { return m_result; }
     const QString &errorMsg() const { return m_error_msg; }

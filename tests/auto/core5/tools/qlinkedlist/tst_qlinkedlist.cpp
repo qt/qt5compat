@@ -86,7 +86,7 @@ Q_DECLARE_METATYPE(Movable);
 
 Q_DECLARE_METATYPE(QLinkedList<int>);
 
-int qHash(const Movable &movable)
+size_t qHash(const Movable &movable)
 {
     return qHash(movable.i);
 }

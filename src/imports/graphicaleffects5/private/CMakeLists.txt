@@ -6,7 +6,7 @@
 
 qt_internal_add_qml_module(qtgraphicaleffectsprivate
     URI "Qt5Compat.GraphicalEffects.private"
-    VERSION "${CMAKE_PROJECT_VERSION}"
+    VERSION "${PROJECT_VERSION}"
     CLASSNAME QtGraphicalEffectsPrivatePlugin
     SOURCES
         plugin.cpp

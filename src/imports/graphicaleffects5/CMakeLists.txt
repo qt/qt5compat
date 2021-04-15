@@ -6,7 +6,7 @@
 
 qt_internal_add_qml_module(qtgraphicaleffectsplugin
     URI "Qt5Compat.GraphicalEffects"
-    VERSION "${CMAKE_PROJECT_VERSION}"
+    VERSION "${PROJECT_VERSION}"
     DESIGNER_SUPPORTED
     CLASSNAME QtGraphicalEffectsPlugin
     DEPENDENCIES

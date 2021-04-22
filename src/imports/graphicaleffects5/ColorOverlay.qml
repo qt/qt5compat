@@ -90,7 +90,7 @@ Item {
     property variant source
 
     /*!
-        This property defines the RGBA color value which is used to colorize the
+        This property defines the color value which is used to colorize the
         source.
 
         By default, the property is set to \c "transparent".

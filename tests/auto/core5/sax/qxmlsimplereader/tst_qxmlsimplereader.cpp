@@ -529,7 +529,7 @@ void tst_QXmlSimpleReader::inputFromString()
 {
     QString str = "<foo><bar>kake</bar><bar>ja</bar></foo>";
     QBuffer buff;
-    buff.setData((char*)str.utf16(), str.size()*sizeof(ushort));
+    buff.setData((char*)str.utf16(), int(str.size()*sizeof(ushort)));
 
     QXmlInputSource input(&buff);
 

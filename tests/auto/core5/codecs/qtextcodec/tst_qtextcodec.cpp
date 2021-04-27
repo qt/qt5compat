@@ -1678,7 +1678,7 @@ void tst_QTextCodec::utf8Codec()
     QFETCH(int, len);
 
     QString str = codec->toUnicode(utf8.isNull() ? 0 : utf8.constData(),
-                                   len < 0 ? qstrlen(utf8.constData()) : len);
+                                   len < 0 ? int(qstrlen(utf8.constData())) : len);
     QCOMPARE(str, res);
 
     str = QString::fromUtf8(utf8.isNull() ? 0 : utf8.constData(), len);

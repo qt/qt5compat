@@ -1,7 +1,0 @@
-CONFIG += testcase
-TARGET = tst_qlinkedlist
-QT = core5compat core testlib
-DEFINES -= QT_NO_JAVA_STYLE_ITERATORS
-qtConfig(c++14): CONFIG += c++14
-qtConfig(c++1z): CONFIG += c++1z
-SOURCES = tst_qlinkedlist.cpp

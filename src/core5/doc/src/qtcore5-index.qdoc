@@ -62,7 +62,7 @@
     Furthermore, Qt 5 Core Compat in Qt \QtVersion does contain third party
     modules under following permissive licenses:
 
-    \generatelist{groupsbymodule attributions-qtcore5}
+    \generatelist{groupsbymodule attributions-qtcore5compat}
 
     \section1 Related Information
     \list

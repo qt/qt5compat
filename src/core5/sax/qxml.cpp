@@ -2695,7 +2695,7 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
 /*!
   \fn bool QXmlReader::parse(const QXmlInputSource &input)
 
-  \obsolete
+  \deprecated
 
   Parses the given \a input.
 */

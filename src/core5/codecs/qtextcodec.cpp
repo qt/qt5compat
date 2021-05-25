@@ -1240,7 +1240,7 @@ QTextCodec *QTextCodec::codecForUtfText(const QByteArray &ba)
 
 /*!
     \fn QTextCodec *QTextCodec::codecForTr ()
-    \obsolete
+    \deprecated
 
     Returns the codec used by QObject::tr() on its argument. If this
     function returns \nullptr (the default), tr() assumes Latin-1.

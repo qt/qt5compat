@@ -1,65 +1,6 @@
-# Generated from effects.pro.
-
 #####################################################################
 ## qtgraphicaleffectsplugin Plugin:
 #####################################################################
-
-qt_internal_add_qml_module(qtgraphicaleffectsplugin
-    URI "Qt5Compat.GraphicalEffects"
-    VERSION "${PROJECT_VERSION}"
-    DESIGNER_SUPPORTED
-    CLASSNAME QtGraphicalEffectsPlugin
-    DEPENDENCIES
-        Qt5Compat/GraphicalEffects/private/6.0
-        QtQuick.Window/2.1
-    SOURCES
-        plugin.cpp
-    PUBLIC_LIBRARIES
-        Qt::Qml
-        Qt::Quick
-)
-
-# Resources:
-set(qtgraphicaleffectsshaders_resource_files
-    "shaders_ng/brightnesscontrast.frag.qsb"
-    "shaders_ng/colorize.frag.qsb"
-    "shaders_ng/coloroverlay.frag.qsb"
-    "shaders_ng/conicalgradient_mask.frag.qsb"
-    "shaders_ng/conicalgradient_nomask.frag.qsb"
-    "shaders_ng/desaturate.frag.qsb"
-    "shaders_ng/displace.frag.qsb"
-    "shaders_ng/fastblur.frag.qsb"
-    "shaders_ng/fastblur_internal.frag.qsb"
-    "shaders_ng/fastblur_internal.vert.qsb"
-    "shaders_ng/fastglow.frag.qsb"
-    "shaders_ng/gammaadjust.frag.qsb"
-    "shaders_ng/huesaturation.frag.qsb"
-    "shaders_ng/leveladjust.frag.qsb"
-    "shaders_ng/lineargradient.vert.qsb"
-    "shaders_ng/lineargradient_mask.frag.qsb"
-    "shaders_ng/lineargradient_nomask.frag.qsb"
-    "shaders_ng/opacitymask.frag.qsb"
-    "shaders_ng/opacitymask_invert.frag.qsb"
-    "shaders_ng/radialgradient.vert.qsb"
-    "shaders_ng/radialgradient_mask.frag.qsb"
-    "shaders_ng/radialgradient_nomask.frag.qsb"
-    "shaders_ng/rectangularglow.frag.qsb"
-    "shaders_ng/thresholdmask.frag.qsb"
-)
-
-qt_internal_add_resource(qtgraphicaleffectsplugin "qtgraphicaleffectsshaders"
-    PREFIX
-        "/qt-project.org/imports/Qt5Compat/GraphicalEffects"
-    FILES
-        ${qtgraphicaleffectsshaders_resource_files}
-)
-
-
-#### Keys ignored in scope 2:.:.:effects_plugin.pro:<TRUE>:
-# CXX_MODULE = "qml"
-# IMPORT_VERSION = "1.$$QT_MINOR_VERSION"
-# QML_FILES = "BrightnessContrast.qml" "ColorOverlay.qml" "Colorize.qml" "ConicalGradient.qml" "Desaturate.qml" "Displace.qml" "DropShadow.qml" "FastBlur.qml" "GammaAdjust.qml" "Glow.qml" "HueSaturation.qml" "LevelAdjust.qml" "LinearGradient.qml" "OpacityMask.qml" "RadialGradient.qml" "RectangularGlow.qml" "ThresholdMask.qml"
-# TARGETPATH = "QtGraphicalEffects"
 
 set(qml_files
     "BrightnessContrast.qml"
@@ -132,9 +73,61 @@ set_source_files_properties(ThresholdMask.qml PROPERTIES
     QT_QML_SOURCE_VERSION "1.0"
 )
 
-qt6_target_qml_files(qtgraphicaleffectsplugin
-    FILES
+qt_internal_add_qml_module(qtgraphicaleffectsplugin
+    URI "Qt5Compat.GraphicalEffects"
+    VERSION "${PROJECT_VERSION}"
+    DESIGNER_SUPPORTED
+    CLASS_NAME QtGraphicalEffectsPlugin
+    PLUGIN_TARGET qtgraphicaleffectsplugin
+    NO_GENERATE_PLUGIN_SOURCE
+    NO_PLUGIN_OPTIONAL
+    NO_GENERATE_QMLTYPES
+    INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
+    DEPENDENCIES
+        Qt5Compat.GraphicalEffects.private
+        QtQuick.Window
+    SOURCES
+        plugin.cpp
+    QML_FILES
         ${qml_files}
+    PUBLIC_LIBRARIES
+        Qt::Qml
+        Qt::Quick
+)
+
+# Resources:
+set(qtgraphicaleffectsshaders_resource_files
+    "shaders_ng/brightnesscontrast.frag.qsb"
+    "shaders_ng/colorize.frag.qsb"
+    "shaders_ng/coloroverlay.frag.qsb"
+    "shaders_ng/conicalgradient_mask.frag.qsb"
+    "shaders_ng/conicalgradient_nomask.frag.qsb"
+    "shaders_ng/desaturate.frag.qsb"
+    "shaders_ng/displace.frag.qsb"
+    "shaders_ng/fastblur.frag.qsb"
+    "shaders_ng/fastblur_internal.frag.qsb"
+    "shaders_ng/fastblur_internal.vert.qsb"
+    "shaders_ng/fastglow.frag.qsb"
+    "shaders_ng/gammaadjust.frag.qsb"
+    "shaders_ng/huesaturation.frag.qsb"
+    "shaders_ng/leveladjust.frag.qsb"
+    "shaders_ng/lineargradient.vert.qsb"
+    "shaders_ng/lineargradient_mask.frag.qsb"
+    "shaders_ng/lineargradient_nomask.frag.qsb"
+    "shaders_ng/opacitymask.frag.qsb"
+    "shaders_ng/opacitymask_invert.frag.qsb"
+    "shaders_ng/radialgradient.vert.qsb"
+    "shaders_ng/radialgradient_mask.frag.qsb"
+    "shaders_ng/radialgradient_nomask.frag.qsb"
+    "shaders_ng/rectangularglow.frag.qsb"
+    "shaders_ng/thresholdmask.frag.qsb"
+)
+
+qt_internal_add_resource(qtgraphicaleffectsplugin "qtgraphicaleffectsshaders"
+    PREFIX
+        "/qt-project.org/imports/Qt5Compat/GraphicalEffects"
+    FILES
+        ${qtgraphicaleffectsshaders_resource_files}
 )
 qt_internal_add_docs(qtgraphicaleffectsplugin
     doc/qtgraphicaleffects5compat.qdocconf

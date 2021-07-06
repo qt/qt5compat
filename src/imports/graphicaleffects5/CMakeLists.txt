@@ -90,7 +90,7 @@ qt_internal_add_qml_module(qtgraphicaleffectsplugin
         plugin.cpp
     QML_FILES
         ${qml_files}
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Qml
         Qt::Quick
 )

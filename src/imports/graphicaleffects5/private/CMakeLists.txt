@@ -22,13 +22,9 @@ qt_internal_add_qml_module(qtgraphicaleffectsprivate
         qgfxsourceproxy.cpp qgfxsourceproxy_p.h
     QML_FILES
         ${qml_files}
-    PUBLIC_LIBRARIES
-        Qt::Core
+    LIBRARIES
         Qt::CorePrivate
-        Qt::Gui
         Qt::GuiPrivate
-        Qt::Qml
         Qt::QmlPrivate
-        Qt::Quick
         Qt::QuickPrivate
 )

@@ -13,10 +13,6 @@ qhp.QtCore5Compat.virtualFolder       = qtcore5compat
 qhp.QtCore5Compat.indexTitle          = Qt 5 Core Compatibility APIs
 qhp.QtCore5Compat.indexRoot           =
 
-qhp.QtCore5Compat.filterAttributes    = qtcore5compat $QT_VERSION qtrefdoc
-qhp.QtCore5Compat.customFilters.Qt.name = QtCore5Compat $QT_VERSION
-qhp.QtCore5Compat.customFilters.Qt.filterAttributes = qtcore5 $QT_VERSION
-
 qhp.QtCore5Compat.subprojects         = classes
 
 qhp.QtCore5Compat.subprojects.classes.title = C++ Classes

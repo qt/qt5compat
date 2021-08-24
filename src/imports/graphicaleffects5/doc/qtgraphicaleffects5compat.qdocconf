@@ -13,10 +13,6 @@ qhp.QtGraphicalEffects5Compat.virtualFolder       = qtgraphicaleffects5compat
 qhp.QtGraphicalEffects5Compat.indexTitle          = Qt 5 Compatibility APIs: Qt Graphical Effects
 qhp.QtGraphicalEffects5Compat.indexRoot           =
 
-qhp.QtGraphicalEffects5Compat.filterAttributes    = qtgraphicaleffects5compat $QT_VERSION qtrefdoc
-qhp.QtGraphicalEffects5Compat.customFilters.Qt.name = QtGraphicalEffects5Compat $QT_VERSION
-qhp.QtGraphicalEffects5Compat.customFilters.Qt.filterAttributes = qtgraphicaleffects5 $QT_VERSION
-
 qhp.QtGraphicalEffects5Compat.subprojects         = qmltypes
 qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.title = QML Types
 qhp.QtGraphicalEffects5Compat.subprojects.qmltypes.indexTitle = Qt 5 Compatibility APIs: Graphical Effects

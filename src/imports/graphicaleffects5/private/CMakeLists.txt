@@ -5,9 +5,6 @@
 set(qml_files
     "FastGlow.qml"
 )
-set_source_files_properties(FastGlow.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
 
 qt_internal_add_qml_module(qtgraphicaleffectsprivate
     URI "Qt5Compat.GraphicalEffects.private"
@@ -17,6 +14,7 @@ qt_internal_add_qml_module(qtgraphicaleffectsprivate
     NO_GENERATE_PLUGIN_SOURCE
     NO_PLUGIN_OPTIONAL
     NO_GENERATE_QMLTYPES
+    PAST_MAJOR_VERSIONS 1
     SOURCES
         plugin.cpp
         qgfxsourceproxy.cpp qgfxsourceproxy_p.h

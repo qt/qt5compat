@@ -21,57 +21,6 @@ set(qml_files
     "RectangularGlow.qml"
     "ThresholdMask.qml"
 )
-set_source_files_properties(BrightnessContrast.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(ColorOverlay.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(Colorize.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(ConicalGradient.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(Desaturate.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(Displace.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(DropShadow.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(FastBlur.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(GammaAdjust.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(Glow.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(HueSaturation.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(LevelAdjust.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(LinearGradient.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(OpacityMask.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(RadialGradient.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(RectangularGlow.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
-set_source_files_properties(ThresholdMask.qml PROPERTIES
-    QT_QML_SOURCE_VERSION "1.0"
-)
 
 qt_internal_add_qml_module(qtgraphicaleffectsplugin
     URI "Qt5Compat.GraphicalEffects"
@@ -82,6 +31,7 @@ qt_internal_add_qml_module(qtgraphicaleffectsplugin
     NO_GENERATE_PLUGIN_SOURCE
     NO_PLUGIN_OPTIONAL
     NO_GENERATE_QMLTYPES
+    PAST_MAJOR_VERSIONS 1
     INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
     DEPENDENCIES
         Qt5Compat.GraphicalEffects.private

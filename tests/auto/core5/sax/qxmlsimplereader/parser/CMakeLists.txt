@@ -1,6 +1,6 @@
 # special case skip regeneration
 
-cmake_minimum_required(VERSION 3.14.0)
+cmake_minimum_required(VERSION 3.16)
 
 project(Parser CXX)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Xml)

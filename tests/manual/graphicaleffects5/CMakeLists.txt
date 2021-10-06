@@ -4,7 +4,7 @@
 ## graphicaleffects Binary:
 #####################################################################
 
-qt_add_manual_test(graphicaleffects
+qt_internal_add_manual_test(graphicaleffects
     GUI
     SOURCES
         main.cpp
@@ -51,7 +51,7 @@ set(qml_resource_files
     "main.qml"
 )
 
-qt_add_resource(graphicaleffects "qml"
+qt_internal_add_resource(graphicaleffects "qml"
     PREFIX
         "/"
     FILES

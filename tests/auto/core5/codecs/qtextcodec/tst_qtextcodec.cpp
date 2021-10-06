@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2021 The Qt Company Ltd.
 ** Copyright (C) 2016 Intel Corporation.
 ** Contact: https://www.qt.io/licensing/
 **
@@ -73,6 +73,9 @@ private slots:
     void iso8859_1() const;
     void iso8859_15() const;
     void iso8859_16() const;
+
+    void utf32Codec_data();
+    void utf32Codec();
 
     void utf8Codec_data();
     void utf8Codec();
@@ -656,6 +659,45 @@ void tst_QTextCodec::iso8859_16() const
     QTextCodec *codec = QTextCodec::codecForName("ISO8859-16");
     QVERIFY(codec);
     QCOMPARE(codec->name(), QByteArray("ISO-8859-16"));
+}
+
+void tst_QTextCodec::utf32Codec_data()
+{
+    QTest::addColumn<QList<char32_t> >("utf32");
+    QTest::addColumn<QString>("utf16");
+
+    QTest::newRow("empty)") << QList<char32_t>{} << QString{};
+    {
+        const uint zeroVal = 0x11136; // Unicode's representation of Chakma zero
+        const QChar data[] = {
+            QChar::highSurrogate(zeroVal), QChar::lowSurrogate(zeroVal),
+            QChar::highSurrogate(zeroVal + 1), QChar::lowSurrogate(zeroVal + 1),
+            QChar::highSurrogate(zeroVal + 2), QChar::lowSurrogate(zeroVal + 2),
+            QChar::highSurrogate(zeroVal + 3), QChar::lowSurrogate(zeroVal + 3),
+            QChar::highSurrogate(zeroVal + 4), QChar::lowSurrogate(zeroVal + 4),
+            QChar::highSurrogate(zeroVal + 5), QChar::lowSurrogate(zeroVal + 5),
+            QChar::highSurrogate(zeroVal + 6), QChar::lowSurrogate(zeroVal + 6),
+            QChar::highSurrogate(zeroVal + 7), QChar::lowSurrogate(zeroVal + 7),
+            QChar::highSurrogate(zeroVal + 8), QChar::lowSurrogate(zeroVal + 8),
+            QChar::highSurrogate(zeroVal + 9), QChar::lowSurrogate(zeroVal + 9)
+        };
+        QTest::newRow("Chakma digits")
+            << QList<char32_t>{ zeroVal, zeroVal + 1, zeroVal + 2, zeroVal + 3, zeroVal + 4,
+                                zeroVal + 5, zeroVal + 6, zeroVal + 7, zeroVal + 8, zeroVal + 9 }
+            << QString(data, std::size(data));
+    }
+}
+
+void tst_QTextCodec::utf32Codec()
+{
+    QFETCH(const QList<char32_t>, utf32);
+    QFETCH(const QString, utf16);
+    QByteArray encoded(reinterpret_cast<const char *>(utf32.data()),
+                       sizeof(char32_t) * utf32.size());
+    QTextCodec *codec = QTextCodec::codecForName("UTF-32");
+
+    QCOMPARE(codec->toUnicode(encoded), utf16);
+    QCOMPARE(codec->fromUnicode(utf16), encoded);
 }
 
 static QString fromInvalidUtf8Sequence(const QByteArray &ba)

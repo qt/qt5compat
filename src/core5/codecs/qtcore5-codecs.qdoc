@@ -45,7 +45,7 @@
     The Big5 is currently implemented as a pure subset of the
     Big5-HKSCS codec, so more fine-tuning is needed to make it
     identical to the standard Big5 mapping as determined by
-    Li18nux-Big5.  See \l{http://www.autrijus.org/xml/} for the draft
+    Li18nux-Big5.  See \l{https://web.archive.org/web/20021130090426/http://www.autrijus.org/xml/} for the draft
     Big5 (2002) standard.
 
     James Su \<suzhe@turbolinux.com.cn\> \<suzhe@gnuchina.org\>
@@ -93,7 +93,8 @@
 
     There may be more fine-tuning to the QBig5hkscsCodec to maximize its
     compatibility with the standard Big5 (2002) mapping as determined by
-    Li18nux Big5 Standard Subgroup.  See \l{http://www.autrijus.org/xml/}
+    Li18nux Big5 Standard Subgroup. See the
+    \l{https://web.archive.org/web/20021130090426/http://www.autrijus.org/xml/}
     for the various Big5 CharMapML tables.
 
     \sa{Text Codecs: Big5, Big5-HKSCS}

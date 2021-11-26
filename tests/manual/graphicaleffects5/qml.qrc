@@ -22,5 +22,14 @@
         <file>OpacityMaskEffect.qml</file>
         <file alias="images/fog.png">../../../src/imports/graphicaleffects5/doc/images/fog.png</file>
         <file>ThresholdMaskEffect.qml</file>
+        <file>GaussianBlurEffect.qml</file>
+        <file>MaskedBlurEffect.qml</file>
+        <file>BlendEffect.qml</file>
+        <file>DirectionalBlurEffect.qml</file>
+        <file>InnerShadowEffect.qml</file>
+        <file>InnerShadowFastEffect.qml</file>
+        <file>RadialBlurEffect.qml</file>
+        <file>RecursiveBlurEffect.qml</file>
+        <file>ZoomBlurEffect.qml</file>
     </qresource>
 </RCC>

@@ -31,19 +31,7 @@
     \brief Effects provided by the Qt Graphical Effects API
 
     The Qt Graphical Effects module is provided for compatibility with
-    applications written for Qt 5. As far as practically feasible, effects
-    have been ported, but some dynamically generated effects are incompatible with
-    the approach to shader effects in Qt 6 and have thus been left out:
-
-    \list
-    \li Blend
-    \li InnerShadow
-    \li All blur effects besides FastBlur: GaussianBlur, MaskedBlur, RecursiveBlur,
-    DirectionalBlur, RadialBlur, ZoomBlur.
-    \endlist
-
-    Dependencies on any of these types have to be replaced by a custom shader effect
-    in the application code.
+    applications written for Qt 5.
 
     Effects are visual items that can be added to Qt Quick user interface as UI
     components. To import the Qt Graphical Effects types, include the Qt
@@ -61,6 +49,9 @@
     The following list presents the functional division of types that are part
     of Qt Graphical Effects:
 
+    \section1 Blend
+    \annotatedlist qtgraphicaleffects-blend
+
     \section1 Color
         \annotatedlist qtgraphicaleffects-color
 
@@ -75,6 +66,9 @@
 
     \section1 Blur
         \annotatedlist qtgraphicaleffects-blur
+
+    \section1 Motion Blur
+        \annotatedlist qtgraphicaleffects-motion-blur
 
     \section1 Glow
         \annotatedlist qtgraphicaleffects-glow

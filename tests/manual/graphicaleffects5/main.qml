@@ -75,7 +75,7 @@ Window {
     Grid {
         id: grid
         anchors.fill: parent
-        columns: 5
+        columns: 6
 
         BrightnessContrastEffect {
             width: parent.width / parent.columns
@@ -137,7 +137,47 @@ Window {
             height: width
         }
 
+        InnerShadowEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        InnerShadowFastEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
         FastBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        GaussianBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        MaskedBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        RadialBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        RecursiveBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        ZoomBlurEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        DirectionalBlurEffect {
             width: parent.width / parent.columns
             height: width
         }
@@ -158,6 +198,11 @@ Window {
         }
 
         ThresholdMaskEffect {
+            width: parent.width / parent.columns
+            height: width
+        }
+
+        BlendEffect {
             width: parent.width / parent.columns
             height: width
         }

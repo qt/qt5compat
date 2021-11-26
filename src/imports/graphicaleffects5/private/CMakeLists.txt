@@ -3,7 +3,13 @@
 #####################################################################
 
 set(qml_files
+    "DropShadowBase.qml"
     "FastGlow.qml"
+    "FastInnerShadow.qml"
+    "GaussianDirectionalBlur.qml"
+    "GaussianGlow.qml"
+    "GaussianInnerShadow.qml"
+    "GaussianMaskedBlur.qml"
 )
 
 qt_internal_add_qml_module(qtgraphicaleffectsprivate
@@ -18,6 +24,7 @@ qt_internal_add_qml_module(qtgraphicaleffectsprivate
     SOURCES
         plugin.cpp
         qgfxsourceproxy.cpp qgfxsourceproxy_p.h
+        qgfxshaderbuilder.cpp qgfxshaderbuilder_p.h
     QML_FILES
         ${qml_files}
     LIBRARIES
@@ -25,4 +32,6 @@ qt_internal_add_qml_module(qtgraphicaleffectsprivate
         Qt::GuiPrivate
         Qt::QmlPrivate
         Qt::QuickPrivate
+        Qt::ShaderTools
+        Qt::ShaderToolsPrivate
 )

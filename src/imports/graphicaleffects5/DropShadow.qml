@@ -58,9 +58,14 @@ import Qt5Compat.GraphicalEffects.private
     \since QtGraphicalEffects 1.0
     \inherits QtQuick2::Item
     \ingroup qtgraphicaleffects-drop-shadow
-    \brief Generates a colorized and blurred shadow image of the
-    source and places it behind the original, giving the impression that
-    source item is raised from the background.
+
+    \brief Generates a soft shadow behind the source item.
+
+    The DropShadow effect blurs the alpha channel of the input, colorizes the
+    result and places it behind the source object to create a soft shadow. The
+    shadow's color can be changed using the \l {DropShadow::color}{color}
+    property. The location of the shadow can be changed with the \l
+    horizontalOffset and \l verticalOffset properties.
 
     \table
     \header
@@ -71,6 +76,16 @@ import Qt5Compat.GraphicalEffects.private
         \li \image DropShadow_butterfly.png
     \endtable
 
+    The soft shadow is created by blurring the image live using a gaussian
+    blur. Performing blur live is a costly operation. Fullscreen gaussian blur
+    with even a moderate number of samples will only run at 60 fps on highend
+    graphics hardware.
+
+    When the source is static, the \l cached property can be set to allocate
+    another buffer to avoid performing the blur every time it is drawn.
+
+    \note This effect is available when running with OpenGL.
+
     \section1 Example
 
     The following example shows how to apply the effect.
@@ -78,7 +93,12 @@ import Qt5Compat.GraphicalEffects.private
 
 */
 Item {
-    id: rootItem
+    id: root
+
+    DropShadowBase {
+        id: dbs
+        anchors.fill: parent
+    }
 
     /*!
         This property defines the source item that is going to be used as the
@@ -87,14 +107,26 @@ Item {
         \note It is not supported to let the effect include itself, for
         instance by setting source to the effect's parent.
     */
-    property variant source
+    property alias source: dbs.source
 
     /*!
+        \qmlproperty int DropShadow::radius
+
         Radius defines the softness of the shadow. A larger radius causes the
         edges of the shadow to appear more blurry.
 
-        The value ranges from 0.0 (no blur) to inf. By default, the property is
-        set to \c 0.0 (no blur).
+        The ideal blur is achieved by selecting \c samples and \c radius such
+        that \c {samples = 1 + radius * 2}, such as:
+
+        \table
+        \header \li Radius             \li Samples
+        \row    \li 0 \e{(no blur)}    \li 1
+        \row    \li 1                  \li 3
+        \row    \li 2                  \li 5
+        \row    \li 3                  \li 7
+        \endtable
+
+        By default, the property is set to \c {floor(samples/2)}.
 
         \table
         \header
@@ -109,6 +141,10 @@ Item {
             \li \b { radius: 0 }
             \li \b { radius: 6 }
             \li \b { radius: 12 }
+        \row
+            \li \l samples: 25
+            \li \l samples: 25
+            \li \l samples: 25
         \row
             \li \l color: #000000
             \li \l color: #000000
@@ -126,9 +162,31 @@ Item {
             \li \l spread: 0
             \li \l spread: 0
         \endtable
-
     */
-    property real radius: 0.0
+    property alias radius: dbs.radius;
+
+    /*!
+        This property defines how many samples are taken per pixel when edge
+        softening blur calculation is done. Larger value produces better
+        quality, but is slower to render.
+
+        Ideally, this value should be twice as large as the highest required
+        radius value plus one, such as:
+
+        \table
+        \header \li Radius             \li Samples
+        \row    \li 0 \e{(no blur)}    \li 1
+        \row    \li 1                  \li 3
+        \row    \li 2                  \li 5
+        \row    \li 3                  \li 7
+        \endtable
+
+        By default, the property is set to \c 9.
+
+        This property is not intended to be animated. Changing this property will
+        cause the underlying OpenGL shaders to be recompiled.
+    */
+    property alias samples: dbs.samples
 
     /*!
         This property defines the RGBA color value which is used for the shadow.
@@ -153,6 +211,10 @@ Item {
             \li \l radius: 8
             \li \l radius: 8
         \row
+            \li \l samples: 17
+            \li \l samples: 17
+            \li \l samples: 17
+        \row
             \li \l horizontalOffset: 0
             \li \l horizontalOffset: 0
             \li \l horizontalOffset: 0
@@ -165,9 +227,8 @@ Item {
             \li \l spread: 0
             \li \l spread: 0
         \endtable
-
     */
-    property color color: "black"
+    property alias color: dbs.color
 
     /*!
         \qmlproperty real QtGraphicalEffects::DropShadow::horizontalOffset
@@ -202,6 +263,10 @@ Item {
             \li \l radius: 4
             \li \l radius: 4
         \row
+            \li \l samples: 9
+            \li \l samples: 9
+            \li \l samples: 9
+        \row
             \li \l color: #000000
             \li \l color: #000000
             \li \l color: #000000
@@ -214,17 +279,16 @@ Item {
             \li \l spread: 0
             \li \l spread: 0
         \endtable
-
     */
-    property real horizontalOffset: 0.0
-    property real verticalOffset: 0.0
+    property alias horizontalOffset: dbs.horizontalOffset
+    property alias verticalOffset: dbs.verticalOffset
 
     /*!
-        This property defines how large part of the shadow color is strenghtened
+        This property defines how large part of the shadow color is strengthened
         near the source edges.
 
         The value ranges from 0.0 to 1.0. By default, the property is set to \c
-        0.5.
+        0.0.
 
         \table
         \header
@@ -244,6 +308,10 @@ Item {
             \li \l radius: 8
             \li \l radius: 8
         \row
+            \li \l samples: 17
+            \li \l samples: 17
+            \li \l samples: 17
+        \row
             \li \l color: #000000
             \li \l color: #000000
             \li \l color: #000000
@@ -256,9 +324,18 @@ Item {
             \li \l verticalOffset: 20
             \li \l verticalOffset: 20
         \endtable
-
     */
-    property real spread: 0.0
+    property alias spread: dbs.spread
+
+    /*!
+        \internal
+
+        Starting Qt 5.6, this property has no effect. It is left here
+        for source compatibility only.
+
+        ### Qt 6: remove
+    */
+    property bool fast: false
 
     /*!
         This property allows the effect output pixels to be cached in order to
@@ -271,9 +348,8 @@ Item {
         properties are animated.
 
         By default, the property is set to \c false.
-
     */
-    property bool cached: false
+    property alias cached: dbs.cached
 
     /*!
         This property determines whether or not the effect has a transparent
@@ -282,45 +358,16 @@ Item {
         When set to \c true, the exterior of the item is padded with a 1 pixel
         wide transparent edge, making sampling outside the source texture use
         transparency instead of the edge pixels. Without this property, an
-        image which has opaque edges will not get a blurred edge.
+        image which has opaque edges will not get a blurred shadow.
 
         In the image below, the Rectangle on the left has transparent borders
         and has blurred edges, whereas the Rectangle on the right does not:
+
+        By default, this property is set to \c true.
 
         \snippet DropShadow-transparentBorder-example.qml example
 
         \image DropShadow-transparentBorder.png
     */
-    property bool transparentBorder: false
-
-    Loader {
-        x: rootItem.horizontalOffset
-        y: rootItem.verticalOffset
-        width: parent.width
-        height: parent.height
-        sourceComponent: fastGlow
-    }
-
-    Component {
-        id: fastGlow
-        FastGlow {
-            anchors.fill: parent
-            source: sourceProxy.output
-            blur: Math.pow(rootItem.radius / 64.0, 0.4)
-            color: rootItem.color
-            cached: rootItem.cached
-            spread: rootItem.spread
-            transparentBorder: rootItem.transparentBorder
-        }
-    }
-
-    SourceProxy {
-        id: sourceProxy
-        input: rootItem.source
-        sourceRect: rootItem.transparentBorder ? Qt.rect(-1, -1, parent.width + 2.0, parent.height + 2.0) : Qt.rect(0, 0, 0, 0)
-    }
-    ShaderEffect {
-        anchors.fill: parent
-        property variant source: sourceProxy.output
-    }
+    property alias transparentBorder: dbs.transparentBorder
 }

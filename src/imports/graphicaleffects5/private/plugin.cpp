@@ -52,6 +52,7 @@
 #include <QtQml/qqml.h>
 #include <QtQml/qqmlengine.h>
 
+#include "qgfxshaderbuilder_p.h"
 #include "qgfxsourceproxy_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -67,6 +68,7 @@ public:
     {
         Q_ASSERT(QByteArray(uri) == QByteArrayLiteral("Qt5Compat.GraphicalEffects.private"));
         qmlRegisterType<QGfxSourceProxy>(uri, 1, 0, "SourceProxy");
+        qmlRegisterType<QGfxShaderBuilder>(uri, 1, 0, "ShaderBuilder");
 
         qmlRegisterModule(uri, QT_VERSION_MAJOR, QT_VERSION_MINOR);
     }

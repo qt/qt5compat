@@ -53,15 +53,13 @@
 \brief Qt Graphical Effects module is a Qt Quick Add-On module.
 
 The Qt Graphical Effects module is provided for compatibility with
-applications written for Qt 5. As far as practically feasible, effects
-have been ported, but some dynamically generated effects are incompatible with
-the approach to shader effects in Qt 6 and have thus been left out.
+applications written for Qt 5.
 
 The Qt Graphical Effects module provides a set of QML types for adding visually
 impressive and configurable effects to user interfaces. Effects are visual
 items that can be added to Qt Quick user interface as UI components.
 
-The API consists of over 15 effects provided as separate QML types. The effects
+The API consists of over 20 effects provided as separate QML types. The effects
 cover functional areas such as masking, blurring, coloring, and many more.
 
 \section1 Getting Started
@@ -81,9 +79,12 @@ Properties can be animated just like any other QML properties. The QML type
 documentation contains property descriptions and basic usage examples.
 
 \note Effects are not available when running with the \c software
-backend of Qt Quick.  For more information on Qt Quick scene graph
+backend of Qt Quick. For more information on Qt Quick scene graph
 backends, see \l{qtquick-visualcanvas-adaptations.html}{Scene Graph
 Adaptations}.
+
+\note Runtime-generated effects such as GaussianBlur will store the shader-files in temporary
+storage using QTemporaryFile, thus they require a writable file system.
 
 \section1 QML Types
 \generatelist {qmltypesbymodule Qt5Compat.GraphicalEffects}

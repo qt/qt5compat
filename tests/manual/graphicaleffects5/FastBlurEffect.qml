@@ -55,6 +55,6 @@ Item {
     FastBlur {
         anchors.fill: parent
         source: bug
-        radius: 32
+        radius: 8
     }
 }

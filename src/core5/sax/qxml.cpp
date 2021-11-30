@@ -39,10 +39,15 @@
 
 #include "qglobal.h"
 
+// Disable warning about use of deprecated QXmlStreamLocator in QScopedPointer<>
+QT_WARNING_DISABLE_MSVC(4996)
+
 #include "qxml.h"
 #include "qxml_p.h"
+#if QT_CONFIG(textcodec)
+#include "qtextcodec.h"
+#endif
 #include "qbuffer.h"
-#include "qstringconverter.h"
 #if QT_CONFIG(regularexpression)
 #include "qregularexpression.h"
 #endif
@@ -243,7 +248,9 @@ public:
     int pos;
     int length;
     bool nextReturnedEndOfData;
-    QStringDecoder toUnicode;
+#if QT_CONFIG(textcodec)
+    QTextDecoder *encMapper;
+#endif
 
     QByteArray encodingDeclBytes;
     QString encodingDeclChars;
@@ -1056,6 +1063,9 @@ void QXmlInputSource::init()
         d->inputStream = nullptr;
 
         setData(QString());
+#if QT_CONFIG(textcodec)
+        d->encMapper = nullptr;
+#endif
         d->nextReturnedEndOfData = true; // first call to next() will call fetchData()
 
         d->encodingDeclBytes.clear();
@@ -1099,6 +1109,9 @@ QXmlInputSource::QXmlInputSource(QIODevice *dev)
 QXmlInputSource::~QXmlInputSource()
 {
     // ### close the input device.
+#if QT_CONFIG(textcodec)
+    delete d->encMapper;
+#endif
     delete d;
 }
 
@@ -1260,6 +1273,7 @@ void QXmlInputSource::fetchData()
     }
 }
 
+#if QT_CONFIG(textcodec)
 static QString extractEncodingDecl(const QString &text, bool *needMoreText)
 {
     *needMoreText = false;
@@ -1301,6 +1315,7 @@ static QString extractEncodingDecl(const QString &text, bool *needMoreText)
 
     return encoding;
 }
+#endif // textcodec
 
 /*!
     This function reads the XML file from \a data and tries to
@@ -1315,49 +1330,83 @@ static QString extractEncodingDecl(const QString &text, bool *needMoreText)
 */
 QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
 {
+#if !QT_CONFIG(textcodec)
+    Q_UNUSED(beginning);
+    return QString::fromLatin1(data.constData(), data.size());
+#else
     if (data.size() == 0)
         return QString();
+    if (beginning) {
+        delete d->encMapper;
+        d->encMapper = nullptr;
+    }
 
-    if (beginning)
-        d->toUnicode = QStringDecoder();
+    int mib = 106; // UTF-8
 
     // This is the initial UTF codec we will read the encoding declaration with
-    if (!d->toUnicode.isValid()) {
+    if (d->encMapper == nullptr) {
         d->encodingDeclBytes.clear();
         d->encodingDeclChars.clear();
         d->lookingForEncodingDecl = true;
 
-        auto encoding = QStringConverter::encodingForData(data, char16_t('<'));
-        if (encoding) {
-            d->lookingForEncodingDecl = false;
-            d->toUnicode = QStringDecoder(*encoding);
-        } else {
-            d->toUnicode = QStringDecoder(QStringDecoder::Utf8);
+        // look for byte order mark and read the first 5 characters
+        if (data.size() >= 4) {
+            uchar ch1 = data.at(0);
+            uchar ch2 = data.at(1);
+            uchar ch3 = data.at(2);
+            uchar ch4 = data.at(3);
+
+            if ((ch1 == 0 && ch2 == 0 && ch3 == 0xfe && ch4 == 0xff) ||
+                (ch1 == 0xff && ch2 == 0xfe && ch3 == 0 && ch4 == 0))
+                mib = 1017; // UTF-32 with byte order mark
+            else if (ch1 == 0x3c && ch2 == 0x00 && ch3 == 0x00 && ch4 == 0x00)
+                mib = 1019; // UTF-32LE
+            else if (ch1 == 0x00 && ch2 == 0x00 && ch3 == 0x00 && ch4 == 0x3c)
+                mib = 1018; // UTF-32BE
         }
+        if (mib == 106 && data.size() >= 2) {
+            uchar ch1 = data.at(0);
+            uchar ch2 = data.at(1);
+
+            if ((ch1 == 0xfe && ch2 == 0xff) || (ch1 == 0xff && ch2 == 0xfe))
+                mib = 1015; // UTF-16 with byte order mark
+            else if (ch1 == 0x3c && ch2 == 0x00)
+                mib = 1014; // UTF-16LE
+            else if (ch1 == 0x00 && ch2 == 0x3c)
+                mib = 1013; // UTF-16BE
+        }
+
+        QTextCodec *codec = QTextCodec::codecForMib(mib);
+        Q_ASSERT(codec);
+
+        d->encMapper = codec->makeDecoder();
     }
 
-    QString input = d->toUnicode(data);
+    QString input = d->encMapper->toUnicode(data.constData(), data.size());
 
     if (d->lookingForEncodingDecl) {
         d->encodingDeclChars += input;
 
         bool needMoreText;
-        QByteArray encoding = extractEncodingDecl(d->encodingDeclChars, &needMoreText).toLatin1();
+        QString encoding = extractEncodingDecl(d->encodingDeclChars, &needMoreText);
 
         if (!encoding.isEmpty()) {
-            auto e = QStringDecoder::encodingForData(encoding);
-            if (e && *e != QStringDecoder::Utf8) {
-                d->toUnicode = QStringDecoder(*e);
+            if (QTextCodec *codec = QTextCodec::codecForName(std::move(encoding).toLatin1())) {
+                /* If the encoding is the same, we don't have to do toUnicode() all over again. */
+                if(codec->mibEnum() != mib) {
+                    delete d->encMapper;
+                    d->encMapper = codec->makeDecoder();
 
-                /* The variable input can potentially be large, so we deallocate
-                 * it before calling toUnicode() in order to avoid having two
-                 * large QStrings in memory simultaneously. */
-                input.clear();
+                    /* The variable input can potentially be large, so we deallocate
+                     * it before calling toUnicode() in order to avoid having two
+                     * large QStrings in memory simultaneously. */
+                    input.clear();
 
-                // prime the decoder with the data so far
-                d->toUnicode(d->encodingDeclBytes);
-                // now feed it the new data
-                input = d->toUnicode(data);
+                    // prime the decoder with the data so far
+                    d->encMapper->toUnicode(d->encodingDeclBytes.constData(), d->encodingDeclBytes.size());
+                    // now feed it the new data
+                    input = d->encMapper->toUnicode(data.constData(), data.size());
+                }
             }
         }
 
@@ -1366,6 +1415,7 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
     }
 
     return input;
+#endif
 }
 
 /*********************************************

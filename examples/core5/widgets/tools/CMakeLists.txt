@@ -1,3 +1,3 @@
 # Generated from tools.pro.
 
-add_subdirectory(codecs)
+qt_internal_add_example(codecs)

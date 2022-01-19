@@ -16,6 +16,6 @@ find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml
 # Look for the target ShaderTools package to have access to the ShaderTools Qt module library.
 # This is optional. When not present, runtime shader processing will not be available, and
 # only a certain set of effects will be available
-find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS ShaderTools)
+find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS ShaderTools)
 
 qt_build_repo()

@@ -1,5 +1,3 @@
-# Generated from widgets.pro.
-
 if(NOT TARGET Qt::Widgets)
     return()
 endif()

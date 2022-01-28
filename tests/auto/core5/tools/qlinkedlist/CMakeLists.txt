@@ -11,8 +11,4 @@ qt_internal_add_test(tst_qlinkedlist
         Qt::Core5Compat
 )
 
-set_target_properties(tst_qlinkedlist PROPERTIES
-    QT_INTERNAL_UNDEF_QT_NO_JAVA_STYLE_ITERATORS TRUE)
-
-## Scopes:
-#####################################################################
+qt_internal_undefine_global_definition(tst_qlinkedlist QT_NO_JAVA_STYLE_ITERATORS)

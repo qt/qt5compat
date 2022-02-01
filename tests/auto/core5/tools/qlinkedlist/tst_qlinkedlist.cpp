@@ -1095,7 +1095,6 @@ void tst_QLinkedList::iterators() const
     list << 4 << 5 << 6;
     QVERIFY(!list.isEmpty());
     QVERIFY(list.size() == 6);
-#ifndef QT_NO_JAVA_STYLE_ITERATORS
     {
         int sum = 0;
         QLinkedListIterator<int> i = list;
@@ -1104,7 +1103,6 @@ void tst_QLinkedList::iterators() const
         }
         QVERIFY(sum == 21);
     }
-#endif
     {
         int sum = 0;
         QLinkedList<int>::const_iterator i = list.begin();
@@ -1113,16 +1111,10 @@ void tst_QLinkedList::iterators() const
         QVERIFY(sum == 21);
     }
     {
-#ifndef QT_NO_JAVA_STYLE_ITERATORS
         QMutableLinkedListIterator<int> i = list;
         while (i.hasNext())
             i.setValue(2 * i.next());
-#else
-        for (auto &e : list)
-            e *= 2;
-#endif
     }
-#ifndef QT_NO_JAVA_STYLE_ITERATORS
     {
         int sum = 0;
         QLinkedListIterator<int> i = list;
@@ -1131,19 +1123,12 @@ void tst_QLinkedList::iterators() const
             sum += i.previous();
         QVERIFY(sum == 2 * 21);
     }
-#endif
     {
-#ifndef QT_NO_JAVA_STYLE_ITERATORS
         QMutableLinkedListIterator<int> i = list;
         i.toBack();
         while (i.hasPrevious())
             i.setValue(2 * i.previous());
-#else
-        for (auto &e : list)
-            e *= 2;
-#endif
     }
-#ifndef QT_NO_JAVA_STYLE_ITERATORS
     {
         int sum = 0;
         QLinkedListIterator<int> i = list;
@@ -1220,7 +1205,6 @@ void tst_QLinkedList::iterators() const
         while (i.findNext(42))
             i.remove();
     }
-#endif
 }
 
 QT_END_NAMESPACE

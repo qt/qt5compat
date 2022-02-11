@@ -41,6 +41,7 @@
 #define QGFXSOURCEPROXY_P_H
 
 #include <QtQuick/QQuickItem>
+#include <QtCore/private/qglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 

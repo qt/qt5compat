@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2020 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtXml module of the Qt Toolkit.
@@ -44,6 +44,7 @@
 #include <qmap.h>
 #include <qhash.h>
 #include <qxml.h>
+#include <private/qglobal_p.h>
 
 #include <stack>
 

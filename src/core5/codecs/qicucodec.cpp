@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
 typedef QList<QTextCodec*>::ConstIterator TextCodecListConstIt;
 typedef QList<QByteArray>::ConstIterator ByteArrayListConstIt;
 
-static void qIcuCodecStateFree(QTextCodec::ConverterState *state)
+static void qIcuCodecStateFree(QTextCodec::ConverterState *state) noexcept
 {
     ucnv_close(static_cast<UConverter *>(state->d[0]));
 }

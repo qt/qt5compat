@@ -119,7 +119,7 @@ void QIconvCodec::IconvState::saveChars(const char *c, int count)
     memcpy(buffer, c, count);
 }
 
-static void qIconvCodecStateFree(QTextCodec::ConverterState *state)
+static void qIconvCodecStateFree(QTextCodec::ConverterState *state) noexcept
 {
     delete reinterpret_cast<QIconvCodec::IconvState *>(state->d[0]);
 }

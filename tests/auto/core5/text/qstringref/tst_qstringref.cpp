@@ -612,7 +612,7 @@ void tst_QStringRef::startsWith()
         QVERIFY(!ref.startsWith(QLatin1String("C")));
         QVERIFY(!ref.startsWith(QLatin1String("ABCDEF")));
         QVERIFY(ref.startsWith(QLatin1String("")));
-        QVERIFY(ref.startsWith(QLatin1String(0)));
+        QVERIFY(ref.startsWith(QLatin1String(nullptr)));
 
         QVERIFY(ref.startsWith("A", Qt::CaseSensitive));
         QVERIFY(ref.startsWith("A", Qt::CaseInsensitive));
@@ -647,7 +647,7 @@ void tst_QStringRef::startsWith()
         QVERIFY(!ref.startsWith(QLatin1String("c"), Qt::CaseInsensitive));
         QVERIFY(!ref.startsWith(QLatin1String("abcdef"), Qt::CaseInsensitive));
         QVERIFY(ref.startsWith(QLatin1String(""), Qt::CaseInsensitive));
-        QVERIFY(ref.startsWith(QLatin1String(0), Qt::CaseInsensitive));
+        QVERIFY(ref.startsWith(QLatin1String(nullptr), Qt::CaseInsensitive));
         QVERIFY(ref.startsWith('A', Qt::CaseSensitive));
         QVERIFY(ref.startsWith(QLatin1Char('A'), Qt::CaseSensitive));
         QVERIFY(ref.startsWith(QChar('A'), Qt::CaseSensitive));
@@ -663,7 +663,7 @@ void tst_QStringRef::startsWith()
         QVERIFY(!ref.startsWith("ABC"));
 
         QVERIFY(ref.startsWith(QLatin1String("")));
-        QVERIFY(ref.startsWith(QLatin1String(0)));
+        QVERIFY(ref.startsWith(QLatin1String(nullptr)));
         QVERIFY(!ref.startsWith(QLatin1String("ABC")));
 
         QVERIFY(!ref.startsWith(QLatin1Char(0)));
@@ -677,7 +677,7 @@ void tst_QStringRef::startsWith()
         QVERIFY(!ref.startsWith("ABC"));
 
         QVERIFY(!ref.startsWith(QLatin1String("")));
-        QVERIFY(ref.startsWith(QLatin1String(0)));
+        QVERIFY(ref.startsWith(QLatin1String(nullptr)));
         QVERIFY(!ref.startsWith(QLatin1String("ABC")));
 
         QVERIFY(!ref.startsWith(QLatin1Char(0)));
@@ -709,7 +709,7 @@ void tst_QStringRef::endsWith()
         QVERIFY(!ref.endsWith(QLatin1String("C")));
         QVERIFY(!ref.endsWith(QLatin1String("ABCDEF")));
         QVERIFY(ref.endsWith(QLatin1String("")));
-        QVERIFY(ref.endsWith(QLatin1String(0)));
+        QVERIFY(ref.endsWith(QLatin1String(nullptr)));
 
         QVERIFY(ref.endsWith("B", Qt::CaseSensitive));
         QVERIFY(ref.endsWith("B", Qt::CaseInsensitive));
@@ -744,7 +744,7 @@ void tst_QStringRef::endsWith()
         QVERIFY(!ref.endsWith(QLatin1String("c"), Qt::CaseInsensitive));
         QVERIFY(!ref.endsWith(QLatin1String("abcdef"), Qt::CaseInsensitive));
         QVERIFY(ref.endsWith(QLatin1String(""), Qt::CaseInsensitive));
-        QVERIFY(ref.endsWith(QLatin1String(0), Qt::CaseInsensitive));
+        QVERIFY(ref.endsWith(QLatin1String(nullptr), Qt::CaseInsensitive));
         QVERIFY(ref.endsWith('B', Qt::CaseSensitive));
         QVERIFY(ref.endsWith(QLatin1Char('B'), Qt::CaseSensitive));
         QVERIFY(ref.endsWith(QChar('B'), Qt::CaseSensitive));
@@ -764,7 +764,7 @@ void tst_QStringRef::endsWith()
         QVERIFY(!ref.endsWith(QChar()));
 
         QVERIFY(ref.endsWith(QLatin1String("")));
-        QVERIFY(ref.endsWith(QLatin1String(0)));
+        QVERIFY(ref.endsWith(QLatin1String(nullptr)));
         QVERIFY(!ref.endsWith(QLatin1String("ABC")));
     }
 
@@ -775,7 +775,7 @@ void tst_QStringRef::endsWith()
         QVERIFY(!ref.endsWith("ABC"));
 
         QVERIFY(!ref.endsWith(QLatin1String("")));
-        QVERIFY(ref.endsWith(QLatin1String(0)));
+        QVERIFY(ref.endsWith(QLatin1String(nullptr)));
         QVERIFY(!ref.endsWith(QLatin1String("ABC")));
 
         QVERIFY(!ref.endsWith(QLatin1Char(0)));

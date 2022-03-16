@@ -150,7 +150,7 @@ void tst_qregexp::escape_new1()
 
     QBENCHMARK {
         QString quoted;
-        const int count = pattern.count();
+        const int count = pattern.size();
         quoted.reserve(count * 2);
         const QLatin1Char backslash('\\');
         for (int i = 0; i < count; i++) {
@@ -183,7 +183,7 @@ void tst_qregexp::escape_new2()
     QFETCH(QString, expected);
 
     QBENCHMARK {
-        int count = pattern.count();
+        int count = pattern.size();
         const QLatin1Char backslash('\\');
         QString quoted(count * 2, backslash);
         const QChar *patternData = pattern.data();
@@ -225,7 +225,7 @@ void tst_qregexp::escape_new3()
 
     QBENCHMARK {
         QString quoted;
-        const int count = pattern.count();
+        const int count = pattern.size();
         quoted.reserve(count * 2);
         const QLatin1Char backslash('\\');
         for (int i = 0; i < count; i++) {

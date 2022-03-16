@@ -4955,7 +4955,7 @@ QString QRegExp::errorString()
 QString QRegExp::escape(const QString &str)
 {
     QString quoted;
-    const int count = str.count();
+    const int count = str.size();
     quoted.reserve(count * 2);
     const QLatin1Char backslash('\\');
     for (int i = 0; i < count; i++) {

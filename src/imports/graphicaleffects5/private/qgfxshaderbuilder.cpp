@@ -43,6 +43,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QVarLengthArray>
 #include <QtGui/QOffscreenSurface>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>

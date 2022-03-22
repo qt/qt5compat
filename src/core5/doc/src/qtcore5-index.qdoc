@@ -32,20 +32,23 @@
     The Qt 5 Core Compat module contains the Qt 5 Core APIs that were
     removed in Qt 6. The module facilitates the transition to Qt 6.
 
-    \include module-use.qdocinc using qt module
+    \section1 Using the Module
 
-    \code
-    find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
-    target_link_libraries(mytarget PUBLIC Qt6::Core5Compat)
-    \endcode
+    \include {module-use.qdocinc} {using the c++ api}
 
-    See also the \l {Build with CMake} overview.
+    \section2 Building with CMake
 
-    \include module-use.qdocinc building with qmake
+    \include {module-use.qdocinc} {building with cmake} {Core5Compat}
 
-    \code
-    QT += core5compat
-    \endcode
+    \section2 Building with qmake
+
+    \include {module-use.qdocinc} {building_with_qmake} {core5compat}
+
+    \section1 Reference
+
+    \list
+        \li \l {Qt 5 Core Compatibility C++ Classes} {C++ Classes}
+    \endlist
 
     \section1 Licenses and Attributions
 
@@ -59,9 +62,4 @@
     modules under the following permissive licenses:
 
     \generatelist{groupsbymodule attributions-qtcore5compat}
-
-    \section1 Reference
-    \list
-    \li \l{Qt 5 Core Compatibility C++ Classes}{C++ Classes}
-    \endlist
 */

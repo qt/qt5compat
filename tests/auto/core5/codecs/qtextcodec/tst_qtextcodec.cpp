@@ -95,7 +95,7 @@ private slots:
     void codecForUtfText_data();
     void codecForUtfText();
 
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_ANDROID)
     void toLocal8Bit();
 #endif
 
@@ -2254,7 +2254,7 @@ void tst_QTextCodec::codecForUtfText()
         QVERIFY(!codec);
 }
 
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_ANDROID)
 void tst_QTextCodec::toLocal8Bit()
 {
 #if !QT_CONFIG(process)
@@ -2271,7 +2271,7 @@ void tst_QTextCodec::toLocal8Bit()
     QCOMPARE(process.exitCode(), 0);
 #endif
 }
-#endif
+#endif // defined(Q_OS_UNIX) && !defined(Q_OS_ANDROID)
 
 class LoadAndConvert: public QRunnable
 {

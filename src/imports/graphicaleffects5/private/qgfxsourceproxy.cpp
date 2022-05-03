@@ -203,3 +203,5 @@ void QGfxSourceProxy::updatePolish()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qgfxsourceproxy_p.cpp"

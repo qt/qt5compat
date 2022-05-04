@@ -54,6 +54,8 @@
 #include <qmath.h>
 #include <qnumeric.h>
 
+QT_BEGIN_NAMESPACE
+
 #ifndef GL_MAX_VARYING_COMPONENTS
 #define GL_MAX_VARYING_COMPONENTS 0x8B4B
 #endif
@@ -518,3 +520,6 @@ QUrl QGfxShaderBuilder::buildShader(const QByteArray &code,
     return QUrl::fromLocalFile(output->fileName());
 }
 
+QT_END_NAMESPACE
+
+#include "moc_qgfxshaderbuilder_p.cpp"

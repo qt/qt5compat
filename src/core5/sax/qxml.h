@@ -124,8 +124,8 @@ public:
 
     void swap(QXmlAttributes &other) noexcept
     {
-        qSwap(attList, other.attList);
-        qSwap(d, other.d);
+        attList.swap(other.attList);
+        qt_ptr_swap(d, other.d);
     }
 
     int index(const QString& qName) const;

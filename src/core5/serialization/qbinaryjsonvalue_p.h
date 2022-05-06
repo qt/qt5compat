@@ -96,10 +96,10 @@ public:
 
     QBinaryJsonValue &operator =(QBinaryJsonValue &&other) noexcept
     {
-        qSwap(stringData, other.stringData);
-        qSwap(ui, other.ui);
-        qSwap(d, other.d);
-        qSwap(t, other.t);
+        stringData.swap(other.stringData);
+        std::swap(ui, other.ui);
+        qt_ptr_swap(d, other.d);
+        std::swap(t, other.t);
         return *this;
     }
 

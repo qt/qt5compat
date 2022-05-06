@@ -75,7 +75,7 @@ public:
     ~QRegExp();
     QRegExp &operator=(const QRegExp &rx);
     QRegExp &operator=(QRegExp &&other) noexcept { swap(other); return *this; }
-    void swap(QRegExp &other) noexcept { qSwap(priv, other.priv); }
+    void swap(QRegExp &other) noexcept { qt_ptr_swap(priv, other.priv); }
 
     bool operator==(const QRegExp &rx) const;
     inline bool operator!=(const QRegExp &rx) const { return !operator==(rx); }

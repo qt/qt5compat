@@ -111,7 +111,7 @@ public:
         swap(moved);
         return *this;
     }
-    inline void swap(QLinkedList<T> &other) noexcept { qSwap(d, other.d); }
+    void swap(QLinkedList &other) noexcept { qt_ptr_swap(d, other.d); }
     bool operator==(const QLinkedList<T> &l) const;
     inline bool operator!=(const QLinkedList<T> &l) const { return !(*this == l); }
 

@@ -72,8 +72,8 @@ public:
 
     QBinaryJsonArray &operator =(QBinaryJsonArray &&other) noexcept
     {
-        qSwap(d, other.d);
-        qSwap(a, other.a);
+        qt_ptr_swap(d, other.d);
+        qt_ptr_swap(a, other.a);
         return *this;
     }
 

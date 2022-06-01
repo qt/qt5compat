@@ -260,7 +260,7 @@ void MutableData::compact()
     Q_CHECK_PTR(h);
     h->tag = QJsonDocument::BinaryFormatTag;
     h->version = 1;
-    Base *b = h->root();
+    Base *b = new (h->root()) Base{};
     b->size = size;
     if (header->root()->isObject())
         b->setIsObject();

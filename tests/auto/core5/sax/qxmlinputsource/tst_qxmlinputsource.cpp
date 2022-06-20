@@ -218,7 +218,7 @@ public:
     {
         stringData = expectedData.toUtf8();
         dataTimer = new QTimer(this);
-        connect(dataTimer, &QTimer::timeout, [=]() {
+        connect(dataTimer, &QTimer::timeout, this, [this] {
             readyToSend = true;
             emit readyRead();
             dataTimer->stop();

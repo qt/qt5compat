@@ -1470,6 +1470,8 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
 
     Destroys the content handler.
 */
+QXmlContentHandler::~QXmlContentHandler()
+    = default;
 
 /*!
     \fn void QXmlContentHandler::setDocumentLocator(QXmlLocator* locator)
@@ -1691,6 +1693,8 @@ QString QXmlInputSource::fromRawData(const QByteArray &data, bool beginning)
 
     Destroys the error handler.
 */
+QXmlErrorHandler::~QXmlErrorHandler()
+    = default;
 
 /*!
     \fn bool QXmlErrorHandler::warning(const QXmlParseException& exception)
@@ -1766,6 +1770,8 @@ events are reported.
 
     Destroys the DTD handler.
 */
+QXmlDTDHandler::~QXmlDTDHandler()
+    = default;
 
 /*!
     \fn bool QXmlDTDHandler::notationDecl(const QString& name, const QString& publicId, const QString& systemId)
@@ -1828,6 +1834,8 @@ events are reported.
 
     Destroys the entity resolver.
 */
+QXmlEntityResolver::~QXmlEntityResolver()
+    = default;
 
 /*!
     \fn bool QXmlEntityResolver::resolveEntity(const QString& publicId, const QString& systemId, QXmlInputSource*& ret)
@@ -1892,6 +1900,8 @@ events are reported.
 
     Destroys the lexical handler.
 */
+QXmlLexicalHandler::~QXmlLexicalHandler()
+    = default;
 
 /*!
     \fn bool QXmlLexicalHandler::startDTD(const QString& name, const QString& publicId, const QString& systemId)
@@ -2036,6 +2046,8 @@ events are reported.
 
     Destroys the declaration handler.
 */
+QXmlDeclHandler::~QXmlDeclHandler()
+    = default;
 
 /*!
     \fn bool QXmlDeclHandler::attributeDecl(const QString& eName, const QString& aName, const QString& type, const QString& valueDefault, const QString& value)
@@ -2582,6 +2594,8 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
 
     Destroys the reader.
 */
+QXmlReader::~QXmlReader()
+    = default;
 
 /*!
     \fn bool QXmlReader::feature(const QString& name, bool *ok) const

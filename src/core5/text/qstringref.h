@@ -292,13 +292,13 @@ inline Q_DECL_PURE_FUNCTION size_t qHash(const QStringRef &key, size_t seed = 0)
 QT_SPECIALIZE_STD_HASH_TO_CALL_QHASH_BY_CREF(QStringRef)
 
 inline QStringRef &QStringRef::operator=(const QString *aString)
-{ m_string = aString; m_position = 0; m_size = aString?aString->size():0; return *this; }
+{ m_string = aString; m_position = 0; m_size = aString ? int(aString->size()) : 0; return *this; }
 
 inline QStringRef::QStringRef(const QString *aString, int aPosition, int aSize)
         :m_string(aString), m_position(aPosition), m_size(aSize){}
 
 inline QStringRef::QStringRef(const QString *aString)
-    :m_string(aString), m_position(0), m_size(aString?aString->size() : 0){}
+    :m_string(aString), m_position(0), m_size(aString ? int(aString->size()) : 0){}
 
 // QStringRef <> QStringRef
 Q_CORE5COMPAT_EXPORT bool operator==(const QStringRef &s1, const QStringRef &s2) noexcept;

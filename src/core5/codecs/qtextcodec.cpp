@@ -75,7 +75,7 @@ QTextCodecData::QTextCodecData()
 
 QTextCodecData::~QTextCodecData()
 {
-    codecForLocale = nullptr;
+    codecForLocale.storeRelease(nullptr);
     QList<QTextCodec *> tmp = allCodecs;
     allCodecs.clear();
     codecCache.clear();

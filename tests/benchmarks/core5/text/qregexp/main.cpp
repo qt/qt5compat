@@ -321,7 +321,7 @@ void tst_qregexp::escape_new4()
 
 void tst_qregexp::simpleFind1()
 {
-    int roff;
+    int roff = 0;
     QRegExp rx("happy");
     rx.setPatternSyntax(QRegExp::RegExp);
     QBENCHMARK{
@@ -334,7 +334,7 @@ void tst_qregexp::simpleFind1()
 
 void tst_qregexp::simpleFind2()
 {
-    int roff;
+    int roff = 0;
     QRegExp rx("happy");
     rx.setPatternSyntax(QRegExp::RegExp2);
     QBENCHMARK{

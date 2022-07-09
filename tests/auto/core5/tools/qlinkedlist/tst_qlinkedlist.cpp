@@ -146,6 +146,11 @@ Q_STATIC_ASSERT(QTypeInfo<Complex>::isComplex);
 
 QT_BEGIN_NAMESPACE
 
+static_assert(QTypeTraits::has_ostream_operator_v<QDataStream, QLinkedList<QString>>);
+static_assert(QTypeTraits::has_istream_operator_v<QDataStream, QLinkedList<QString>>);
+static_assert(!QTypeTraits::has_ostream_operator_v<QDataStream, QLinkedList<Movable>>);
+static_assert(!QTypeTraits::has_istream_operator_v<QDataStream, QLinkedList<Movable>>);
+
 class tst_QLinkedList : public QObject
 {
     Q_OBJECT

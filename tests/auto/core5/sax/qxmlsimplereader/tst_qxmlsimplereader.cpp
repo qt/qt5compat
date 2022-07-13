@@ -689,7 +689,7 @@ void tst_QXmlSimpleReader::reportNamespace_data() const
 QDomDocument tst_QXmlSimpleReader::fromByteArray(const QString &title, const QByteArray &ba, bool *ok)
 {
     QDomDocument doc(title);
-    *ok = doc.setContent(ba, true);
+    *ok = bool(doc.setContent(ba, QDomDocument::ParseOption::UseNamespaceProcessing));
     return doc;
 }
 

@@ -82,16 +82,12 @@ public:
     static QTextCodec *codecForUtfText(const QByteArray &ba, QTextCodec *defaultCodec);
 
     bool canEncode(QChar) const;
-#if QT_STRINGVIEW_LEVEL < 2
     bool canEncode(const QString&) const;
-#endif
     bool canEncode(QStringView) const;
 
     QString toUnicode(const QByteArray&) const;
     QString toUnicode(const char* chars) const;
-#if QT_STRINGVIEW_LEVEL < 2
     QByteArray fromUnicode(const QString& uc) const;
-#endif
     QByteArray fromUnicode(QStringView uc) const;
 
     QString toUnicode(const char *in, int length, ConverterState *state = nullptr) const
@@ -132,9 +128,7 @@ public:
     explicit QTextEncoder(const QTextCodec *codec) : c(codec), state() {}
     explicit QTextEncoder(const QTextCodec *codec, QTextCodec::ConversionFlags flags);
     ~QTextEncoder();
-#if QT_STRINGVIEW_LEVEL < 2
     QByteArray fromUnicode(const QString& str);
-#endif
     QByteArray fromUnicode(QStringView str);
     QByteArray fromUnicode(const QChar *uc, int len);
     bool hasFailure() const;

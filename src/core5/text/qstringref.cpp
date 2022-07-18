@@ -1200,7 +1200,6 @@ QStringRef QStringRef::mid(int pos, int n) const
     \sa QString::chop(), truncate()
 */
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*!
   \since 4.8
 
@@ -1221,7 +1220,6 @@ int QStringRef::indexOf(const QString &str, int from, Qt::CaseSensitivity cs) co
     // ### Qt6: qsizetype
     return int(QtPrivate::findString(QStringView(unicode(), length()), from, QStringView(str.unicode(), str.length()), cs));
 }
-#endif // QT_STRINGVIEW_LEVEL < 2
 
 /*!
     \fn int QStringRef::indexOf(QStringView str, int from, Qt::CaseSensitivity cs) const
@@ -1278,7 +1276,6 @@ int QStringRef::indexOf(QLatin1String str, int from, Qt::CaseSensitivity cs) con
     return int(QtPrivate::findString(QStringView(unicode(), size()), from, str, cs));
 }
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*!
     \since 4.8
 
@@ -1298,7 +1295,6 @@ int QStringRef::indexOf(const QStringRef &str, int from, Qt::CaseSensitivity cs)
     // ### Qt6: qsizetype
     return int(QtPrivate::findString(QStringView(unicode(), size()), from, QStringView(str.unicode(), str.size()), cs));
 }
-#endif // QT_STRINGVIEW_LEVEL < 2
 
 /*!
   \since 4.8
@@ -1577,7 +1573,6 @@ bool QStringRef::endsWith(const QStringRef &str, Qt::CaseSensitivity cs) const
     return qt_ends_with(*this, str, cs);
 }
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*! \fn bool QStringRef::contains(const QString &str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
 
     \since 4.8
@@ -1589,7 +1584,6 @@ bool QStringRef::endsWith(const QStringRef &str, Qt::CaseSensitivity cs) const
 
     \sa indexOf(), count()
 */
-#endif // QT_STRINGVIEW_LEVEL < 2
 
 /*! \fn bool QStringRef::contains(QChar ch, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
 
@@ -1604,7 +1598,6 @@ bool QStringRef::endsWith(const QStringRef &str, Qt::CaseSensitivity cs) const
 
 */
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*! \fn bool QStringRef::contains(const QStringRef &str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \overload contains()
     \since 4.8
@@ -1617,7 +1610,6 @@ bool QStringRef::endsWith(const QStringRef &str, Qt::CaseSensitivity cs) const
 
     \sa indexOf(), count()
 */
-#endif // QT_STRINGVIEW_LEVEL < 2
 
 /*! \fn bool QStringRef::contains(QLatin1String str, Qt::CaseSensitivity cs) const
     \since 4.8

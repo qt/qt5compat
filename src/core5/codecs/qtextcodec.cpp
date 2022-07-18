@@ -793,7 +793,6 @@ QTextEncoder* QTextCodec::makeEncoder(QTextCodec::ConversionFlags flags) const
     The \a state of the convertor used is updated.
 */
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*!
     Converts \a str from Unicode to the encoding of this codec, and
     returns the result in a QByteArray.
@@ -802,7 +801,6 @@ QByteArray QTextCodec::fromUnicode(const QString& str) const
 {
     return convertFromUnicode(str.constData(), str.length(), nullptr);
 }
-#endif
 
 /*!
     \overload
@@ -848,7 +846,6 @@ bool QTextCodec::canEncode(QChar ch) const
     return (state.invalidChars == 0);
 }
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*!
     \overload
 
@@ -861,7 +858,6 @@ bool QTextCodec::canEncode(const QString& s) const
     convertFromUnicode(s.constData(), s.length(), &state);
     return (state.invalidChars == 0);
 }
-#endif
 
 /*!
     \overload
@@ -941,7 +937,6 @@ bool QTextEncoder::hasFailure() const
     return state.invalidChars != 0;
 }
 
-#if QT_STRINGVIEW_LEVEL < 2
 /*!
     Converts the Unicode string \a str into an encoded QByteArray.
 */
@@ -949,7 +944,6 @@ QByteArray QTextEncoder::fromUnicode(const QString& str)
 {
     return c->fromUnicode(str.constData(), str.length(), &state);
 }
-#endif
 
 /*!
     \overload

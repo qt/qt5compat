@@ -160,7 +160,7 @@ private slots:
         if (bodyBytesRead == bodyLength)
         {
             QDomDocument domDoc;
-            success = domDoc.setContent(body);
+            success = bool(domDoc.setContent(body));
             eventLoop.exit();
         }
     }

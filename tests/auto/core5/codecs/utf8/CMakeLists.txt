@@ -11,6 +11,6 @@ qt_internal_add_test(tst_utf8
     SOURCES
         tst_utf8.cpp
         utf8data.h
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
 )

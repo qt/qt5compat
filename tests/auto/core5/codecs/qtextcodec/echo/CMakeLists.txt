@@ -10,6 +10,6 @@
 qt_internal_add_test_helper(echo_helper
     SOURCES
         main.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
 )

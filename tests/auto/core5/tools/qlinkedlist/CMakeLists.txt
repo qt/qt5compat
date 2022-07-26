@@ -10,7 +10,7 @@
 qt_internal_add_test(tst_qlinkedlist
     SOURCES
         tst_qlinkedlist.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
 )
 

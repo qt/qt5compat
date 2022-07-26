@@ -10,7 +10,7 @@
 qt_internal_add_benchmark(tst_bench_qtextcodec
     SOURCES
         main.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
         Qt::Test
 )

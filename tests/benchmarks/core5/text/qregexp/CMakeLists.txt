@@ -11,7 +11,7 @@ qt_internal_add_benchmark(tst_bench_qregexp
     EXCEPTIONS
     SOURCES
         main.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
         Qt::Test
 )
@@ -38,13 +38,13 @@ qt_internal_add_resource(tst_bench_qregexp "qregexp"
 qt_internal_extend_target(tst_bench_qregexp CONDITION TARGET Qt::Script AND NOT pcre
     DEFINES
         HAVE_JSC
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Script
 )
 
 qt_internal_extend_target(tst_bench_qregexp CONDITION (NOT QNX) AND (EXISTS _ss_[QT_SYSROOT]/usr/include/boost/regex.hpp)
     DEFINES
         HAVE_BOOST
-    PUBLIC_LIBRARIES
+    LIBRARIES
         boost_regex
 )

@@ -15,6 +15,6 @@ qt_internal_add_test(tst_qt5compat_qstringbuilder1
     DEFINES
         QT_USE_FAST_OPERATOR_PLUS
         QT_USE_QSTRINGBUILDER
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
 )

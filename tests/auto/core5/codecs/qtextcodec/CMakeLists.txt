@@ -16,7 +16,7 @@ list(APPEND test_data ${test_data_glob})
 qt_internal_add_test(tst_qtextcodec
     SOURCES
         tst_qtextcodec.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
     TESTDATA ${test_data}
 )

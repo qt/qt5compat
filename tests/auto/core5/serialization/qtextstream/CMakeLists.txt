@@ -12,6 +12,6 @@ qt_internal_add_test(tst_qt5compat_qtextstream
 # special case end
     SOURCES
         tst_qtextstream.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
 )

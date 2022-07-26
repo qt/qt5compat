@@ -23,7 +23,7 @@ qt_internal_add_test(tst_qxmlsimplereader
         tst_qxmlsimplereader.cpp
     INCLUDE_DIRECTORIES
         parser
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
         Qt::Network
         Qt::Xml

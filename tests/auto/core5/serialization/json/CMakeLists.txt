@@ -12,7 +12,7 @@ qt_internal_add_test(tst_qt5compat_json
 # special case end
     SOURCES
         tst_qtjson.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
         Qt::CorePrivate
 )

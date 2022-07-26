@@ -10,7 +10,7 @@
 qt_internal_add_test(tst_qxmlinputsource
     SOURCES
         tst_qxmlinputsource.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core5Compat
         Qt::Network
         Qt::Xml

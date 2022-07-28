@@ -16,6 +16,7 @@
 #include "qstringlist.h"
 #include "qstringmatcher.h"
 #include "private/qlocking_p.h"
+#include "qvarlengtharray.h"
 
 #include <limits.h>
 #include <algorithm>

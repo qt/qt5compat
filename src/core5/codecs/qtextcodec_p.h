@@ -53,6 +53,7 @@ bool qTextCodecNameMatch(const char *a, const char *b);
 
 #else // without textcodec:
 
+// ELFVERSION:ignore-next
 class QTextCodec
 {
 public:

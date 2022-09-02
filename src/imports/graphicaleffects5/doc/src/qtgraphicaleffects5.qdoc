@@ -64,7 +64,6 @@ storage using QTemporaryFile, thus they require a writable file system.
 
 \section1 QML Types
 \generatelist {qmltypesbymodule Qt5Compat.GraphicalEffects}
-\noautolist
 
 \section1 Reference
 

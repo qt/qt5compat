@@ -65,7 +65,7 @@ qt_internal_extend_target(Core5Compat CONDITION QT_FEATURE_big_codecs AND QT_FEA
         codecs/qeuckrcodec.cpp codecs/qeuckrcodec_p.h
         codecs/qgb18030codec.cpp codecs/qgb18030codec_p.h
         codecs/qjiscodec.cpp codecs/qjiscodec_p.h
-        codecs/qjpunicode.cpp
+        codecs/qjpunicode.cpp codecs/qjpunicode_p.h
         codecs/qsjiscodec.cpp codecs/qsjiscodec_p.h
 )
 

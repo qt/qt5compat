@@ -34,7 +34,7 @@
 #  include "qwindowscodec_p.h"
 #endif
 #  include "qsimplecodec_p.h"
-#if QT_CONFIG(big_codecs)
+#if QT_CONFIG(big_codecs) && QT_CONFIG(textcodec)
 #  ifndef Q_OS_INTEGRITY
 #    include "qgb18030codec_p.h"
 #    include "qeucjpcodec_p.h"

@@ -376,7 +376,7 @@ void tst_QStringRef::indexOf2_data()
     QTest::newRow("data45") << whale << (whale + whale) << -1;
     QTest::newRow("data46") << (whale + whale) << (whale + whale) << 0;
     QTest::newRow("data47") << (whale + whale) << (whale + minnow) << -1;
-    QTest::newRow("data48") << (minnow + whale) << whale << (int)minnow.length();
+    QTest::newRow("data48") << (minnow + whale) << whale << (int)minnow.size();
 }
 
 void tst_QStringRef::indexOf2()
@@ -399,7 +399,7 @@ void tst_QStringRef::indexOf2()
     QCOMPARE(haystack.indexOf(needleRef, 0, Qt::CaseInsensitive), resultpos);
     QCOMPARE(haystackRef.indexOf(needle, 0, Qt::CaseInsensitive), resultpos);
     QCOMPARE(haystackRef.indexOf(needleRef, 0, Qt::CaseInsensitive), resultpos);
-    if (needle.length() > 0) {
+    if (needle.size() > 0) {
         got = haystackRef.lastIndexOf(needle, -1, Qt::CaseSensitive);
         QVERIFY(got == resultpos || (resultpos >= 0 && got >= resultpos));
         got = haystackRef.lastIndexOf(needle, -1, Qt::CaseInsensitive);
@@ -823,7 +823,7 @@ void tst_QStringRef::compare_data()
 
 static bool isLatin(const QString &s)
 {
-    for (int i = 0; i < s.length(); ++i)
+    for (int i = 0; i < s.size(); ++i)
         if (s.at(i).unicode() > 0xff)
             return false;
     return true;
@@ -836,8 +836,8 @@ void tst_QStringRef::compare()
     QFETCH(int, csr);
     QFETCH(int, cir);
 
-    QStringRef r1(&s1, 0, s1.length());
-    QStringRef r2(&s2, 0, s2.length());
+    QStringRef r1(&s1, 0, s1.size());
+    QStringRef r2(&s2, 0, s2.size());
 
     QCOMPARE(sign(QString::compare(s1, s2)), csr);
     QCOMPARE(sign(QStringRef::compare(r1, r2)), csr);
@@ -893,8 +893,8 @@ void tst_QStringRef::compare2()
     s1.prepend("xyz").append("zyx");
     s2.prepend("foobar").append("raboof");
 
-    QStringRef r1(&s1, 3, s1.length() - 6);
-    QStringRef r2(&s2, 6, s2.length() - 12);
+    QStringRef r1(&s1, 3, s1.size() - 6);
+    QStringRef r2(&s2, 6, s2.size() - 12);
 
     QCOMPARE(sign(QStringRef::compare(r1, r2)), csr);
     QCOMPARE(sign(r1.compare(r2)), csr);

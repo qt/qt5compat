@@ -122,7 +122,7 @@ void tst_QTextCodec::toUnicode()
         QCOMPARE(ba, c->fromUnicode(QStringView(uniString)) );
 
         char ch = '\0';
-        QVERIFY(c->toUnicode(&ch, 1).length() == 1);
+        QVERIFY(c->toUnicode(&ch, 1).size() == 1);
         QVERIFY(c->toUnicode(&ch, 1).at(0).unicode() == 0);
     } else {
         QFAIL(qPrintable("File could not be opened: " + file.errorString()));
@@ -441,7 +441,7 @@ void tst_QTextCodec::nonFlaggedCodepointFFFF() const
 
     QByteArray ffff("\357\277\277");
     QTextCodec::ConverterState state(QTextCodec::ConvertInvalidToNull);
-    QVERIFY(codec->toUnicode(ffff.constData(), ffff.length(), &state) == QByteArray::fromHex("EFBFBF"));
+    QVERIFY(codec->toUnicode(ffff.constData(), ffff.size(), &state) == QByteArray::fromHex("EFBFBF"));
 }
 
 void tst_QTextCodec::flagF7808080() const
@@ -474,7 +474,7 @@ void tst_QTextCodec::flagF7808080() const
     //QVERIFY(!codec->canEncode(QChar(0x1C0000)));
 
     QTextCodec::ConverterState state(QTextCodec::ConvertInvalidToNull);
-    QCOMPARE(codec->toUnicode(input.constData(), input.length(), &state), QString(input.size(), QChar(0)));
+    QCOMPARE(codec->toUnicode(input.constData(), input.size(), &state), QString(input.size(), QChar(0)));
 }
 
 void tst_QTextCodec::nonFlaggedEFBFBF() const
@@ -494,7 +494,7 @@ void tst_QTextCodec::nonFlaggedEFBFBF() const
     {
         //QVERIFY(!codec->canEncode(QChar(0xFFFF)));
         QTextCodec::ConverterState state(QTextCodec::ConvertInvalidToNull);
-        QVERIFY(codec->toUnicode(validInput.constData(), validInput.length(), &state) == QByteArray::fromHex("EFBFBF"));
+        QVERIFY(codec->toUnicode(validInput.constData(), validInput.size(), &state) == QByteArray::fromHex("EFBFBF"));
 
         QByteArray start("<?pi ");
         start.append(validInput);
@@ -507,7 +507,7 @@ void tst_QTextCodec::nonFlaggedEFBFBF() const
         start.append(validInput);
 
         QTextCodec::ConverterState state(QTextCodec::ConvertInvalidToNull);
-        QVERIFY(codec->toUnicode(start.constData(), start.length(), &state) == QByteArray("B").append(QByteArray::fromHex("EFBFBF")));
+        QVERIFY(codec->toUnicode(start.constData(), start.size(), &state) == QByteArray("B").append(QByteArray::fromHex("EFBFBF")));
     }
 }
 
@@ -1764,10 +1764,10 @@ void tst_QTextCodec::utf8bom()
     QTextCodec *const codec = QTextCodec::codecForMib(106); // UTF-8
     QVERIFY(codec);
 
-    QCOMPARE(codec->toUnicode(data.constData(), data.length(), 0), result);
+    QCOMPARE(codec->toUnicode(data.constData(), data.size(), 0), result);
 
     QTextCodec::ConverterState state;
-    QCOMPARE(codec->toUnicode(data.constData(), data.length(), &state), result);
+    QCOMPARE(codec->toUnicode(data.constData(), data.size(), &state), result);
 }
 
 void tst_QTextCodec::utf8stateful_data()
@@ -2066,17 +2066,17 @@ void tst_QTextCodec::utfHeaders()
     QString rowName(QTest::currentDataTag());
 
     if (toUnicode) {
-        QString result = codec->toUnicode(encoded.constData(), encoded.length(), &state);
-        QCOMPARE(result.length(), unicode.length());
+        QString result = codec->toUnicode(encoded.constData(), encoded.size(), &state);
+        QCOMPARE(result.size(), unicode.size());
         QCOMPARE(result, unicode);
 
         if (!rowName.endsWith("nobom") && !rowName.contains(ignoreReverseTestOn)) {
             QTextCodec::ConverterState state2(cFlags);
-            QByteArray reencoded = codec->fromUnicode(unicode.unicode(), unicode.length(), &state2);
+            QByteArray reencoded = codec->fromUnicode(unicode.unicode(), unicode.size(), &state2);
             QCOMPARE(reencoded, encoded);
         }
     } else {
-        QByteArray result = codec->fromUnicode(unicode.unicode(), unicode.length(), &state);
+        QByteArray result = codec->fromUnicode(unicode.unicode(), unicode.size(), &state);
         QCOMPARE(result, encoded);
     }
 }
@@ -2238,7 +2238,7 @@ void tst_QTextCodec::toLocal8Bit()
     QProcess process;
     process.start("echo_helper");
     QString string(QChar(0x410));
-    process.write((const char*)string.utf16(), string.length()*2);
+    process.write((const char*)string.utf16(), string.size()*2);
 
     process.closeWriteChannel();
     process.waitForFinished();
@@ -2539,7 +2539,7 @@ void tst_QTextCodec::shiftJis()
     QByteArray backslashTilde("\\~");
     QTextCodec* codec = QTextCodec::codecForName("shift_jis");
     QString string = codec->toUnicode(backslashTilde);
-    QCOMPARE(string.length(), 2);
+    QCOMPARE(string.size(), 2);
     QCOMPARE(string.at(0), QChar(QLatin1Char('\\')));
     QCOMPARE(string.at(1), QChar(QLatin1Char('~')));
 

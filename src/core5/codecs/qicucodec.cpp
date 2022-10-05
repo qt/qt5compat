@@ -601,7 +601,7 @@ QString QIcuCodec::convertToUnicode(const char *chars, int length, QTextCodec::C
     int convertedChars = 0;
     while (1) {
         UChar *uc = (UChar *)string.data();
-        UChar *ucEnd = uc + string.length();
+        UChar *ucEnd = uc + string.size();
         uc += convertedChars;
         UErrorCode error = U_ZERO_ERROR;
         ucnv_toUnicode(conv,
@@ -619,7 +619,7 @@ QString QIcuCodec::convertToUnicode(const char *chars, int length, QTextCodec::C
         convertedChars = uc - (UChar *)string.data();
         if (chars >= end)
             break;
-        string.resize(string.length()*2);
+        string.resize(string.size()*2);
     }
     string.resize(convertedChars);
 
@@ -641,7 +641,7 @@ QByteArray QIcuCodec::convertFromUnicode(const QChar *unicode, int length, QText
     int convertedChars = 0;
     while (1) {
         char *ch = (char *)string.data();
-        char *chEnd = ch + string.length();
+        char *chEnd = ch + string.size();
         ch += convertedChars;
         UErrorCode error = U_ZERO_ERROR;
         ucnv_fromUnicode(conv,
@@ -657,7 +657,7 @@ QByteArray QIcuCodec::convertFromUnicode(const QChar *unicode, int length, QText
         convertedChars = ch - string.data();
         if (uc >= end)
             break;
-        string.resize(string.length()*2);
+        string.resize(string.size()*2);
     }
     string.resize(convertedChars);
 

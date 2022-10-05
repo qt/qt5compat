@@ -518,7 +518,7 @@ void tst_QXmlSimpleReader::inputFromString()
 void tst_QXmlSimpleReader::inputFromSocket_data()
 {
     const QStringList files = findXmlFiles(QLatin1String("encodings"));
-    QVERIFY(files.count() > 0);
+    QVERIFY(files.size() > 0);
 
     QTest::addColumn<QString>("file_name");
 

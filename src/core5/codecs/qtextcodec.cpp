@@ -799,7 +799,7 @@ QTextEncoder* QTextCodec::makeEncoder(QTextCodec::ConversionFlags flags) const
 */
 QByteArray QTextCodec::fromUnicode(const QString& str) const
 {
-    return convertFromUnicode(str.constData(), str.length(), nullptr);
+    return convertFromUnicode(str.constData(), str.size(), nullptr);
 }
 
 /*!
@@ -811,7 +811,7 @@ QByteArray QTextCodec::fromUnicode(const QString& str) const
 */
 QByteArray QTextCodec::fromUnicode(QStringView str) const
 {
-    return convertFromUnicode(str.data(), str.length(), nullptr);
+    return convertFromUnicode(str.data(), str.size(), nullptr);
 }
 
 /*!
@@ -831,7 +831,7 @@ QByteArray QTextCodec::fromUnicode(QStringView str) const
 */
 QString QTextCodec::toUnicode(const QByteArray& a) const
 {
-    return convertToUnicode(a.constData(), a.length(), nullptr);
+    return convertToUnicode(a.constData(), a.size(), nullptr);
 }
 
 /*!
@@ -855,7 +855,7 @@ bool QTextCodec::canEncode(const QString& s) const
 {
     ConverterState state;
     state.flags = ConvertInvalidToNull;
-    convertFromUnicode(s.constData(), s.length(), &state);
+    convertFromUnicode(s.constData(), s.size(), &state);
     return (state.invalidChars == 0);
 }
 
@@ -870,7 +870,7 @@ bool QTextCodec::canEncode(QStringView s) const
 {
     ConverterState state;
     state.flags = ConvertInvalidToNull;
-    convertFromUnicode(s.data(), s.length(), &state);
+    convertFromUnicode(s.data(), s.size(), &state);
     return !state.invalidChars;
 }
 /*!
@@ -942,7 +942,7 @@ bool QTextEncoder::hasFailure() const
 */
 QByteArray QTextEncoder::fromUnicode(const QString& str)
 {
-    return c->fromUnicode(str.constData(), str.length(), &state);
+    return c->fromUnicode(str.constData(), str.size(), &state);
 }
 
 /*!
@@ -952,7 +952,7 @@ QByteArray QTextEncoder::fromUnicode(const QString& str)
 */
 QByteArray QTextEncoder::fromUnicode(QStringView str)
 {
-    return c->fromUnicode(str.data(), str.length(), &state);
+    return c->fromUnicode(str.data(), str.size(), &state);
 }
 
 /*!
@@ -1051,7 +1051,7 @@ void QTextDecoder::toUnicode(QString *target, const char *chars, int len)
 */
 QString QTextDecoder::toUnicode(const QByteArray &ba)
 {
-    return c->toUnicode(ba.constData(), ba.length(), &state);
+    return c->toUnicode(ba.constData(), ba.size(), &state);
 }
 
 /*!

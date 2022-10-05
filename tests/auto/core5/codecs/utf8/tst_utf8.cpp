@@ -24,7 +24,7 @@ public:
     static QByteArray to8Bit(const QString &);
 
     inline QString from8Bit(const QByteArray &ba)
-    { return from8BitPtr(ba.constData(), ba.length()); }
+    { return from8BitPtr(ba.constData(), ba.size()); }
 public slots:
     void initTestCase();
     void init();
@@ -163,7 +163,7 @@ void tst_Utf8::charByChar()
         const QScopedPointer<QTextEncoder> encoder(codec->makeEncoder());
         QByteArray encoded;
 
-        for (int i = 0; i < utf16.length(); ++i) {
+        for (int i = 0; i < utf16.size(); ++i) {
             encoded += encoder->fromUnicode(utf16.constData() + i, 1);
             QVERIFY(!encoder->hasFailure());
         }
@@ -177,7 +177,7 @@ void tst_Utf8::charByChar()
         const QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
         QString decoded;
 
-        for (int i = 0; i < utf8.length(); ++i) {
+        for (int i = 0; i < utf8.size(); ++i) {
             decoded += decoder->toUnicode(utf8.constData() + i, 1);
             QVERIFY(!decoder->hasFailure());
         }

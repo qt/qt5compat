@@ -91,7 +91,7 @@ void MainWindow::about()
 void MainWindow::aboutToShowSaveAsMenu()
 {
     const QString currentText = textEdit->toPlainText();
-    for (QAction *action : qAsConst(saveAsActs)) {
+    for (QAction *action : std::as_const(saveAsActs)) {
         const QByteArray codecName = action->data().toByteArray();
         const auto codec = QTextCodec::codecForName(codecName);
         action->setVisible(codec && codec->canEncode(currentText));
@@ -127,7 +127,7 @@ void MainWindow::findCodecs()
 
         codecMap.insert(sortKey, codec);
     }
-    for (const auto &codec : qAsConst(codecMap))
+    for (const auto &codec : std::as_const(codecMap))
       codecs += codec;
 }
 
@@ -141,7 +141,7 @@ void MainWindow::createMenus()
     QMenu *saveAsMenu = fileMenu->addMenu(tr("&Save As"));
     connect(saveAsMenu, &QMenu::aboutToShow,
             this, &MainWindow::aboutToShowSaveAsMenu);
-    for (const auto codec : qAsConst(codecs)) {
+    for (const auto codec : std::as_const(codecs)) {
         const QByteArray name = codec->name();
         QAction *action = saveAsMenu->addAction(tr("%1...").arg(QLatin1String(name)));
         action->setData(QVariant(name));

@@ -802,7 +802,7 @@ int QXmlAttributes::index(const QString& uri, const QString& localPart) const
 */
 int QXmlAttributes::length() const
 {
-    return attList.count();
+    return attList.size();
 }
 
 /*!

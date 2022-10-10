@@ -245,14 +245,21 @@ Item {
     onDeviationChanged: _rebuildShaders();
     on_DprChanged: _rebuildShaders();
     on_MaskSourceChanged: _rebuildShaders();
-    Component.onCompleted: _rebuildShaders();
+    Component.onCompleted: {
+        shaderBuilder.componentIsComplete = true
+        _rebuildShaders();
+    }
 
     ShaderBuilder {
         id: shaderBuilder
+        property bool componentIsComplete: false
     }
 
     /*! \internal */
     function _rebuildShaders() {
+        if (!shaderBuilder.componentIsComplete)
+            return
+
         var params = {
             radius: _kernelRadius,
             // Limit deviation to something very small avoid getting NaN in the shader.

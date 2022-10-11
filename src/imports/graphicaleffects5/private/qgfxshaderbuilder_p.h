@@ -27,13 +27,10 @@ public:
     Q_INVOKABLE QUrl buildFragmentShader(const QByteArray &code);
 
 private:
-    QUrl buildShader(const QByteArray &code, QShader::Stage stage, QTemporaryFile *output);
+    QUrl buildShader(const QByteArray &code, QShader::Stage stage);
 
     int m_maxBlurSamples = 0;
     QShaderBaker m_shaderBaker;
-
-    QTemporaryFile *m_fragmentShader = nullptr;
-    QTemporaryFile *m_vertexShader = nullptr;
 };
 
 QT_END_NAMESPACE

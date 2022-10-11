@@ -6,8 +6,10 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
-#include <QtCore/QTemporaryFile>
 #include <QtCore/QVarLengthArray>
+#include <QtCore/QStandardPaths>
+#include <QtCore/QCryptographicHash>
+#include <QtCore/QDir>
 #include <QtGui/QOffscreenSurface>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
@@ -46,34 +48,22 @@ QT_BEGIN_NAMESPACE
 
 QGfxShaderBuilder::QGfxShaderBuilder()
 {
-    QList<QShaderBaker::GeneratedShader> targets;
-
-    QSGRendererInterface::GraphicsApi graphicsApi = QQuickWindow::graphicsApi();
-    switch (graphicsApi) {
-    case QSGRendererInterface::Direct3D11:
-        targets.append({ QShader::HlslShader, QShaderVersion(50) });
-        break;
-    case QSGRendererInterface::OpenGL:
-        targets.append({ QShader::GlslShader, QShaderVersion(100, QShaderVersion::GlslEs) });
-        targets.append({ QShader::GlslShader, QShaderVersion(120) });
-        targets.append({ QShader::GlslShader, QShaderVersion(150) });
-        break;
-    case QSGRendererInterface::Metal:
-        targets.append({ QShader::MslShader, QShaderVersion(12) });
-        break;
-    case QSGRendererInterface::Vulkan:
-        targets.append({ QShader::SpirvShader, QShaderVersion(100) });
-        break;
-    default:
-        qWarning("QGfxShaderBuilder: Unsupported graphics backend. No shaders will be generated.");
-        break;
-    }
+    QList<QShaderBaker::GeneratedShader> targets =
+    {
+        { QShader::HlslShader, QShaderVersion(50) },
+        { QShader::GlslShader, QShaderVersion(100, QShaderVersion::GlslEs) },
+        { QShader::GlslShader, QShaderVersion(120) },
+        { QShader::GlslShader, QShaderVersion(150) },
+        { QShader::MslShader, QShaderVersion(12) },
+        { QShader::SpirvShader, QShaderVersion(100) }
+    };
 
     m_shaderBaker.setGeneratedShaders(targets);
     m_shaderBaker.setGeneratedShaderVariants({ QShader::StandardShader,
                                                QShader::BatchableVertexShader });
 
 #ifndef QT_NO_OPENGL
+    QSGRendererInterface::GraphicsApi graphicsApi = QQuickWindow::graphicsApi();
     if (graphicsApi == QSGRendererInterface::OpenGL) {
         // The following code makes the assumption that an OpenGL context the GUI
         // thread will get the same capabilities as the render thread's OpenGL
@@ -443,45 +433,58 @@ QVariantMap QGfxShaderBuilder::gaussianBlur(const QJSValue &parameters)
 
 QUrl QGfxShaderBuilder::buildFragmentShader(const QByteArray &code)
 {
-    delete m_fragmentShader;
-    m_fragmentShader = new QTemporaryFile(this);
-
-    return buildShader(code, QShader::FragmentStage, m_fragmentShader);
+    return buildShader(code, QShader::FragmentStage);
 }
 
 QUrl QGfxShaderBuilder::buildVertexShader(const QByteArray &code)
 {
-    delete m_vertexShader;
-    m_vertexShader = new QTemporaryFile(this);
-
-    return buildShader(code, QShader::VertexStage, m_vertexShader);
+    return buildShader(code, QShader::VertexStage);
 }
 
 QUrl QGfxShaderBuilder::buildShader(const QByteArray &code,
-                                    QShader::Stage stage,
-                                    QTemporaryFile *output)
+                                    QShader::Stage stage)
 {
-    if (!output->open()) {
-        qWarning() << "QGfxShaderBuilder: Failed to create temporary files";
-        return QUrl{};
-    }
+    static bool recreateShaders = qEnvironmentVariableIntValue("QT_GFXSHADERBUILDER_REFRESH_CACHE");
 
-    m_shaderBaker.setSourceString(code, stage, output->fileName());
-    {
-        QShader compiledShader = m_shaderBaker.bake();
-        if (!compiledShader.isValid()) {
-            qWarning() << "QGfxShaderBuilder: Failed to compile shader for stage "
-                       << stage << ": "
-                       << m_shaderBaker.errorMessage()
-                       << QString(code).replace('\n', QChar(QChar::LineFeed));
+    QCryptographicHash fileNameHash(QCryptographicHash::Sha1);
+    fileNameHash.addData(code);
+
+    QString path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation)
+                   + QStringLiteral("/_qt_QGfxShaderBuilder_")
+                   + QStringLiteral(QT_VERSION_STR)
+                   + QStringLiteral("/");
+    QString filePath = path
+                   + fileNameHash.result().toHex()
+                   + QStringLiteral(".qsb");
+
+    if (!QFile::exists(filePath) || recreateShaders) {
+        if (!QDir().mkpath(path)) {
+            qWarning() << "QGfxShaderBuilder: Failed to create path:" << path;
+            return QUrl{};
+
+        }
+
+        QFile output(filePath);
+        if (!output.open(QIODevice::WriteOnly)) {
+            qWarning() << "QGfxShaderBuilder: Failed to store shader cache in file:" << filePath;
             return QUrl{};
         }
-        output->write(compiledShader.serialized());
+
+        m_shaderBaker.setSourceString(code, stage, filePath);
+        {
+            QShader compiledShader = m_shaderBaker.bake();
+            if (!compiledShader.isValid()) {
+                qWarning() << "QGfxShaderBuilder: Failed to compile shader for stage "
+                           << stage << ": "
+                           << m_shaderBaker.errorMessage()
+                           << QString(code).replace('\n', QChar(QChar::LineFeed));
+                return QUrl{};
+            }
+            output.write(compiledShader.serialized());
+        }
     }
 
-    output->close();
-
-    return QUrl::fromLocalFile(output->fileName());
+    return QUrl::fromLocalFile(filePath);
 }
 
 QT_END_NAMESPACE

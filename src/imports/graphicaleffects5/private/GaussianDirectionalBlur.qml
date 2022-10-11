@@ -42,10 +42,6 @@ Item {
         hideSource: visible
     }
 
-    ShaderBuilder {
-        id: shaderBuilder
-    }
-
     ShaderEffect {
         id: shaderItem
         property variant source: sourceProxy.output
@@ -183,7 +179,7 @@ Item {
             shader = shader.replace("PLACEHOLDER_MASK_STEPS", maskSteps)
             shader = shader.replace("PLACEHOLDER_MASK_UNIFORMS", maskUniforms)
 
-            fragmentShader = shaderBuilder.buildFragmentShader(shader)
+            fragmentShader = ShaderBuilder.buildFragmentShader(shader)
         }
 
         onDeviationChanged: updateGaussianWeights()

@@ -10,6 +10,11 @@
 
 QT_BEGIN_NAMESPACE
 
+static QObject *qgfxshaderbuilder_provider(QQmlEngine *, QJSEngine *)
+{
+    return new QGfxShaderBuilder();
+}
+
 class QtGraphicalEffectsPrivatePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -21,7 +26,7 @@ public:
     {
         Q_ASSERT(QByteArray(uri) == QByteArrayLiteral("Qt5Compat.GraphicalEffects.private"));
         qmlRegisterType<QGfxSourceProxy>(uri, 1, 0, "SourceProxy");
-        qmlRegisterType<QGfxShaderBuilder>(uri, 1, 0, "ShaderBuilder");
+        qmlRegisterSingletonType<QGfxShaderBuilder>(uri, 1, 0, "ShaderBuilder", qgfxshaderbuilder_provider);
 
         qmlRegisterModule(uri, QT_VERSION_MAJOR, QT_VERSION_MINOR);
     }

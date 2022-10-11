@@ -268,10 +268,6 @@ Item {
         hideSource: visible
     }
 
-    ShaderBuilder {
-        id: shaderBuilder
-    }
-
     ShaderEffect {
         id: shaderItem
         property variant source: backgroundSourceProxy.output
@@ -309,7 +305,7 @@ Item {
             }
 
             shader += fragmentShaderEnd
-            fragmentShader = shaderBuilder.buildFragmentShader(shader)
+            fragmentShader = ShaderBuilder.buildFragmentShader(shader)
 
             // Workaround for a bug just to make sure display gets updated when the mode changes.
             sourceChanged()

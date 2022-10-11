@@ -185,10 +185,6 @@ Item {
         hideSource: visible
     }
 
-    ShaderBuilder {
-        id: shaderBuilder
-    }
-
     ShaderEffect {
         id: shaderItem
         property variant source: sourceProxy.output
@@ -251,7 +247,7 @@ Item {
             }
 
             shader = shader.replace("PLACEHOLDER_EXPAND_STEPS", expandSteps)
-            fragmentShader = shaderBuilder.buildFragmentShader(shader.replace("PLACEHOLDER_UNROLLED_LOOP", unrolledLoop))
+            fragmentShader = ShaderBuilder.buildFragmentShader(shader.replace("PLACEHOLDER_UNROLLED_LOOP", unrolledLoop))
         }
 
         onFragmentShaderChanged: sourceChanged()

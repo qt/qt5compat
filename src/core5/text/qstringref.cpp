@@ -1122,8 +1122,7 @@ QStringRef QStringRef::mid(int pos, int n) const
     case QContainerImplHelper::Subset:
         return QStringRef(m_string, p + m_position, l);
     }
-    Q_UNREACHABLE();
-    return QStringRef();
+    Q_UNREACHABLE_RETURN(QStringRef());
 }
 
 /*!

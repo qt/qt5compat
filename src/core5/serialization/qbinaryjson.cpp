@@ -449,8 +449,7 @@ QJsonValue Value::toJsonValue(const Base *b) const
     case QJsonValue::Undefined:
         return QJsonValue(QJsonValue::Undefined);
     }
-    Q_UNREACHABLE();
-    return QJsonValue(QJsonValue::Undefined);
+    Q_UNREACHABLE_RETURN(QJsonValue(QJsonValue::Undefined));
 }
 
 inline bool isValidValueOffset(uint offset, uint tableOffset)

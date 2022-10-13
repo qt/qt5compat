@@ -84,8 +84,7 @@ QBinaryJsonValue QBinaryJsonValue::fromJsonValue(const QJsonValue &json)
     case QJsonValue::Undefined:
         return QBinaryJsonValue(QJsonValue::Undefined);
     }
-    Q_UNREACHABLE();
-    return QBinaryJsonValue(QJsonValue::Null);
+    Q_UNREACHABLE_RETURN(QBinaryJsonValue(QJsonValue::Null));
 }
 
 QString QBinaryJsonValue::toString() const

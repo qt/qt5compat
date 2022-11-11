@@ -182,7 +182,7 @@ static QByteArray qt_convert_to_utf8(QStringView str)
 
 static QList<uint> qt_convert_to_ucs4(QStringView string)
 {
-    QList<uint> v(string.length());
+    QList<uint> v(string.size());
     uint *a = const_cast<uint*>(v.constData());
     QStringIterator it(string);
     while (it.hasNext())
@@ -1182,7 +1182,7 @@ QStringRef QStringRef::mid(int pos, int n) const
 int QStringRef::indexOf(const QString &str, int from, Qt::CaseSensitivity cs) const
 {
     // ### Qt6: qsizetype
-    return int(QtPrivate::findString(QStringView(unicode(), length()), from, QStringView(str.unicode(), str.length()), cs));
+    return int(QtPrivate::findString(QStringView(unicode(), length()), from, QStringView(str.unicode(), str.size()), cs));
 }
 
 /*!

@@ -174,7 +174,7 @@ static bool stripTextDecl(QString& str)
             "\\s*\\?>"
         ));
         QString strTmp = str.replace(textDecl, QLatin1String(""));
-        if (strTmp.length() != str.length())
+        if (strTmp.size() != str.size())
             return false; // external entity has wrong TextDecl
         str = strTmp;
 #else
@@ -802,7 +802,7 @@ int QXmlAttributes::index(const QString& uri, const QString& localPart) const
 */
 int QXmlAttributes::length() const
 {
-    return attList.count();
+    return attList.size();
 }
 
 /*!
@@ -1168,7 +1168,7 @@ void QXmlInputSource::setData(const QString& dat)
     d->str = dat;
     d->unicode = dat.unicode();
     d->pos = 0;
-    d->length = d->str.length();
+    d->length = d->str.size();
     d->nextReturnedEndOfData = false;
 }
 
@@ -1242,7 +1242,7 @@ static QString extractEncodingDecl(const QString &text, bool *needMoreText)
 {
     *needMoreText = false;
 
-    int l = text.length();
+    int l = text.size();
     const QLatin1String snip("<?xml", std::min(l, 5));
     if (l > 0 && !text.startsWith(snip))
         return QString();
@@ -4207,7 +4207,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
 
 bool QXmlSimpleReaderPrivate::reportEndEntities()
 {
-    int count = (int)xmlRefStack.count();
+    int count = (int)xmlRefStack.size();
     while (count != 0 && xmlRefStack.top().isEmpty()) {
         if (contentHnd) {
             if (reportWhitespaceCharData || !string().simplified().isEmpty()) {
@@ -7514,7 +7514,7 @@ bool QXmlSimpleReaderPrivate::processReference()
                     {
                         // Bypassed
                         stringAddC(QLatin1Char('&'));
-                        for (int i=0; i<(int)reference.length(); i++) {
+                        for (int i=0; i<(int)reference.size(); i++) {
                             stringAddC(reference[i]);
                         }
                         stringAddC(QLatin1Char(';'));
@@ -7536,7 +7536,7 @@ bool QXmlSimpleReaderPrivate::processReference()
                 if (parseReference_context == InEntityValue) {
                     // Bypassed
                     stringAddC(QLatin1Char('&'));
-                    for (int i=0; i<(int)reference.length(); i++) {
+                    for (int i=0; i<(int)reference.size(); i++) {
                         stringAddC(reference[i]);
                     }
                     stringAddC(QLatin1Char(';'));
@@ -7619,7 +7619,7 @@ bool QXmlSimpleReaderPrivate::processReference()
                         {
                             // Bypassed
                             stringAddC(QLatin1Char('&'));
-                            for (int i=0; i<(int)reference.length(); i++) {
+                            for (int i=0; i<(int)reference.size(); i++) {
                                 stringAddC(reference[i]);
                             }
                             stringAddC(QLatin1Char(';'));
@@ -7660,7 +7660,7 @@ bool QXmlSimpleReaderPrivate::parseString()
     signed char input;
 
     if (parseStack == nullptr || parseStack->isEmpty()) {
-        Done = parseString_s.length();
+        Done = parseString_s.size();
         state = 0;
     } else {
         state = parseStack->pop().state;
@@ -7726,8 +7726,8 @@ bool QXmlSimpleReaderPrivate::insertXmlRef(const QString &data, const QString &n
     } else {
         xmlRefStack.push(XmlRef(name, data));
     }
-    int n = qMax(parameterEntities.count(), entities.count());
-    if (xmlRefStack.count() > n+1) {
+    int n = qMax(parameterEntities.size(), entities.size());
+    if (xmlRefStack.size() > n+1) {
         // recursive entities
         reportParseError(QLatin1String(XMLERR_RECURSIVEENTITIES));
         return false;

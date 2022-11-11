@@ -108,7 +108,7 @@ void tst_qregexp::escape_old()
         QString quoted = pattern;
         int i = 0;
 
-        while (i < quoted.length()) {
+        while (i < quoted.size()) {
             if (strchr(meta, quoted.at(i).toLatin1()) != 0)
                 quoted.insert(i++, QLatin1Char('\\'));
             ++i;

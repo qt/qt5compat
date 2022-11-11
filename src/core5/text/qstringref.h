@@ -280,13 +280,13 @@ inline bool operator<=(const QStringRef &lhs, const QString &rhs) noexcept { ret
 inline bool operator>=(const QStringRef &lhs, const QString &rhs) noexcept { return rhs <= lhs; }
 
 inline int QStringRef::compare(const QString &s, Qt::CaseSensitivity cs) const noexcept
-{ return QStringRef::compare_helper(constData(), length(), s.constData(), s.length(), cs); }
+{ return QStringRef::compare_helper(constData(), length(), s.constData(), s.size(), cs); }
 inline int QStringRef::compare(const QStringRef &s, Qt::CaseSensitivity cs) const noexcept
 { return QStringRef::compare_helper(constData(), length(), s.constData(), s.length(), cs); }
 inline int QStringRef::compare(QLatin1String s, Qt::CaseSensitivity cs) const noexcept
 { return QStringRef::compare_helper(constData(), length(), s, cs); }
 inline int QStringRef::compare(const QStringRef &s1, const QString &s2, Qt::CaseSensitivity cs) noexcept
-{ return QStringRef::compare_helper(s1.constData(), s1.length(), s2.constData(), s2.length(), cs); }
+{ return QStringRef::compare_helper(s1.constData(), s1.length(), s2.constData(), s2.size(), cs); }
 inline int QStringRef::compare(const QStringRef &s1, const QStringRef &s2, Qt::CaseSensitivity cs) noexcept
 { return QStringRef::compare_helper(s1.constData(), s1.length(), s2.constData(), s2.length(), cs); }
 inline int QStringRef::compare(const QStringRef &s1, QLatin1String s2, Qt::CaseSensitivity cs) noexcept

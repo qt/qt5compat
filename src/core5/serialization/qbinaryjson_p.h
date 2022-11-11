@@ -115,7 +115,7 @@ const int MaxLatin1Length = 0x7fff;
 
 static inline bool useCompressed(QStringView s)
 {
-    if (s.length() > MaxLatin1Length)
+    if (s.size() > MaxLatin1Length)
         return false;
     return QtPrivate::isLatin1(s);
 }
@@ -182,8 +182,8 @@ public:
     static void copy(char *dest, QStringView str)
     {
         Data *data = reinterpret_cast<Data *>(dest);
-        data->length = str.length();
-        qToLittleEndian<quint16>(str.utf16(), str.length(), data->utf16);
+        data->length = str.size();
+        qToLittleEndian<quint16>(str.utf16(), str.size(), data->utf16);
         fillTrailingZeros(data);
     }
 
@@ -195,7 +195,7 @@ public:
 
     bool operator ==(QStringView str) const
     {
-        int slen = str.length();
+        int slen = str.size();
         int l = d->length;
         if (slen != l)
             return false;
@@ -246,7 +246,7 @@ public:
     static void copy(char *dest, QStringView src)
     {
         Data *data = reinterpret_cast<Data *>(dest);
-        data->length = src.length(); // ### narrows from int to ushort
+        data->length = src.size(); // ### narrows from int to ushort
         auto *l = data->latin1;
         const auto srcData = src.utf16();
         for (qsizetype i = 0; i < src.size(); ++i)

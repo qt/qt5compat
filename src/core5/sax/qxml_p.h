@@ -76,7 +76,7 @@ private:
             : index(0) {}
         XmlRef(const QString &_name, const QString &_value)
             : name(_name), value(_value), index(0) {}
-        bool isEmpty() const { return index == value.length(); }
+        bool isEmpty() const { return index == value.size(); }
         QChar next() { return value.at(index++); }
         QString name;
         QString value;

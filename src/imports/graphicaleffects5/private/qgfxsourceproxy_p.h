@@ -1,3 +1,4 @@
+// Copyright (C) 2022 The Qt Company Ltd.
 // Copyright (C) 2016 Jolla Ltd, author: <gunnar.sletta@jollamobile.com>
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 
@@ -5,6 +6,8 @@
 #define QGFXSOURCEPROXY_P_H
 
 #include <QtQuick/QQuickItem>
+#include <QtQml/qqmlregistration.h>
+
 #include <QtCore/private/qglobal_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -23,6 +26,9 @@ class QGfxSourceProxy : public QQuickItem
     Q_PROPERTY(Interpolation interpolation READ interpolation WRITE setInterpolation NOTIFY interpolationChanged)
 
     Q_ENUMS(Interpolation)
+
+    QML_NAMED_ELEMENT(SourceProxy)
+    QML_ADDED_IN_VERSION(5, 0)
 
 public:
     enum Interpolation {

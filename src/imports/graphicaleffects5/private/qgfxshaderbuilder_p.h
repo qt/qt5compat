@@ -26,6 +26,7 @@ class QGfxShaderBuilder : public QObject
     QML_ADDED_IN_VERSION(5, 0)
 public:
     QGfxShaderBuilder();
+    ~QGfxShaderBuilder() override;
 
     Q_INVOKABLE QVariantMap gaussianBlur(const QJSValue &parameters);
     Q_INVOKABLE QUrl buildVertexShader(const QByteArray &code);

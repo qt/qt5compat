@@ -109,6 +109,9 @@ QGfxShaderBuilder::QGfxShaderBuilder()
     m_maxBlurSamples = QT5COMPAT_MAX_BLUR_SAMPLES;
 }
 
+QGfxShaderBuilder::~QGfxShaderBuilder()
+    = default;
+
 /*
 
     The algorithm works like this..

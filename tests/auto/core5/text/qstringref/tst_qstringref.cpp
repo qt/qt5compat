@@ -16,6 +16,7 @@ class tst_QStringRef : public QObject
 public slots:
     void cleanup();
 private slots:
+    void as_QString_arg_argument();
     void at();
     void endsWith();
     void startsWith();
@@ -142,6 +143,12 @@ static inline double nan()
 void tst_QStringRef::cleanup()
 {
     QLocale::setDefault(QLocale(QString(QLatin1Char('C'))));
+}
+
+void tst_QStringRef::as_QString_arg_argument()
+{
+    // QStringRef argument in multi-arg (QTBUG-109723):
+    QCOMPARE(QString("%1;%2").arg(QStringRef(), QString()), ";");
 }
 
 void tst_QStringRef::at()

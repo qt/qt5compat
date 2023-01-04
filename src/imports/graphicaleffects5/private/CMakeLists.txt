@@ -20,11 +20,8 @@ qt_internal_add_qml_module(qtgraphicaleffectsprivate
     VERSION "${PROJECT_VERSION}"
     CLASS_NAME QtGraphicalEffectsPrivatePlugin
     PLUGIN_TARGET qtgraphicaleffectsprivate
-    NO_GENERATE_PLUGIN_SOURCE
-    NO_PLUGIN_OPTIONAL
     PAST_MAJOR_VERSIONS 1
     SOURCES
-        plugin.cpp
         qgfxsourceproxy.cpp qgfxsourceproxy_p.h
         qgfxshaderbuilder.cpp qgfxshaderbuilder_p.h
     QML_FILES

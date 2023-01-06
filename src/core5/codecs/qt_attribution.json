@@ -4,7 +4,7 @@
         "Name": "Text Codecs: Big5, Big5-HKSCS",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qbig5codec.cpp",
+        "Files": "qbig5codec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The Big5 codecs (QBig5Codec, QBig5hkscsCodec)\nprovide conversion to and from the Big5 encodings.",
@@ -18,7 +18,7 @@
         "Name": "Text Codec: EUC-JP",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qeucjpcodec.cpp",
+        "Files": "qeucjpcodec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The EUC-JP text codec provides conversion to and from EUC-JP,\nthe main legacy encoding for Unix machines in Japan.",
@@ -32,7 +32,7 @@
         "Name": "Text Codec: EUC-KR",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qeuckrcodec.cpp",
+        "Files": "qeuckrcodec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The EUC-KR text codec provides conversion to and from EUC-KR, KR,\nthe main legacy encoding for Unix machines in Korea.",
@@ -46,7 +46,7 @@
         "Name": "Text Codec: ISO 2022-JP (JIS)",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qjiscodec.cpp",
+        "Files": "qjiscodec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The ISO 2022-JP (JIS) text codec provides conversion to and from ISO 2022-JP.",
@@ -60,7 +60,7 @@
         "Name": "Text Codec: Shift-JIS",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qsjiscodec.cpp",
+        "Files": "qsjiscodec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The Shift-JIS text codec provides conversion to and from Shift-JIS.",
@@ -74,7 +74,7 @@
         "Name": "Text Codec: TSCII",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core.",
-        "Path": "qtsciicodec.cpp",
+        "Files": "qtsciicodec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The TSCII text codec provides conversion to and from the Tamil TSCII\nencoding.",
@@ -88,7 +88,7 @@
         "Name": "Text Codec: GBK",
         "QDocModule": "qtcore5compat",
         "QtUsage": "Used in Qt Core if ICU is not used. Configure with -icu to avoid.",
-        "Path": "qgb18030codec.cpp",
+        "Files": "qgb18030codec.cpp",
 
         "Description": "Treat as final version; no upstream known",
         "Description": "The GBK codec provides conversion to and from the Chinese\nGB18030/GBK/GB2312 encoding.",

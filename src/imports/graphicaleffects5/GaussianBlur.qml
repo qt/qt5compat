@@ -19,6 +19,12 @@ import Qt5Compat.GraphicalEffects.private
     higher quality than \l{Qt5Compat.GraphicalEffects::FastBlur}{FastBlur}, but is
     slower to render.
 
+    In particular, modifying properties of Gaussian blur will in many cases require
+    rebuilding the shader code from scratch, so animating properties of the effect
+    may perform badly as well as require a large amount of cache space. Therefore,
+    \l{FastBlur} should usually be preferred for animated blurs.
+
+
     \table
     \header
         \li Source

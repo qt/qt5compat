@@ -9,6 +9,17 @@
     The Qt Graphical Effects module is provided for compatibility with
     applications written for Qt 5.
 
+    \note Since the Qt Graphical Effects module has performance constraints
+    when effects are stacked, it is primarily included for compatibility with
+    Qt 5 applications. We recommend that new code is written with one of the
+    new solutions for effects that were introduced in Qt 6. For typical UI
+    effects, Qt Quick has the \l{MultiEffect}, which applies multiple effects
+    in one pass. For advanced use cases which are not covered by this
+    component, the Qt Quick Effect Maker tool can be used to customize and
+    fine-tune exactly the shader effects you need.
+
+    \section1 Using Qt Graphical Effects
+
     Effects are visual items that can be added to Qt Quick user interface as UI
     components. To import the Qt Graphical Effects types, include the Qt
     Graphical Effects module by adding the following statement to the QML file:
@@ -23,7 +34,7 @@
     is a simple way to create even more impressive output.
 
     The following list presents the functional division of types that are part
-    of Qt Graphical Effects:
+    of Qt Graphical Effects.
 
     \section1 Blend
     \annotatedlist qtgraphicaleffects-blend

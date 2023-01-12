@@ -10,7 +10,7 @@
 #### Libraries
 # special case begin
 if(NOT TARGET ICU::i18n)
-    qt_find_package(ICU COMPONENTS i18n uc data PROVIDED_TARGETS ICU::i18n ICU::uc ICU::data MODULE_NAME qt5compat QMAKE_LIB icu)
+    qt_find_package(ICU 50.1 COMPONENTS i18n uc data PROVIDED_TARGETS ICU::i18n ICU::uc ICU::data MODULE_NAME qt5compat QMAKE_LIB icu)
 endif()
 # special case end
 

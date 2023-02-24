@@ -16,10 +16,6 @@
 
 QT_BEGIN_NAMESPACE
 
-enum {
-    Esc = 0x1b
-};
-
 #define        IsKana(c)        (((c) >= 0xa1) && ((c) <= 0xdf))
 #define        IsSjisChar1(c)        ((((c) >= 0x81) && ((c) <= 0x9f)) ||        \
                          (((c) >= 0xe0) && ((c) <= 0xfc)))

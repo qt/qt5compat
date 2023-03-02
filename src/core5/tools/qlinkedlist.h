@@ -710,13 +710,15 @@ Q_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(LinkedList)
 
 #ifndef QT_NO_DATASTREAM
 template<typename T>
-inline QDataStream &operator>>(QDataStream &s, QLinkedList<T> &l)
+inline QDataStreamIfHasIStreamOperatorsContainer<QLinkedList<T>, T>
+operator>>(QDataStream &s, QLinkedList<T> &l)
 {
     return QtPrivate::readListBasedContainer(s, l);
 }
 
 template<typename T>
-inline QDataStream &operator<<(QDataStream &s, const QLinkedList<T> &l)
+inline QDataStreamIfHasOStreamOperatorsContainer<QLinkedList<T>, T>
+operator<<(QDataStream &s, const QLinkedList<T> &l)
 {
     return QtPrivate::writeSequentialContainer(s, l);
 }

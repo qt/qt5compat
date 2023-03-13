@@ -11,25 +11,6 @@
 
 QT_BEGIN_NAMESPACE
 
-#define InRange(c, lower, upper)  (((c) >= (lower)) && ((c) <= (upper)))
-#define IsLatin(c)        ((c) <= 0x7F)
-#define IsByteInGb2312(c)        (InRange((c), 0xA1, 0xFE))
-#define Is1stByte(c)        (InRange((c), 0x81, 0xFE))
-#define Is2ndByteIn2Bytes(c)        (InRange((c), 0x40, 0xFE) && (c) != 0x7F)
-#define Is2ndByteIn4Bytes(c)        (InRange((c), 0x30, 0x39))
-#define Is2ndByte(c)        (Is2ndByteIn2Bytes(c) || Is2ndByteIn4Bytes(c))
-#define Is3rdByte(c)        (InRange((c), 0x81, 0xFE))
-#define Is4thByte(c)        (InRange((c), 0x30, 0x39))
-
-#define qValidChar(u)        ((u) ? (u) : static_cast<ushort>(QChar::ReplacementCharacter))
-
-/* User-defined areas:        UDA 1: 0xAAA1 - 0xAFFE (564/0)
-                        UDA 2: 0xF8A1 - 0xFEFE (658/0)
-                        UDA 3: 0xA140 - 0xA7A0 (672/0) */
-#define IsUDA1(a, b)        (InRange((a), 0xAA, 0xAF) && InRange((b), 0xA1, 0xFE))
-#define IsUDA2(a, b)        (InRange((a), 0xF8, 0xFE) && InRange((b), 0xA1, 0xFE))
-#define IsUDA3(a, b)        (InRange((a), 0xA1, 0xA7) && InRange((b), 0x40, 0xA0) && ((b) != 0x7F))
-
 typedef struct {
     quint8        tblBegin;
     quint8        tblEnd;

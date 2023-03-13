@@ -27,11 +27,6 @@ enum {
     Overline = 0x7e
 };
 
-#define        IsKana(c)        (((c) >= 0xa1) && ((c) <= 0xdf))
-#define        IsJisChar(c)        (((c) >= 0x21) && ((c) <= 0x7e))
-
-#define        QValidChar(u)        ((u) ? QChar((ushort)(u)) : QChar(QChar::ReplacementCharacter))
-
 enum Iso2022State{ Ascii, MinState = Ascii,
                    JISX0201_Latin, JISX0201_Kana,
                    JISX0208_1978, JISX0208_1983,

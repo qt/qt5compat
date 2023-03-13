@@ -8,16 +8,6 @@ QT_BEGIN_NAMESPACE
 static int qt_Big5hkscsToUnicode(const uchar *s, uint *pwc);
 static int qt_UnicodeToBig5hkscs(uint wc, uchar *r);
 
-#define InRange(c, lower, upper)  (((c) >= (lower)) && ((c) <= (upper)))
-#define IsLatin(c)        ((c) < 0x80)
-#define IsFirstByte(c)        (InRange((c), 0x81, 0xFE))
-#define IsSecondByteRange1(c)        (InRange((c), 0x40, 0x7E))
-#define IsSecondByteRange2(c)        (InRange((c), 0xA1, 0xFE))
-#define IsSecondByte(c)        (IsSecondByteRange1(c) || IsSecondByteRange2(c))
-
-#define        QValidChar(u)        ((u) ? QChar((ushort)(u)) : QChar(QChar::ReplacementCharacter))
-
-
 int QBig5Codec::_mibEnum()
 {
     return 2026;
@@ -1694,7 +1684,7 @@ QString QBig5Codec::convertToUnicode(const char* chars, int len, ConverterState 
             if (IsLatin(ch)) {
                 // ASCII
                 result += QLatin1Char(ch);
-            } else if (IsFirstByte(ch)) {
+            } else if (Is1stByte(ch)) {
                 // Big5-ETen
                 buf[0] = ch;
                 nbuf = 1;
@@ -1814,7 +1804,7 @@ QString QBig5hkscsCodec::convertToUnicode(const char* chars, int len, ConverterS
             if (IsLatin(ch)) {
                 // ASCII
                 result += QLatin1Char(ch);
-            } else if (IsFirstByte(ch)) {
+            } else if (Is1stByte(ch)) {
                 // Big5-HKSCS
                 buf[0] = ch;
                 nbuf = 1;

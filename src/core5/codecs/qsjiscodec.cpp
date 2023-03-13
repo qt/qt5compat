@@ -16,14 +16,6 @@
 
 QT_BEGIN_NAMESPACE
 
-#define        IsKana(c)        (((c) >= 0xa1) && ((c) <= 0xdf))
-#define        IsSjisChar1(c)        ((((c) >= 0x81) && ((c) <= 0x9f)) ||        \
-                         (((c) >= 0xe0) && ((c) <= 0xfc)))
-#define        IsSjisChar2(c)        (((c) >= 0x40) && ((c) != 0x7f) && ((c) <= 0xfc))
-#define        IsUserDefinedChar1(c)        (((c) >= 0xf0) && ((c) <= 0xfc))
-
-#define        QValidChar(u)        ((u) ? QChar((ushort)(u)) : QChar(QChar::ReplacementCharacter))
-
 /*!
   Creates a Shift-JIS codec. Note that this is done automatically by
   the QApplication, you do not need construct your own.

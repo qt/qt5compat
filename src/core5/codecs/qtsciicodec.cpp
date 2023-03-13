@@ -13,8 +13,6 @@ QT_BEGIN_NAMESPACE
 static unsigned char qt_UnicodeToTSCII(ushort u1, ushort u2, ushort u3);
 static unsigned int qt_TSCIIToUnicode(unsigned int code, uint *s);
 
-#define IsTSCIIChar(c)        (((c) >= 0x80) && ((c) <= 0xfd))
-
 /*! \class QTsciiCodec
     \inmodule QtCore5Compat
     \reentrant

@@ -18,16 +18,6 @@ QT_BEGIN_NAMESPACE
 
 #define        Q_STRICT
 
-#define        IsLatin(c)        (/*((c) >= 0x00) &&*/ ((c) <= 0x7f))
-#define        IsKana(c)        (((c) >= 0xa1) && ((c) <= 0xdf))
-#define        IsJisChar(c)        (((c) >= 0x21) && ((c) <= 0x7e))
-#define        IsSjisChar1(c)        ((((c) >= 0x81) && ((c) <= 0x9f)) ||        \
-                         (((c) >= 0xe0) && ((c) <= 0xfc)))
-#define        IsSjisUDC1(c)        (((c) >= 0xf0) && ((c) <= 0xfc))
-#define        IsSjisChar2(c)        (((c) >= 0x40) && ((c) != 0x7f) && ((c) <= 0xfc))
-
-#define        IsSjisIBMVDCChar1(c)        (((c) >= 0xfa) && ((c) <= 0xfc))
-
 static uint jisx0208ToSjis(uint h, uint l);
 static
 inline uint jisx0208ToSjis(uint jis)

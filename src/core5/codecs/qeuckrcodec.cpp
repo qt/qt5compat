@@ -40,10 +40,6 @@ unsigned int qt_Ksc5601ToUnicode(unsigned int code);
 
 unsigned int qt_UnicodeToKsc5601(unsigned int unicode);
 
-#define        IsEucChar(c)        (((c) >= 0xa1) && ((c) <= 0xfe))
-#define        IsCP949Char(c)      (((c) >= 0x81) && ((c) <= 0xa0))
-#define        QValidChar(u)        ((u) ? QChar((ushort)(u)) : QChar(QChar::ReplacementCharacter))
-
 /*!
   \reimp
 */

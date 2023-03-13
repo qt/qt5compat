@@ -25,6 +25,8 @@
 
 #include <private/qtcore5compat-config_p.h>
 
+#include "qcodecmacros_p.h"
+
 QT_BEGIN_NAMESPACE
 
 #if QT_CONFIG(textcodec)

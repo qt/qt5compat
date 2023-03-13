@@ -43,11 +43,6 @@ QT_BEGIN_NAMESPACE
 static const uchar Ss2 = 0x8e;        // Single Shift 2
 static const uchar Ss3 = 0x8f;        // Single Shift 3
 
-#define        IsKana(c)        (((c) >= 0xa1) && ((c) <= 0xdf))
-#define        IsEucChar(c)        (((c) >= 0xa1) && ((c) <= 0xfe))
-
-#define        QValidChar(u)        ((u) ? QChar((ushort)(u)) : QChar(QChar::ReplacementCharacter))
-
 /*!
   Constructs a QEucJpCodec.
 */

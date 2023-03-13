@@ -9,6 +9,7 @@
 
 qt_internal_add_module(Core5Compat
     SOURCES
+        codecs/qcodecmacros_p.h
         codecs/qtextcodec_p.h
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
         qcore5global.h

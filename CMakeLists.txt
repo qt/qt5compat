@@ -16,6 +16,8 @@ project(Qt5Compat # special case
 find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core)
 find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml Gui Quick)
 
+qt_internal_project_setup()
+
 # Look for the target ShaderTools package to have access to the ShaderTools Qt module library.
 # This is optional. When not present, runtime shader processing will not be available, and
 # only a certain set of effects will be available

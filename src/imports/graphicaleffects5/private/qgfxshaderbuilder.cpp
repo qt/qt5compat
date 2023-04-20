@@ -34,6 +34,10 @@ QT_BEGIN_NAMESPACE
 #define GL_MAX_VARYING_VECTORS 0x8DFC
 #endif
 
+#ifndef GL_MAX_VERTEX_OUTPUT_COMPONENTS
+#define GL_MAX_VERTEX_OUTPUT_COMPONENTS 0x9122
+#endif
+
 #if !defined(QT5COMPAT_MAX_BLUR_SAMPLES)
 #define QT5COMPAT_MAX_BLUR_SAMPLES 15 // Conservative estimate for maximum varying vectors in
                                       // shaders (maximum 60 components on some Metal
@@ -85,11 +89,12 @@ QGfxShaderBuilder::QGfxShaderBuilder()
         QSurface *oldSurface = oldContext ? oldContext->surface() : 0;
         if (context.makeCurrent(&surface)) {
             QOpenGLFunctions *gl = context.functions();
+            const bool coreProfile = context.format().profile() == QSurfaceFormat::CoreProfile;
             if (context.isOpenGLES()) {
                 gl->glGetIntegerv(GL_MAX_VARYING_VECTORS, &m_maxBlurSamples);
             } else if (context.format().majorVersion() >= 3) {
                 int components;
-                gl->glGetIntegerv(GL_MAX_VARYING_COMPONENTS, &components);
+                gl->glGetIntegerv(coreProfile ? GL_MAX_VERTEX_OUTPUT_COMPONENTS : GL_MAX_VARYING_COMPONENTS, &components);
                 m_maxBlurSamples = components / 2.0;
             } else {
                 int floats;

@@ -14,7 +14,6 @@
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
 
-#include <QtShaderTools/private/qshaderbaker_p.h>
 #include <QtQuick/qquickwindow.h>
 
 #include <qmath.h>

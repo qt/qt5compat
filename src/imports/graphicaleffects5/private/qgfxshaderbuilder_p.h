@@ -8,8 +8,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
 #include <QtCore/QUrl>
-#include <QtShaderTools/private/qshaderbaker_p.h>
-#include <QtGui/private/qshader_p.h>
+#include <rhi/qshaderbaker.h>
 
 #include <QtQml/QJSValue>
 #include <QtQml/qqmlregistration.h>

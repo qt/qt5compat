@@ -148,7 +148,7 @@ static void setup();
 // \threadsafe
 // this returns the codec the method sets up as locale codec to
 // avoid a race condition in codecForLocale() when
-// setCodecForLocale(0) is called at the same time.
+// setCodecForLocale(nullptr) is called at the same time.
 static QTextCodec *setupLocaleMapper()
 {
     QTextCodecData *globalData = QTextCodecData::instance();
@@ -494,14 +494,14 @@ QTextCodec::~QTextCodec()
 
     Searches all installed QTextCodec objects and returns the one
     which best matches \a name; the match is case-insensitive. Returns
-    0 if no codec matching the name \a name could be found.
+    \nullptr if no codec matching the name \a name could be found.
 */
 
 /*!
     \threadsafe
     Searches all installed QTextCodec objects and returns the one
     which best matches \a name; the match is case-insensitive. Returns
-    0 if no codec matching the name \a name could be found.
+    \nullptr if no codec matching the name \a name could be found.
 */
 QTextCodec *QTextCodec::codecForName(const QByteArray &name)
 {
@@ -735,7 +735,7 @@ QList<QByteArray> QTextCodec::aliases() const
     QString.
 
     \a state can be \nullptr, in which case the conversion is stateless and
-    default conversion rules should be used. If state is not 0, the
+    default conversion rules should be used. If \a state is not \nullptr, the
     codec should save the state after the conversion in \a state, and
     adjust the \c remainingChars and \c invalidChars members of the struct.
 */
@@ -751,7 +751,7 @@ QList<QByteArray> QTextCodec::aliases() const
     in a QByteArray.
 
     \a state can be \nullptr in which case the conversion is stateless and
-    default conversion rules should be used. If state is not 0, the
+    default conversion rules should be used. If \a state is not \nullptr, the
     codec should save the state after the conversion in \a state, and
     adjust the \c remainingChars and \c invalidChars members of the struct.
 */

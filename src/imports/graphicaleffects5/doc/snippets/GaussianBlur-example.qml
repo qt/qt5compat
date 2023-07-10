@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 
 //! [example]
-import QtQuick 2.12
-import QtGraphicalEffects 1.12
+import QtQuick
+import QtGraphicalEffects
 
 Item {
     width: 300

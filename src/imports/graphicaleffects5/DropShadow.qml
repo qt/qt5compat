@@ -232,6 +232,34 @@ Item {
             \li \l spread: 0
             \li \l spread: 0
         \endtable
+
+        \table
+        \header
+        \li Output examples with different verticalOffset values
+        \li
+        \li
+        \row
+            \li \image DropShadow_horizontalOffset2.png
+            \li \image DropShadow_spread1.png
+        \row
+            \li \b { horizontalOffset: 0 }
+            \li \b { horizontalOffset: 0 }
+        \row
+            \li \l radius: 4
+            \li \l radius: 8
+        \row
+            \li \l samples: 9
+            \li \l samples: 17
+        \row
+            \li \l color: #000000
+            \li \l color: #000000
+        \row
+            \li \l verticalOffset: 0
+            \li \l verticalOffset: 20
+        \row
+            \li \l spread: 0
+            \li \l spread: 0
+        \endtable
     */
     property alias horizontalOffset: dbs.horizontalOffset
     property alias verticalOffset: dbs.verticalOffset

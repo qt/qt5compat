@@ -6,7 +6,6 @@
 
 #include <QtCore5Compat/qcore5global.h>
 
-#include <QtXml/qtxmlglobal.h>
 #include <QtCore/qtextstream.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qstring.h>

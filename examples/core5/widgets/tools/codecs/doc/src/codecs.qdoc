@@ -3,7 +3,8 @@
 
 /*!
     \example widgets/tools/codecs
-    \title Text Codecs Example
+    \examplecategory {Data Processing & I/O}
+    \title Text Codecs
     \brief How to import and export text using text codecs.
 
     The Text Codecs example demonstrates the principles behind importing and exporting text

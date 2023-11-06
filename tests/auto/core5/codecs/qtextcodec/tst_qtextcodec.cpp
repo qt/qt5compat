@@ -87,6 +87,9 @@ private slots:
     void nullInputZeroOrNegativLength_data();
     void nullInputZeroOrNegativLength();
 
+    void retainNullness_data();
+    void retainNullness();
+
     void canEncode();
     void canEncode_data();
 };
@@ -2708,6 +2711,54 @@ void tst_QTextCodec::nullInputZeroOrNegativLength()
     QCOMPARE(codec->fromUnicode(QString("abc").constData(), 0), QByteArray());
     QCOMPARE(codec->fromUnicode(QString("abc").constData(), -1), QByteArray());
 }
+
+void tst_QTextCodec::retainNullness_data()
+{
+    // QTest doesn't support 'const char *' as the column type, so we have
+    // to get a bit naughty.
+    QTest::addColumn<char *>("input");
+    QTest::addColumn<int>("length");
+    QTest::addColumn<bool>("isNull");
+
+    static char n = '\0';
+    char *empty = &n;
+    char *null = nullptr;
+
+    QTest::addRow("Empty, strlen") << empty << -1 << false;
+    QTest::addRow("Empty, 0") << empty << 0 << false;
+    QTest::addRow("nullptr") << null << -1 << true;
+}
+
+void tst_QTextCodec::retainNullness()
+{
+    QTextCodec* codec = QTextCodec::codecForName("ISO 8859-1");
+
+    QFETCH(char *, input);
+    QFETCH(int, length);
+    QFETCH(bool, isNull);
+
+    const QByteArray ba = length >= 0
+                        ? QByteArray(input, length)
+                        : QByteArray(input);
+    const QString unicode = length >= 0
+                          ? codec->toUnicode(input, length)
+                          : codec->toUnicode(input);
+
+    QVERIFY(unicode.isEmpty());
+    QCOMPARE(unicode.isNull(), isNull);
+    QCOMPARE(codec->toUnicode(ba).isEmpty(), ba.isEmpty());
+    QEXPECT_FAIL("nullptr", "Maintaining Qt 5.15 compatibility", Continue);
+    QCOMPARE(codec->toUnicode(ba).isNull(), ba.isNull());
+
+    const QStringView stringView(unicode);
+    QCOMPARE(codec->fromUnicode(unicode).isEmpty(), unicode.isEmpty());
+    QEXPECT_FAIL("nullptr", "Maintaining Qt 5.15 compatibility", Continue);
+    QCOMPARE(codec->fromUnicode(unicode).isNull(), unicode.isNull());
+    QCOMPARE(codec->fromUnicode(stringView).isEmpty(), stringView.isEmpty());
+    QEXPECT_FAIL("nullptr", "Maintaining Qt 5.15 compatibility", Continue);
+    QCOMPARE(codec->fromUnicode(stringView).isNull(), stringView.isNull());
+}
+
 
 void tst_QTextCodec::canEncode()
 {

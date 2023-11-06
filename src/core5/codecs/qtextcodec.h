@@ -56,14 +56,18 @@ public:
 
     QString toUnicode(const char *in, int length, ConverterState *state = nullptr) const
     {
-        if (in == nullptr || length <= 0)
+        if (in == nullptr)
             return {};
+        if (length <= 0)
+            return QLatin1String("");
         return convertToUnicode(in, length, state);
     }
     QByteArray fromUnicode(const QChar *in, int length, ConverterState *state = nullptr) const
     {
-        if (in == nullptr || length <= 0)
+        if (in == nullptr)
             return {};
+        if (length <= 0)
+            return QByteArray("");
         return convertFromUnicode(in, length, state);
     }
 

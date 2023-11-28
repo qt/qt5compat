@@ -30,6 +30,7 @@ qt_internal_add_module(Core5Compat
         Qt::Core
     PRIVATE_MODULE_INTERFACE
         Qt::CorePrivate Qt::CorePrivate
+    NO_GENERATE_CPP_EXPORTS
 )
 
 #### Keys ignored in scope 1:.:.:core5.pro:<TRUE>:

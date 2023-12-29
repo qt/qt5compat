@@ -127,7 +127,7 @@ Item {
         too small deviation values makes the effect insignificant for the pixels
         near the radius.
 
-        \inlineimage GaussianBlur_deviation_graph.png
+        \image GaussianBlur_deviation_graph.png
         \caption The image above shows the Gaussian function with two different
         deviation values, yellow (1) and cyan (2.7). The y-axis shows the
         weights, the x-axis shows the pixel distance.

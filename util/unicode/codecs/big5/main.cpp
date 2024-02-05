@@ -100,7 +100,7 @@ int main(int argc, char **argv)
     QList<QByteArray> list;
     for (Map m : std::as_const(b5_to_uc_map)) {
         if (!uc_ok.contains(m.b5))
-            list += QByteArray("    { 0x" + QByteArray::number(m.b5, 16) + ", 0x" + QByteArray::number(m.uc, 16) + " }\n");;
+            list += QByteArray("    { 0x" + QByteArray::number(m.b5, 16) + ", 0x" + QByteArray::number(m.uc, 16) + " }\n");
     }
     std::sort(list.begin(), list.end());
     qDebug() << "struct B5Map b5_to_uc_map = {\n" << list.join() + "\n};";
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     list = QList<QByteArray>();
     for (Map m : std::as_const(uc_to_b5_map))
         if (!b5_ok.contains(m.uc))
-            list += QByteArray("    { 0x" + QByteArray::number(m.uc, 16) + ", 0x" + QByteArray::number(m.b5, 16) + " }\n");;
-    std::sort(list.begin(), list.end());;
+            list += QByteArray("    { 0x" + QByteArray::number(m.uc, 16) + ", 0x" + QByteArray::number(m.b5, 16) + " }\n");
+    std::sort(list.begin(), list.end());
     qDebug() << "struct B5Map uc_to_b5_map = {\n" << list.join() + "\n};";
 }

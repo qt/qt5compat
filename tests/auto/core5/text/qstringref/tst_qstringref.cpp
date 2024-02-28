@@ -3,12 +3,21 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
 #include <QtTest/QtTest>
+
 #include <qstringlist.h>
+#include <QtCore/qstringview.h>
 #include <qvariant.h>
 
 #include <qlocale.h>
 #include <locale.h>
 #include <qstringref.h>
+
+#include <type_traits>
+
+static_assert(std::is_convertible_v<      QStringRef  , QStringView>);
+static_assert(std::is_convertible_v<      QStringRef& , QStringView>);
+static_assert(std::is_convertible_v<const QStringRef  , QStringView>);
+static_assert(std::is_convertible_v<const QStringRef&&, QStringView>);
 
 class tst_QStringRef : public QObject
 {

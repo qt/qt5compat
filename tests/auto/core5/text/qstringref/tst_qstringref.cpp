@@ -30,6 +30,7 @@ private slots:
     void endsWith();
     void startsWith();
     void contains();
+    void convertsToQStringView();
     void count();
     void lastIndexOf_data();
     void lastIndexOf();
@@ -578,6 +579,38 @@ void tst_QStringRef::contains()
     QVERIFY(ref.contains(QStringRef(&ref2, 1, 2),Qt::CaseInsensitive));
     QVERIFY(ref.contains(QString(), Qt::CaseInsensitive));
     QVERIFY(ref.contains("", Qt::CaseInsensitive)); // apparently
+}
+
+void tst_QStringRef::convertsToQStringView()
+{
+    {
+        QString null;
+        QVERIFY(null.isEmpty());
+        QVERIFY(null.isNull());
+
+        QStringRef nullRef(&null);
+        QCOMPARE(nullRef.isNull(),  null.isNull());
+        QCOMPARE(nullRef.isEmpty(), null.isEmpty());
+
+        QStringView nullView = nullRef;
+        if constexpr (QT5_NULL_STRINGS)
+            QEXPECT_FAIL("", "QTBUG-122798", Continue);
+        QCOMPARE(nullView.isNull(),  null.isNull());
+        QCOMPARE(nullView.isEmpty(), null.isEmpty());
+    }
+    {
+        QString empty = "";
+        QVERIFY(empty.isEmpty());
+        QVERIFY(!empty.isNull());
+
+        QStringRef emptyRef(&empty);
+        QCOMPARE(emptyRef.isNull(),  empty.isNull());
+        QCOMPARE(emptyRef.isEmpty(), empty.isEmpty());
+
+        QStringView emptyView = emptyRef;
+        QCOMPARE(emptyView.isNull(),  empty.isNull());
+        QCOMPARE(emptyView.isEmpty(), empty.isEmpty());
+    }
 }
 
 void tst_QStringRef::startsWith()

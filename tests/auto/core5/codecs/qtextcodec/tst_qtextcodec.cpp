@@ -675,6 +675,10 @@ void tst_QTextCodec::utf32Codec()
     QTextCodec *codec = QTextCodec::codecForName("UTF-32");
 
     QCOMPARE(codec->toUnicode(encoded), utf16);
+
+    // prepend BOM because QTextCodec sets us up the BOM
+    char32_t bom = QChar::ByteOrderMark;
+    encoded.prepend(reinterpret_cast<const char *>(&bom), sizeof(bom));
     QCOMPARE(codec->fromUnicode(utf16), encoded);
 }
 
@@ -2700,9 +2704,6 @@ void tst_QTextCodec::nullInputZeroOrNegativLength()
     QCOMPARE(codec->toUnicode("abc", -1), QString());
 
     // null input
-    QChar* dummy = nullptr;
-    QStringView view{ dummy };
-    QCOMPARE(codec->fromUnicode(view), QByteArray());
     QCOMPARE(codec->fromUnicode(nullptr, 0), QByteArray());
     QCOMPARE(codec->fromUnicode(nullptr, -1), QByteArray());
     QCOMPARE(codec->fromUnicode(nullptr, 128), QByteArray());

@@ -31,6 +31,8 @@ qt_internal_add_module(Core5Compat
     PRIVATE_MODULE_INTERFACE
         Qt::CorePrivate Qt::CorePrivate
     NO_GENERATE_CPP_EXPORTS
+    ATTRIBUTION_FILE_DIR_PATHS
+        codecs
 )
 
 #### Keys ignored in scope 1:.:.:core5.pro:<TRUE>:

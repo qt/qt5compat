@@ -2236,7 +2236,7 @@ void tst_QTextCodec::codecForUtfText()
 void tst_QTextCodec::toLocal8Bit()
 {
 #if !QT_CONFIG(process)
-    QSKIP("No qprocess support", SkipAll);
+    QSKIP("No qprocess support");
 #else
     QProcess process;
     process.start(QFINDTESTDATA("echo_helper"));

@@ -92,8 +92,6 @@ QT_BEGIN_NAMESPACE
     compatible implementation of regular expressions and is recommended
     in place of QRegExp.
 
-    \tableofcontents
-
     \section1 Introduction
 
     Regexps are built up from expressions, quantifiers, and

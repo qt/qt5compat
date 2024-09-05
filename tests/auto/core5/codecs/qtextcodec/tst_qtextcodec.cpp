@@ -84,8 +84,8 @@ private slots:
     void shiftJis();
     void userCodec();
 
-    void nullInputZeroOrNegativLength_data();
-    void nullInputZeroOrNegativLength();
+    void nullInputZeroOrNegativeLength_data();
+    void nullInputZeroOrNegativeLength();
 
     void retainNullness_data();
     void retainNullness();
@@ -2615,7 +2615,7 @@ struct DontCrashAtExit {
     }
 } dontCrashAtExit;
 
-void tst_QTextCodec::nullInputZeroOrNegativLength_data()
+void tst_QTextCodec::nullInputZeroOrNegativeLength_data()
 {
     QTest::addColumn<QString>("codecName");
     QTest::addColumn<int>("mibEnum");
@@ -2684,7 +2684,7 @@ void tst_QTextCodec::nullInputZeroOrNegativLength_data()
 #endif
 }
 
-void tst_QTextCodec::nullInputZeroOrNegativLength()
+void tst_QTextCodec::nullInputZeroOrNegativeLength()
 {
     QFETCH(QString, codecName);
     QFETCH(int, mibEnum);

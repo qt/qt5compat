@@ -641,34 +641,26 @@ void tst_QTextCodec::iso8859_16() const
 
 void tst_QTextCodec::utf32Codec_data()
 {
-    QTest::addColumn<QList<char32_t> >("utf32");
+    QTest::addColumn<QVector<char32_t> >("utf32");
     QTest::addColumn<QString>("utf16");
 
-    QTest::newRow("empty)") << QList<char32_t>{} << QString{};
-    {
+    QTest::newRow("empty") << QVector<char32_t>{} << QString{};
+
+    auto addChakmaDigit = [](int n) {
         const uint zeroVal = 0x11136; // Unicode's representation of Chakma zero
-        const QChar data[] = {
-            QChar::highSurrogate(zeroVal), QChar::lowSurrogate(zeroVal),
-            QChar::highSurrogate(zeroVal + 1), QChar::lowSurrogate(zeroVal + 1),
-            QChar::highSurrogate(zeroVal + 2), QChar::lowSurrogate(zeroVal + 2),
-            QChar::highSurrogate(zeroVal + 3), QChar::lowSurrogate(zeroVal + 3),
-            QChar::highSurrogate(zeroVal + 4), QChar::lowSurrogate(zeroVal + 4),
-            QChar::highSurrogate(zeroVal + 5), QChar::lowSurrogate(zeroVal + 5),
-            QChar::highSurrogate(zeroVal + 6), QChar::lowSurrogate(zeroVal + 6),
-            QChar::highSurrogate(zeroVal + 7), QChar::lowSurrogate(zeroVal + 7),
-            QChar::highSurrogate(zeroVal + 8), QChar::lowSurrogate(zeroVal + 8),
-            QChar::highSurrogate(zeroVal + 9), QChar::lowSurrogate(zeroVal + 9)
-        };
-        QTest::newRow("Chakma digits")
-            << QList<char32_t>{ zeroVal, zeroVal + 1, zeroVal + 2, zeroVal + 3, zeroVal + 4,
-                                zeroVal + 5, zeroVal + 6, zeroVal + 7, zeroVal + 8, zeroVal + 9 }
-            << QString(data, std::size(data));
-    }
+        char32_t digit = zeroVal + n;
+        QVector<char32_t> utf32 = { digit };
+        QChar utf16_str[] = { QChar::highSurrogate(digit), QChar::lowSurrogate(digit) };
+        QString utf16(utf16_str, 2);
+        QTest::addRow("Chakma digit %d", n) << utf32 << utf16;
+    };
+    for (int n = 0; n < 10; ++n)
+        addChakmaDigit(n);
 }
 
 void tst_QTextCodec::utf32Codec()
 {
-    QFETCH(const QList<char32_t>, utf32);
+    QFETCH(const QVector<char32_t>, utf32);
     QFETCH(const QString, utf16);
     QByteArray encoded(reinterpret_cast<const char *>(utf32.data()),
                        sizeof(char32_t) * utf32.size());

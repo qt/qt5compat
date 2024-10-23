@@ -223,7 +223,7 @@ public:
         QString str(l, Qt::Uninitialized);
         QChar *ch = str.data();
         for (uint i = 0; i < l; ++i)
-            ch[i] = QChar(d->utf16[i]);
+            ch[i] = char16_t(d->utf16[i]);
         return str;
 #endif
     }

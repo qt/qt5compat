@@ -593,8 +593,6 @@ void tst_QStringRef::convertsToQStringView()
         QCOMPARE(nullRef.isEmpty(), null.isEmpty());
 
         QStringView nullView = nullRef;
-        if constexpr (QT5_NULL_STRINGS)
-            QEXPECT_FAIL("", "QTBUG-122798", Continue);
         QCOMPARE(nullView.isNull(),  null.isNull());
         QCOMPARE(nullView.isEmpty(), null.isEmpty());
     }

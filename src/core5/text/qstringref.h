@@ -117,7 +117,7 @@ public:
     bool endsWith(const QStringRef &c, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
 
     inline operator QStringView() const {
-        if (!m_string)
+        if (isNull())
             return {};
         return QStringView(m_string->data() + m_position, m_size);
     }

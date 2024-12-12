@@ -4,6 +4,7 @@
 
 #include <QtTest/QtTest>
 
+#include <QtCore/qanystringview.h>
 #include <qstringlist.h>
 #include <QtCore/qstringview.h>
 #include <qvariant.h>
@@ -19,6 +20,11 @@ static_assert(std::is_convertible_v<      QStringRef& , QStringView>);
 static_assert(std::is_convertible_v<const QStringRef  , QStringView>);
 static_assert(std::is_convertible_v<const QStringRef&&, QStringView>);
 
+static_assert(std::is_convertible_v<      QStringRef  , QAnyStringView>);
+static_assert(std::is_convertible_v<      QStringRef& , QAnyStringView>);
+static_assert(std::is_convertible_v<const QStringRef  , QAnyStringView>);
+static_assert(std::is_convertible_v<const QStringRef&&, QAnyStringView>);
+
 class tst_QStringRef : public QObject
 {
     Q_OBJECT
@@ -30,7 +36,8 @@ private slots:
     void endsWith();
     void startsWith();
     void contains();
-    void convertsToQStringView();
+    void convertsToQStringView() { convertsToStringView<QStringView>(); }
+    void convertsToQAnyStringView() { convertsToStringView<QAnyStringView>(); }
     void count();
     void lastIndexOf_data();
     void lastIndexOf();
@@ -75,6 +82,10 @@ private slots:
     void split();
     void nullToString();
     void qHashFunction();
+
+private:
+    template <typename StringView>
+    void convertsToStringView() const;
 };
 
 static QStringRef emptyRef()
@@ -581,7 +592,8 @@ void tst_QStringRef::contains()
     QVERIFY(ref.contains("", Qt::CaseInsensitive)); // apparently
 }
 
-void tst_QStringRef::convertsToQStringView()
+template <typename StringView>
+void tst_QStringRef::convertsToStringView() const
 {
     {
         QString null;
@@ -592,9 +604,16 @@ void tst_QStringRef::convertsToQStringView()
         QCOMPARE(nullRef.isNull(),  null.isNull());
         QCOMPARE(nullRef.isEmpty(), null.isEmpty());
 
-        QStringView nullView = nullRef;
+        StringView nullView = nullRef;
         QCOMPARE(nullView.isNull(),  null.isNull());
         QCOMPARE(nullView.isEmpty(), null.isEmpty());
+
+        StringView nullView2{nullRef};
+#ifndef QSTRINGVIEW_REFUSES_QSTRINGREF
+        QEXPECT_FAIL("", "QTBUG-122797/QTBUG-122798", Continue);
+#endif
+        QCOMPARE(nullView2.isNull(),  null.isNull());
+        QCOMPARE(nullView2.isEmpty(), null.isEmpty());
     }
     {
         QString empty = "";
@@ -605,9 +624,13 @@ void tst_QStringRef::convertsToQStringView()
         QCOMPARE(emptyRef.isNull(),  empty.isNull());
         QCOMPARE(emptyRef.isEmpty(), empty.isEmpty());
 
-        QStringView emptyView = emptyRef;
+        StringView emptyView = emptyRef;
         QCOMPARE(emptyView.isNull(),  empty.isNull());
         QCOMPARE(emptyView.isEmpty(), empty.isEmpty());
+
+        StringView emptyView2{emptyRef};
+        QCOMPARE(emptyView2.isNull(),  empty.isNull());
+        QCOMPARE(emptyView2.isEmpty(), empty.isEmpty());
     }
 }
 

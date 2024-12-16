@@ -20,6 +20,7 @@
 
 #include <limits.h>
 #include <algorithm>
+#include <optional>
 
 QT_BEGIN_NAMESPACE
 
@@ -1043,6 +1044,7 @@ Q_DECLARE_TYPEINFO(QRegExpCharClass, Q_RELOCATABLE_TYPE);
 */
 class QRegExpEngine
 {
+    Q_DISABLE_COPY_MOVE(QRegExpEngine)
 public:
     QRegExpEngine(Qt::CaseSensitivity cs, bool greedyQuantifiers)
         : cs(cs), greedyQuantifiers(greedyQuantifiers) { setup(); }
@@ -1246,7 +1248,7 @@ private:
     int yyPos; // the position of the next character to read
     int yyLen; // the length of yyIn
     int yyCh; // the last character read
-    QScopedPointer<QRegExpCharClass> yyCharClass; // attribute for Tok_CharClass tokens
+    std::optional<QRegExpCharClass> yyCharClass; // attribute for Tok_CharClass tokens
     int yyMinRep; // attribute for Tok_Quantifier
     int yyMaxRep; // ditto
     QString yyError; // syntax error or overflow during parsing?
@@ -3292,7 +3294,7 @@ void QRegExpEngine::startTokenizer(const QChar *rx, int len)
     yyPos = 0;
     yyLen = len;
     yyCh = getChar();
-    yyCharClass.reset(new QRegExpCharClass);
+    yyCharClass.emplace();
     yyMinRep = 0;
     yyMaxRep = 0;
     yyError = QString();

@@ -608,7 +608,7 @@ void tst_QStringRef::convertsToStringView() const
         QCOMPARE(nullView.isNull(),  null.isNull());
         QCOMPARE(nullView.isEmpty(), null.isEmpty());
 
-#ifdef Q_CC_MSVC // QTBUG-122797
+#if !defined(Q_CC_GCC) || defined(Q_OS_QNX) // QTBUG-122797
         if constexpr (!std::is_same_v<StringView, QAnyStringView>)
 #endif
         {
@@ -633,7 +633,7 @@ void tst_QStringRef::convertsToStringView() const
         QCOMPARE(emptyView.isNull(),  empty.isNull());
         QCOMPARE(emptyView.isEmpty(), empty.isEmpty());
 
-#ifdef Q_CC_MSVC // QTBUG-122797
+#if !defined(Q_CC_GCC) || defined(Q_OS_QNX) // QTBUG-122797
         if constexpr (!std::is_same_v<StringView, QAnyStringView>)
 #endif
         {

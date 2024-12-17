@@ -608,12 +608,17 @@ void tst_QStringRef::convertsToStringView() const
         QCOMPARE(nullView.isNull(),  null.isNull());
         QCOMPARE(nullView.isEmpty(), null.isEmpty());
 
+#ifdef Q_CC_MSVC // QTBUG-122797
+        if constexpr (!std::is_same_v<StringView, QAnyStringView>)
+#endif
+        {
         StringView nullView2{nullRef};
 #ifndef QSTRINGVIEW_REFUSES_QSTRINGREF
         QEXPECT_FAIL("", "QTBUG-122797/QTBUG-122798", Continue);
 #endif
         QCOMPARE(nullView2.isNull(),  null.isNull());
         QCOMPARE(nullView2.isEmpty(), null.isEmpty());
+        }
     }
     {
         QString empty = "";
@@ -628,9 +633,14 @@ void tst_QStringRef::convertsToStringView() const
         QCOMPARE(emptyView.isNull(),  empty.isNull());
         QCOMPARE(emptyView.isEmpty(), empty.isEmpty());
 
+#ifdef Q_CC_MSVC // QTBUG-122797
+        if constexpr (!std::is_same_v<StringView, QAnyStringView>)
+#endif
+        {
         StringView emptyView2{emptyRef};
         QCOMPARE(emptyView2.isNull(),  empty.isNull());
         QCOMPARE(emptyView2.isEmpty(), empty.isEmpty());
+        }
     }
 }
 

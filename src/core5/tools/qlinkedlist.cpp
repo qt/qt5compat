@@ -6,6 +6,7 @@
 
 QT_BEGIN_NAMESPACE
 
+Q_CONSTINIT
 const QLinkedListData QLinkedListData::shared_null = {
     const_cast<QLinkedListData *>(&QLinkedListData::shared_null),
     const_cast<QLinkedListData *>(&QLinkedListData::shared_null),

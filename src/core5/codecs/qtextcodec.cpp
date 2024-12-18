@@ -494,6 +494,10 @@ QTextCodec *QTextCodec::codecForName(const QByteArray &name)
     if (name.isEmpty())
         return nullptr;
 
+    // ensure NUL-termination:
+    const std::string name0(name.data(), size_t(name.size()));
+    // (do it outside the critical section, even if we may not need it)
+
     const TextCodecsMutexLocker locker;
 
     QTextCodecData *globalData = QTextCodecData::instance();
@@ -510,14 +514,14 @@ QTextCodec *QTextCodec::codecForName(const QByteArray &name)
 
     for (TextCodecListConstIt it = globalData->allCodecs.constBegin(), cend = globalData->allCodecs.constEnd(); it != cend; ++it) {
         QTextCodec *cursor = *it;
-        if (qTextCodecNameMatch(cursor->name(), name)) {
+        if (qTextCodecNameMatch(cursor->name().constData(), name0.data())) {
             if (cache)
                 cache->insert(name, cursor);
             return cursor;
         }
         QList<QByteArray> aliases = cursor->aliases();
         for (ByteArrayListConstIt ait = aliases.constBegin(), acend = aliases.constEnd(); ait != acend; ++ait) {
-            if (qTextCodecNameMatch(*ait, name)) {
+            if (qTextCodecNameMatch(ait->constData(), name0.data())) {
                 cache->insert(name, cursor);
                 return cursor;
             }
@@ -526,7 +530,7 @@ QTextCodec *QTextCodec::codecForName(const QByteArray &name)
 
     return nullptr;
 #else
-    return QIcuCodec::codecForNameUnlocked(name);
+    return QIcuCodec::codecForNameUnlocked(name0.data());
 #endif
 }
 

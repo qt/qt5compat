@@ -2,11 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 // Qt-Security score:critical reason:data-parser
 
-#include "qglobal.h"
-
-// Disable warning about use of deprecated QXmlStreamLocator in QScopedPointer<>
-QT_WARNING_DISABLE_MSVC(4996)
-
 #include "qxml.h"
 #include "qxml_p.h"
 #if QT_CONFIG(textcodec)

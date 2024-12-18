@@ -2337,7 +2337,6 @@ void tst_QTextCodec::invalidNames()
         const QByteArray ISO_8859_1 = QByteArray::fromRawData(ISO_8859_15, sizeof ISO_8859_15 - 2);
         const auto codec = QTextCodec::codecForName(ISO_8859_1);
         QVERIFY(codec);
-        QEXPECT_FAIL("", "QTBUG-145180", Continue);
         QCOMPARE(codec->name(), "ISO-8859-1");
     }
 }

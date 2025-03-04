@@ -881,9 +881,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(const QStringRef &s1, const QString &s2, Qt::CaseSensitivity cs = Qt::CaseSensitive)
     \since 4.5
 
-    Compares the string \a s1 with the string \a s2 and returns an
-    integer less than, equal to, or greater than zero if \a s1
-    is less than, equal to, or greater than \a s2.
+    Compares \a s1 with \a s2 and returns a negative
+    integer if \a s1 is less than \a s2, a positive integer if it is greater
+    than \a s2, and zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -894,9 +894,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \since 4.5
     \overload
 
-    Compares the string \a s1 with the string \a s2 and returns an
-    integer less than, equal to, or greater than zero if \a s1
-    is less than, equal to, or greater than \a s2.
+    Compares \a s1 with \a s2 and returns a negative
+    integer if \a s1 is less than \a s2, a positive integer if it is greater
+    than \a s2, and zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -907,9 +907,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \since 4.5
     \overload
 
-    Compares the string \a s1 with the string \a s2 and returns an
-    integer less than, equal to, or greater than zero if \a s1
-    is less than, equal to, or greater than \a s2.
+    Compares \a s1 with \a s2 and returns a negative
+    integer if \a s1 is less than \a s2, a positive integer if it is greater
+    than \a s2, and zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -920,9 +920,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(const QString &other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \since 4.5
 
-    Compares this string with the \a other string and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other string.
+    Compares \c {*this} with \a other and returns a negative integer if
+    \c {*this} is less than \a other, a positive integer if it is greater
+    than \a other, and zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -935,9 +935,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(const QStringRef &other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \since 4.5
 
-    Compares this string with the \a other string and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other string.
+    Compares \c {*this} with \a other and returns a negative integer if
+    \c {*this} is less than \a other, a positive integer if it is greater
+    than \a other, and zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -950,9 +950,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(QChar ch, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \since 5.14
 
-    Compares this string with \a ch and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than \a ch, interpreted as a string of length one.
+    Compares \c {*this} with \a ch and returns a negative integer if \c {*this}
+    is less than \a ch, a positive integer if it is greater than \a ch, and zero
+    if they are equal. Here, \a ch interpreted as a string of length one.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -963,9 +963,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(QLatin1String other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \since 4.5
 
-    Compares this string with the \a other string and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other string.
+    Compares \c {*this} with \a other and returns a negative integer if \c {*this}
+    is less than \a other, a positive integer if it is greater than \a other, and
+    zero if they are equal.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -978,10 +978,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::compare(const QByteArray &other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const
     \since 5.8
 
-    Compares this string with \a other and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other byte array,
-    interpreted as a UTF-8 sequence.
+    Compares \c {*this} with \a other and returns a negative integer if \c {*this}
+    is less than \a other, a positive integer if it is greater than \a other, and
+     zero if they are equal. The contents of \a other is interpreted as UTF-8.
 
     If \a cs is Qt::CaseSensitive, the comparison is case sensitive;
     otherwise the comparison is case insensitive.
@@ -993,9 +992,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \fn int QStringRef::localeAwareCompare(const QStringRef &s1, const QString & s2)
     \since 4.5
 
-    Compares \a s1 with \a s2 and returns an integer less than, equal
-    to, or greater than zero if \a s1 is less than, equal to, or
-    greater than \a s2.
+    Compares \a s1 with \a s2 and returns a negative
+    integer if \a s1 is less than \a s2, a positive integer if it is greater
+    than \a s2, and zero if they are equal.
 
     The comparison is performed in a locale- and also
     platform-dependent manner. Use this function to present sorted
@@ -1009,9 +1008,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \since 4.5
     \overload
 
-    Compares \a s1 with \a s2 and returns an integer less than, equal
-    to, or greater than zero if \a s1 is less than, equal to, or
-    greater than \a s2.
+    Compares \a s1 with \a s2 and returns a negative
+    integer if \a s1 is less than \a s2, a positive integer if it is greater
+    than \a s2, and zero if they are equal.
 
     The comparison is performed in a locale- and also
     platform-dependent manner. Use this function to present sorted
@@ -1025,9 +1024,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \since 4.5
     \overload
 
-    Compares this string with the \a other string and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other string.
+    Compares \c {*this} with \a other and returns a negative integer if \c {*this}
+    is less than \a other, a positive integer if it is greater than \a other, and
+    zero if they are equal.
 
     The comparison is performed in a locale- and also
     platform-dependent manner. Use this function to present sorted
@@ -1041,9 +1040,9 @@ QStringRef QStringRef::appendTo(QString *string) const
     \since 4.5
     \overload
 
-    Compares this string with the \a other string and returns an
-    integer less than, equal to, or greater than zero if this string
-    is less than, equal to, or greater than the \a other string.
+    Compares \c {*this} with \a other and returns a negative integer if \c {*this}
+    is less than \a other, a positive integer if it is greater than \a other, and
+    zero if they are equal.
 
     The comparison is performed in a locale- and also
     platform-dependent manner. Use this function to present sorted

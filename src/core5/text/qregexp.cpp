@@ -4009,10 +4009,7 @@ bool QRegExp::operator==(const QRegExp &rx) const
 */
 size_t qHash(const QRegExp &key, size_t seed) noexcept
 {
-    QtPrivate::QHashCombine hash;
-    seed = hash(seed, key.priv->engineKey);
-    seed = hash(seed, key.priv->minimal);
-    return seed;
+    return qHashMulti(seed, key.priv->engineKey, key.priv->minimal);
 }
 
 /*!

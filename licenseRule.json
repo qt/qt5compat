@@ -46,7 +46,12 @@
             "": {
                 "comment": "",
                 "file type": "tools",
-                "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0"]
+                "spdx": ["LicenseRef-Qt-Commercial"]
+            },
+            "tests/.*./*.sh": {
+                   "comment": "Default",
+                   "file type": "test",
+                   "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0"]
             },
             "(.*)(examples/|snippets/)": {
                    "comment": "Example takes precedence",
@@ -76,7 +81,7 @@
             "": {
                 "comment": "",
                 "file type": "module and plugin",
-                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
+                "spdx": ["LicenseRef-Qt-Commercial"]
             },
             "dist/": {
                 "comment": "Default",
@@ -86,7 +91,7 @@
             "src/": {
                 "comment": "",
                 "file type": "module and plugin",
-                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
+                "spdx": ["LicenseRef-Qt-Commercial"]
             },
             "tests/": {
                 "comment": "",
@@ -106,7 +111,7 @@
             "util/": {
                 "comment": "Default",
                 "file type": "util",
-                "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0"]
+                "spdx": ["LicenseRef-Qt-Commercial"]
             },
             "src/core5/codecs/(qbig5codec|qeucjpcodec|qeuckrcodec|qgb18030codec|qjiscodec|qsjiscodec|qtsciicodec).cpp": {
                 "comment": "license from REUSE.toml not visible when checking the headers",

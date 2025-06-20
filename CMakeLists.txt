@@ -13,10 +13,14 @@ project(Qt5Compat # special case
     LANGUAGES CXX C
 )
 
-find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core)
-find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml Gui Widgets Quick)
+find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals)
 
+# This should be called as early as possible, just after find_package(BuildInternals) where it is
+# defined.
 qt_internal_project_setup()
+
+find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS Core)
+find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Network Xml Gui Widgets Quick)
 
 # Look for the target ShaderTools package to have access to the ShaderTools Qt module library.
 # This is optional. When not present, runtime shader processing will not be available, and

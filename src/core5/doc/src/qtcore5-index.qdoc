@@ -37,5 +37,5 @@
     Furthermore, Qt 5 Core Compat in Qt \QtVersion contains third party
     modules under the following permissive licenses:
 
-    \generatelist{groupsbymodule attributions-qtcore5compat}
+    \annotatedlist attributions-qtcore5compat
 */

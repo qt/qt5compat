@@ -5,14 +5,14 @@ path = "util/unicode/codecs/big5/BIG5"
 precedence = "closest"
 comment = "tools and utils"
 SPDX-FileCopyrightText = "Copyright (C) 2024 The Qt Company Ltd."
-SPDX-License-Identifier = "LicenseRef-Qt-Commercial"
+SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0"
 
 [[annotations]]
 path = "src/imports/graphicaleffects5/**"
 precedence = "closest"
 comment = "module and plugin"
 SPDX-FileCopyrightText = "Copyright (C) 2024 The Qt Company Ltd."
-SPDX-License-Identifier = "LicenseRef-Qt-Commercial"
+SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"
 
 [[annotations]]
 path = ["tests/auto/core5/serialization/json/invalidBinaryData/*.bjson",

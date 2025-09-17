@@ -1,5 +1,7 @@
 // Copyright (C) 2020 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial
+// Qt-Security score:critical reason:data-parser
+// ### TODO: inline this file into qxml.cpp
 
 #ifndef QXML_P_H
 #define QXML_P_H

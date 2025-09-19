@@ -1,5 +1,6 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial
+// Qt-Security score:critical reason:data-parser
 
 #include "qwindowscodec_p.h"
 #include "private/qstringconverter_p.h"

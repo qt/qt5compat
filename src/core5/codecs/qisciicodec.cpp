@@ -1,5 +1,7 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial
+// Qt-Security score:critical reason:data-parser
+
 #include "qisciicodec_p.h"
 #include "qtextcodec_p.h"
 #include "qlist.h"

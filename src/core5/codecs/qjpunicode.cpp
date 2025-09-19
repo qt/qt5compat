@@ -47,6 +47,9 @@ static uint unicode11ToJisx0212(uint h, uint l);
  * Unicode 1.1 conversion.
  */
 
+QJpUnicodeConv::~QJpUnicodeConv()
+    = default;
+
 /*!
   \fn QJpUnicodeConv::QJpUnicodeConv (int r)
   \internal

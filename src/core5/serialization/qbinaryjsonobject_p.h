@@ -35,8 +35,8 @@ public:
 
     QBinaryJsonObject &operator =(QBinaryJsonObject &&other) noexcept
     {
-        qSwap(d, other.d);
-        qSwap(o, other.o);
+        qt_ptr_swap(d, other.d);
+        qt_ptr_swap(o, other.o);
         return *this;
     }
 

@@ -799,7 +799,8 @@ QTextEncoder* QTextCodec::makeEncoder(QTextCodec::ConversionFlags flags) const
 */
 QByteArray QTextCodec::fromUnicode(const QString& str) const
 {
-    return convertFromUnicode(str.constData(), str.size(), nullptr);
+    ConverterState state = DefaultConversion | Flag::Stateless;
+    return convertFromUnicode(str.constData(), str.size(), &state);
 }
 
 /*!
@@ -811,7 +812,8 @@ QByteArray QTextCodec::fromUnicode(const QString& str) const
 */
 QByteArray QTextCodec::fromUnicode(QStringView str) const
 {
-    return convertFromUnicode(str.data(), str.size(), nullptr);
+    ConverterState state = DefaultConversion | Flag::Stateless;
+    return convertFromUnicode(str.data(), str.size(), &state);
 }
 
 /*!
@@ -831,7 +833,8 @@ QByteArray QTextCodec::fromUnicode(QStringView str) const
 */
 QString QTextCodec::toUnicode(const QByteArray& a) const
 {
-    return convertToUnicode(a.constData(), a.size(), nullptr);
+    ConverterState state = DefaultConversion | Flag::Stateless;
+    return convertToUnicode(a.constData(), a.size(), &state);
 }
 
 /*!

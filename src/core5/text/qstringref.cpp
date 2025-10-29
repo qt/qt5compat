@@ -123,7 +123,7 @@ namespace QCharPrivate
     template<typename T>
     Q_DECL_CONST_FUNCTION static inline T convertCase_helper(T uc, QUnicodeTables::Case which) noexcept
     {
-        const auto fold = QUnicodeTables::properties(uc)->cases[which];
+        const auto fold = QUnicodeTables::caseConversion(uc)[which];
 
         if (Q_UNLIKELY(fold.special)) {
             const ushort *specialCase = QUnicodeTablesPrivate::specialCaseMap + fold.diff;

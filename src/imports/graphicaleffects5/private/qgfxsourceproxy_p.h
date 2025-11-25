@@ -26,7 +26,6 @@ class QGfxSourceProxy : public QQuickItem
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
     Q_PROPERTY(Interpolation interpolation READ interpolation WRITE setInterpolation NOTIFY interpolationChanged)
 
-    Q_ENUMS(Interpolation)
 
     QML_NAMED_ELEMENT(SourceProxy)
     QML_ADDED_IN_VERSION(5, 0)
@@ -37,6 +36,7 @@ public:
         NearestInterpolation,
         LinearInterpolation
     };
+    Q_ENUM(Interpolation)
 
     QGfxSourceProxy(QQuickItem *item = 0);
     ~QGfxSourceProxy();

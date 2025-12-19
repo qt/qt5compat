@@ -308,7 +308,7 @@ void tst_QLinkedList::eraseValidIteratorsOnSharedList() const
     a.append(5);
     a.append(10);
     a.append(20);
-    a.append(20);
+    a.append(20); // ← to erase
     a.append(20);
     a.append(20);
     a.append(30);
@@ -323,7 +323,7 @@ void tst_QLinkedList::eraseValidIteratorsOnSharedList() const
     QCOMPARE(a.size(), 6);
     --r;
     --r;
-    QCOMPARE(*r, 10); // Ensure that number 2 instance was removed;
+    QCOMPARE(*r, 10);
 }
 
 void tst_QLinkedList::insertWithIteratorsOnSharedList() const

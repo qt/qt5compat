@@ -14,6 +14,10 @@ import Qt5Compat.GraphicalEffects.private
     \brief Masks the source item with another item and applies a threshold
     value.
 
+    \note The MultiEffect component provides a mask effect with some performance
+    advantages. For new code, it should be considered as an alternative to using Qt Graphical
+    Effects.
+
     The masking behavior can be controlled with the \l threshold value for the
     mask pixels.
 

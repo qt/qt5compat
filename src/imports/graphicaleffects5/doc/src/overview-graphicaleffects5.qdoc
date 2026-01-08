@@ -21,7 +21,7 @@
     new solutions for effects that were introduced in Qt 6. For typical UI
     effects, Qt Quick has the \l{MultiEffect}, which applies multiple effects
     in one pass. For advanced use cases which are not covered by this
-    component, the Qt Quick Effect Maker tool can be used to customize and
+    component, the \l{Qt Quick Effect Maker} tool can be used to customize and
     fine-tune exactly the shader effects you need.
 
     \section1 Using Qt Graphical Effects

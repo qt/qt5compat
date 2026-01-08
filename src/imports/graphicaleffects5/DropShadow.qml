@@ -15,6 +15,10 @@ import Qt5Compat.GraphicalEffects.private
 
     \brief Generates a soft shadow behind the source item.
 
+    \note The MultiEffect component provides a drop shadow effect with some performance
+    advantages. For new code, it should be considered as an alternative to using Qt Graphical
+    Effects.
+
     The DropShadow effect blurs the alpha channel of the input, colorizes the
     result and places it behind the source object to create a soft shadow. The
     shadow's color can be changed using the \l {DropShadow::color}{color}

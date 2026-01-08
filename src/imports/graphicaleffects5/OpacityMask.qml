@@ -13,6 +13,10 @@ import Qt5Compat.GraphicalEffects.private
     \ingroup qtgraphicaleffects-mask
     \brief Masks the source item with another item.
 
+    \note The MultiEffect component provides a mask effect with some performance
+    advantages. For new code, it should be considered as an alternative to using Qt Graphical
+    Effects.
+
     \table
     \header
         \li Source

@@ -13,6 +13,10 @@ import Qt5Compat.GraphicalEffects.private
     \ingroup qtgraphicaleffects-color
     \brief Adjusts brightness and contrast.
 
+    \note The MultiEffect component provides a brightness and contrast effect with some performance
+    advantages. For new code, it should be considered as an alternative to using Qt Graphical
+    Effects.
+
     This effect adjusts the source item colors.
     Brightness adjustment changes the perceived luminance of the source item.
     Contrast adjustment increases or decreases the color

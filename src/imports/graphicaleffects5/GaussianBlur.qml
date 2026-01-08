@@ -15,6 +15,10 @@ import Qt5Compat.GraphicalEffects.private
     \ingroup qtgraphicaleffects-blur
     \brief Applies a higher quality blur effect.
 
+    \note The MultiEffect component provides a blur effect with some performance
+    advantages. For new code, it should be considered as an alternative to using Qt Graphical
+    Effects.
+
     GaussianBlur effect softens the image by blurring it with an algorithm that
     uses the Gaussian function to calculate the effect. The effect produces
     higher quality than \l{Qt5Compat.GraphicalEffects::FastBlur}{FastBlur}, but is

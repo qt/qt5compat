@@ -21,9 +21,10 @@ const QLinkedListData QLinkedListData::shared_null = {
 
     \reentrant
 
-    QLinkedList\<T\> is one of Qt's generic \l{container classes}. It
-    stores a list of values and provides iterator-based access as
-    well as \l{constant time} insertions and removals.
+    QLinkedList\<T\> is one of Qt's generic \l{container classes}, where
+    \a T is the type of elements stored in the list. It stores a list of
+    values and provides iterator-based access as well as \l{constant time}
+    insertions and removals.
 
     QList\<T\> and QLinkedList\<T\> provide similar functionality.
     Here's an overview:

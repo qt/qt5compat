@@ -14,8 +14,9 @@
     other hand, they are slightly less efficient.
 
     QLinkedListIterator\<T\> allows you to iterate over a
-    QLinkedList\<T\>. If you want to modify the list as you iterate
-    over it, use QMutableLinkedListIterator\<T\> instead.
+    QLinkedList\<T\>, where \a T is the element type. If you want to
+    modify the list as you iterate over it, use
+    QMutableLinkedListIterator\<T\> instead.
 
     The QLinkedListIterator constructor takes a QLinkedList as
     argument. After construction, the iterator is located at the very
@@ -62,9 +63,9 @@
     other hand, they are slightly less efficient.
 
     QMutableLinkedListIterator\<T\> allows you to iterate over a
-    QLinkedList\<T\> and modify the list. If you don't want to modify
-    the list (or have a const QLinkedList), use the slightly faster
-    QLinkedListIterator\<T\> instead.
+    QLinkedList\<T\> and modify the list, where \a T is the element type.
+    If you don't want to modify the list (or have a const QLinkedList),
+    use the slightly faster QLinkedListIterator\<T\> instead.
 
     The QMutableLinkedListIterator constructor takes a QLinkedList as
     argument. After construction, the iterator is located at the very

@@ -9,7 +9,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype RectangularGlow
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since QtGraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-glow
     \brief Generates a blurred and colorized rectangle, which gives
     the impression that the source is glowing.

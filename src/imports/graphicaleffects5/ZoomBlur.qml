@@ -9,7 +9,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype ZoomBlur
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since Qt5Compat.GraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-motion-blur
     \brief Applies directional blur effect towards source items center point.
 

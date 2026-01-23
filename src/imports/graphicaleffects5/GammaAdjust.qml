@@ -8,7 +8,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype GammaAdjust
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since QtGraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-color
     \brief Alters the luminance of the source item.
 

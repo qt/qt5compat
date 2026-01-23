@@ -9,7 +9,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype LinearGradient
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since QtGraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-gradient
     \brief Draws a linear gradient.
 

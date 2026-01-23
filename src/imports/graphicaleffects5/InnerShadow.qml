@@ -9,7 +9,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype InnerShadow
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since QtGraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-drop-shadow
     \brief Generates a colorized and blurred shadow inside the
     source.

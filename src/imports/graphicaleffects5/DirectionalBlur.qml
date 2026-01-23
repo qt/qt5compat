@@ -9,7 +9,7 @@ import Qt5Compat.GraphicalEffects.private
     \qmltype DirectionalBlur
     \inqmlmodule Qt5Compat.GraphicalEffects
     \since QtGraphicalEffects 1.0
-    \inherits QtQuick2::Item
+    \inherits QtQuick::Item
     \ingroup qtgraphicaleffects-motion-blur
     \brief Applies blur effect to the specified direction.
 

@@ -27,8 +27,9 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
         \li \image BrightnessContrast_bug.png
+               {Beetle with adjusted brightness and contrast}
     \endtable
 
     \section1 Example
@@ -62,9 +63,9 @@ Item {
         \li
         \li
         \row
-            \li \image BrightnessContrast_brightness1.png
-            \li \image BrightnessContrast_brightness2.png
-            \li \image BrightnessContrast_brightness3.png
+            \li \image BrightnessContrast_brightness1.png {Darkened beetle, brightness -0.25}
+            \li \image BrightnessContrast_brightness2.png {Beetle at normal brightness}
+            \li \image BrightnessContrast_brightness3.png {Brightened beetle, brightness 0.5}
         \row
             \li \b { brightness: -0.25 }
             \li \b { brightness: 0 }
@@ -88,7 +89,7 @@ Item {
         \header
             \li Contrast adjustment curve
         \row
-            \li \image BrightnessContrast_contrast_graph.png
+            \li \image BrightnessContrast_contrast_graph.png {Graph showing contrast adjustment curve}
         \endtable
 
        The value ranges from -1.0 to 1.0. By default, the property is set to \c 0.0 (no change).
@@ -99,9 +100,9 @@ Item {
         \li
         \li
         \row
-            \li \image BrightnessContrast_contrast1.png
-            \li \image BrightnessContrast_contrast2.png
-            \li \image BrightnessContrast_contrast3.png
+            \li \image BrightnessContrast_contrast1.png {Beetle with reduced contrast}
+            \li \image BrightnessContrast_contrast2.png {Beetle at normal contrast}
+            \li \image BrightnessContrast_contrast3.png {Beetle with increased contrast}
         \row
             \li \b { contrast: -0.5 }
             \li \b { contrast: 0 }

@@ -20,7 +20,7 @@ import Qt5Compat.GraphicalEffects.private
     \header
         \li Effect applied
     \row
-        \li \image RadialGradient.png
+        \li \image RadialGradient.png {Radial gradient from center to edges}
     \endtable
 
     \section1 Example
@@ -63,9 +63,9 @@ Item {
         \li
         \li
         \row
-            \li \image RadialGradient_horizontalOffset1.png
-            \li \image RadialGradient_horizontalOffset2.png
-            \li \image RadialGradient_horizontalOffset3.png
+            \li \image RadialGradient_horizontalOffset1.png {Gradient center offset left}
+            \li \image RadialGradient_horizontalOffset2.png {Gradient center at origin}
+            \li \image RadialGradient_horizontalOffset3.png {Gradient center offset right}
         \row
             \li \b { horizontalOffset: -150 }
             \li \b { horizontalOffset: 0 }
@@ -110,8 +110,8 @@ Item {
         \li
         \li
         \row
-            \li \image RadialGradient_horizontalRadius1.png
-            \li \image RadialGradient_horizontalRadius2.png
+            \li \image RadialGradient_horizontalRadius1.png {Circular gradient shape}
+            \li \image RadialGradient_horizontalRadius2.png {Elliptical gradient shape}
         \row
             \li \b { horizontalRadius: 300 }
             \li \b { horizontalRadius: 100 }
@@ -149,9 +149,9 @@ Item {
         \li
         \li
         \row
-            \li \image RadialGradient_angle1.png
-            \li \image RadialGradient_angle2.png
-            \li \image RadialGradient_angle3.png
+            \li \image RadialGradient_angle1.png {Elliptical gradient at angle 0}
+            \li \image RadialGradient_angle2.png {Elliptical gradient at angle 45}
+            \li \image RadialGradient_angle3.png {Elliptical gradient at angle 90}
         \row
             \li \b { angle: 0 }
             \li \b { angle: 45 }
@@ -189,8 +189,8 @@ Item {
         \li
         \li
         \row
-            \li \image RadialGradient_maskSource1.png
-            \li \image RadialGradient_maskSource2.png
+            \li \image RadialGradient_maskSource1.png {Gradient filling entire area}
+            \li \image RadialGradient_maskSource2.png {Gradient masked by butterfly shape}
         \row
             \li \b { source: undefined }
             \li \b { source: Image { source: images/butterfly.png } }
@@ -229,9 +229,9 @@ Item {
         \li
         \li
         \row
-            \li \image RadialGradient_gradient1.png
-            \li \image RadialGradient_gradient2.png
-            \li \image RadialGradient_gradient3.png
+            \li \image RadialGradient_gradient1.png {Rainbow radial gradient}
+            \li \image RadialGradient_gradient2.png {Gray radial gradient}
+            \li \image RadialGradient_gradient3.png {Transparent to black gradient}
         \row
             \li \b {gradient:} \code
     Gradient {

@@ -20,8 +20,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_butterfly_black.png
-        \li \image Glow_butterfly.png
+        \li \image Original_butterfly_black.png {White butterfly on black background}
+        \li \image Glow_butterfly.png {Butterfly with glowing edges}
     \endtable
 
     \section1 Example
@@ -77,9 +77,9 @@ Item {
         \li
         \li
         \row
-            \li \image Glow_radius1.png
-            \li \image Glow_radius2.png
-            \li \image Glow_radius3.png
+            \li \image Glow_radius1.png {No glow effect}
+            \li \image Glow_radius2.png {Moderate glow radius}
+            \li \image Glow_radius3.png {Large glow radius}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 6 }
@@ -140,9 +140,9 @@ Item {
         \li
         \li
         \row
-            \li \image Glow_spread1.png
-            \li \image Glow_spread2.png
-            \li \image Glow_spread3.png
+            \li \image Glow_spread1.png {Glow with no spread}
+            \li \image Glow_spread2.png {Glow with medium spread}
+            \li \image Glow_spread3.png {Glow with full spread}
         \row
             \li \b { spread: 0.0 }
             \li \b { spread: 0.5 }
@@ -174,9 +174,9 @@ Item {
         \li
         \li
         \row
-            \li \image Glow_color1.png
-            \li \image Glow_color2.png
-            \li \image Glow_color3.png
+            \li \image Glow_color1.png {White glow effect}
+            \li \image Glow_color2.png {Green glow effect}
+            \li \image Glow_color3.png {Semi-transparent green glow}
         \row
             \li \b { color: #ffffff }
             \li \b { color: #00ff00 }
@@ -242,6 +242,7 @@ Item {
         \snippet Glow-transparentBorder-example.qml example
 
         \image Glow-transparentBorder.png
+               {Rectangles showing difference between transparent border settings}
     */
     property alias transparentBorder: dps.transparentBorder
 }

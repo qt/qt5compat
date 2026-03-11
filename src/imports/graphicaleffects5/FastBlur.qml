@@ -25,8 +25,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image FastBlur_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image FastBlur_bug.png {Beetle with fast blur applied}
     \endtable
 
     \section1 Example
@@ -61,9 +61,9 @@ Item {
         \li
         \li
         \row
-            \li \image FastBlur_radius1.png
-            \li \image FastBlur_radius2.png
-            \li \image FastBlur_radius3.png
+            \li \image FastBlur_radius1.png {Beetle with no blur}
+            \li \image FastBlur_radius2.png {Beetle with moderate blur}
+            \li \image FastBlur_radius3.png {Beetle with maximum blur}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 32 }
@@ -95,8 +95,8 @@ Item {
         \li
         \li
         \row
-            \li \image FastBlur_transparentBorder1.png
-            \li \image FastBlur_transparentBorder2.png
+            \li \image FastBlur_transparentBorder1.png {Blur with edge clamping}
+            \li \image FastBlur_transparentBorder2.png {Blur with transparent edges}
         \row
             \li \b { transparentBorder: false }
             \li \b { transparentBorder: true }

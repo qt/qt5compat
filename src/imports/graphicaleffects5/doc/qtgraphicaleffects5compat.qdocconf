@@ -33,5 +33,8 @@ depends += qtqml qtquick qtdoc qtcore qtquickeffectmaker
 navigation.landingpage = "Qt 5 Compatibility APIs: Graphical Effects"
 navigation.qmltypespage = "Qt 5 Compatibility APIs: Graphical Effect QML Types"
 
+# Ensure alt text is provided for all images
+reportmissingalttextforimages = true
+
 # Allow zero warnings when testing documentation in CI
 warninglimit = 0

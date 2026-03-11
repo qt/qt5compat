@@ -23,9 +23,9 @@ import Qt5Compat.GraphicalEffects.private
         \li MaskSource
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image OpacityMask_mask.png
-        \li \image OpacityMask_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image OpacityMask_mask.png {Circular gradient mask}
+        \li \image OpacityMask_bug.png {Beetle with circular mask applied}
     \endtable
 
     \section1 Example
@@ -57,9 +57,9 @@ Item {
             \li Mask
             \li Effect applied
         \row
-            \li \image Original_bug.png
-            \li \image OpacityMask_mask.png
-            \li \image OpacityMask_bug.png
+            \li \image Original_bug.png {Black beetle on a leaf}
+            \li \image OpacityMask_mask.png {Circular gradient mask}
+            \li \image OpacityMask_bug.png {Beetle with circular mask applied}
         \endtable
     */
     property variant maskSource

@@ -30,8 +30,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_butterfly.png
-        \li \image DropShadow_butterfly.png
+        \li \image Original_butterfly.png {Colorful butterfly graphic}
+        \li \image DropShadow_butterfly.png {Butterfly with drop shadow behind it}
     \endtable
 
     The soft shadow is created by blurring the image live using a gaussian
@@ -92,9 +92,9 @@ Item {
         \li
         \li
         \row
-            \li \image DropShadow_radius1.png
-            \li \image DropShadow_radius2.png
-            \li \image DropShadow_radius3.png
+            \li \image DropShadow_radius1.png {Sharp shadow with radius 0}
+            \li \image DropShadow_radius2.png {Soft shadow with radius 6}
+            \li \image DropShadow_radius3.png {Very soft shadow with radius 12}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 6 }
@@ -157,9 +157,9 @@ Item {
         \li
         \li
         \row
-            \li \image DropShadow_color1.png
-            \li \image DropShadow_color2.png
-            \li \image DropShadow_color3.png
+            \li \image DropShadow_color1.png {Butterfly with black shadow}
+            \li \image DropShadow_color2.png {Butterfly with blue shadow}
+            \li \image DropShadow_color3.png {Butterfly with semi-transparent shadow}
         \row
             \li \b { color: #000000 }
             \li \b { color: #0000ff }
@@ -209,9 +209,9 @@ Item {
         \li
         \li
         \row
-            \li \image DropShadow_horizontalOffset1.png
-            \li \image DropShadow_horizontalOffset2.png
-            \li \image DropShadow_horizontalOffset3.png
+            \li \image DropShadow_horizontalOffset1.png {Shadow offset to the left}
+            \li \image DropShadow_horizontalOffset2.png {Shadow centered below}
+            \li \image DropShadow_horizontalOffset3.png {Shadow offset to the right}
         \row
             \li \b { horizontalOffset: -20 }
             \li \b { horizontalOffset: 0 }
@@ -244,8 +244,8 @@ Item {
         \li
         \li
         \row
-            \li \image DropShadow_horizontalOffset2.png
-            \li \image DropShadow_spread1.png
+            \li \image DropShadow_horizontalOffset2.png {Shadow centered below}
+            \li \image DropShadow_spread1.png {Shadow with vertical offset}
         \row
             \li \b { horizontalOffset: 0 }
             \li \b { horizontalOffset: 0 }
@@ -282,9 +282,9 @@ Item {
         \li
         \li
         \row
-            \li \image DropShadow_spread1.png
-            \li \image DropShadow_spread2.png
-            \li \image DropShadow_spread3.png
+            \li \image DropShadow_spread1.png {Shadow with no spread}
+            \li \image DropShadow_spread2.png {Shadow with medium spread}
+            \li \image DropShadow_spread3.png {Shadow with full spread}
         \row
             \li \b { spread: 0.0 }
             \li \b { spread: 0.5 }
@@ -354,6 +354,7 @@ Item {
         \snippet DropShadow-transparentBorder-example.qml example
 
         \image DropShadow-transparentBorder.png
+               {Rectangles showing difference between transparent border settings}
     */
     property alias transparentBorder: dbs.transparentBorder
 }

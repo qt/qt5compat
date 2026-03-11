@@ -26,8 +26,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image DirectionalBlur_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image DirectionalBlur_bug.png {Beetle with directional blur applied}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -66,9 +66,9 @@ Item {
         \li
         \li
         \row
-            \li \image DirectionalBlur_length1.png
-            \li \image DirectionalBlur_length2.png
-            \li \image DirectionalBlur_length3.png
+            \li \image DirectionalBlur_length1.png {Beetle with no blur}
+            \li \image DirectionalBlur_length2.png {Beetle with moderate blur length}
+            \li \image DirectionalBlur_length3.png {Beetle with maximum blur length}
         \row
             \li \b { length: 0.0 }
             \li \b { length: 32.0 }
@@ -114,9 +114,9 @@ Item {
         \li
         \li
         \row
-            \li \image DirectionalBlur_angle1.png
-            \li \image DirectionalBlur_angle2.png
-            \li \image DirectionalBlur_angle3.png
+            \li \image DirectionalBlur_angle1.png {Horizontal blur at angle 0}
+            \li \image DirectionalBlur_angle2.png {Diagonal blur at angle 45}
+            \li \image DirectionalBlur_angle3.png {Vertical blur at angle 90}
         \row
             \li \b { angle: 0.0 }
             \li \b { angle: 45.0 }

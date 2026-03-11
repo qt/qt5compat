@@ -20,7 +20,7 @@ import Qt5Compat.GraphicalEffects.private
     \header
         \li Effect applied
     \row
-        \li \image LinearGradient.png
+        \li \image LinearGradient.png {Linear gradient from white to black} {Linear gradient from white to black}
     \endtable
 
     \section1 Example
@@ -46,9 +46,9 @@ Item {
         \li
         \li
         \row
-            \li \image LinearGradient_start1.png
-            \li \image LinearGradient_start2.png
-            \li \image LinearGradient_start3.png
+            \li \image LinearGradient_start1.png {Gradient starting from top-left}
+            \li \image LinearGradient_start2.png {Gradient starting from center}
+            \li \image LinearGradient_start3.png {Gradient starting from top-right}
         \row
             \li \b { start: QPoint(0, 0) }
             \li \b { start: QPoint(150, 150) }
@@ -76,9 +76,9 @@ Item {
         \li
         \li
         \row
-            \li \image LinearGradient_end1.png
-            \li \image LinearGradient_end2.png
-            \li \image LinearGradient_end3.png
+            \li \image LinearGradient_end1.png {Gradient ending at bottom-right}
+            \li \image LinearGradient_end2.png {Gradient ending at center}
+            \li \image LinearGradient_end3.png {Gradient ending at top-right}
         \row
             \li \b { end: Qt.point(300, 300) }
             \li \b { end: Qt.point(150, 150) }
@@ -120,8 +120,8 @@ Item {
         \li
         \li
         \row
-            \li \image LinearGradient_maskSource1.png
-            \li \image LinearGradient_maskSource2.png
+            \li \image LinearGradient_maskSource1.png {Gradient filling entire area}
+            \li \image LinearGradient_maskSource2.png {Gradient masked by butterfly shape}
         \row
             \li \b { source: undefined }
             \li \b { source: Image { source: images/butterfly.png } }
@@ -152,9 +152,9 @@ Item {
         \li
         \li
         \row
-            \li \image LinearGradient_gradient1.png
-            \li \image LinearGradient_gradient2.png
-            \li \image LinearGradient_gradient3.png
+            \li \image LinearGradient_gradient1.png {Rainbow linear gradient}
+            \li \image LinearGradient_gradient2.png {Gray linear gradient}
+            \li \image LinearGradient_gradient3.png {Transparent to black gradient}
             \row
             \li \b {gradient:} \code
     Gradient {

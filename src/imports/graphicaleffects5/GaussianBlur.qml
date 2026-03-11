@@ -35,8 +35,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image GaussianBlur_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image GaussianBlur_bug.png {Beetle with gaussian blur applied}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -86,9 +86,9 @@ Item {
         \li
         \li
         \row
-            \li \image GaussianBlur_radius1.png
-            \li \image GaussianBlur_radius2.png
-            \li \image GaussianBlur_radius3.png
+            \li \image GaussianBlur_radius1.png {Beetle with no blur}
+            \li \image GaussianBlur_radius2.png {Beetle with moderate blur}
+            \li \image GaussianBlur_radius3.png {Beetle with heavy blur}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 4 }
@@ -132,7 +132,7 @@ Item {
         too small deviation values makes the effect insignificant for the pixels
         near the radius.
 
-        \image GaussianBlur_deviation_graph.png
+        \image GaussianBlur_deviation_graph.png {Gaussian function curves with different deviation values}
         \caption The image above shows the Gaussian function with two different
         deviation values, yellow (1) and cyan (2.7). The y-axis shows the
         weights, the x-axis shows the pixel distance.
@@ -149,9 +149,9 @@ Item {
         \li
         \li
         \row
-            \li \image GaussianBlur_deviation1.png
-            \li \image GaussianBlur_deviation2.png
-            \li \image GaussianBlur_deviation3.png
+            \li \image GaussianBlur_deviation1.png {Low deviation blur}
+            \li \image GaussianBlur_deviation2.png {Medium deviation blur}
+            \li \image GaussianBlur_deviation3.png {High deviation blur}
         \row
             \li \b { deviation: 1 }
             \li \b { deviation: 2 }
@@ -192,8 +192,8 @@ Item {
         \li
         \li
         \row
-            \li \image GaussianBlur_transparentBorder1.png
-            \li \image GaussianBlur_transparentBorder2.png
+            \li \image GaussianBlur_transparentBorder1.png {Blur with edge clamping}
+            \li \image GaussianBlur_transparentBorder2.png {Blur with transparent edges}
         \row
             \li \b { transparentBorder: false }
             \li \b { transparentBorder: true }

@@ -28,9 +28,9 @@ import Qt5Compat.GraphicalEffects.private
         \li MaskSource
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image MaskedBlur_mask.png
-        \li \image MaskedBlur_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image MaskedBlur_mask.png {Blur intensity mask with gradient}
+        \li \image MaskedBlur_bug.png {Beetle with variable intensity blur}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -83,9 +83,9 @@ Item {
         \li
         \li
         \row
-            \li \image MaskedBlur_radius1.png
-            \li \image MaskedBlur_radius2.png
-            \li \image MaskedBlur_radius3.png
+            \li \image MaskedBlur_radius1.png {No blur applied}
+            \li \image MaskedBlur_radius2.png {Moderate masked blur}
+            \li \image MaskedBlur_radius3.png {Heavy masked blur}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 8 }

@@ -22,8 +22,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image GammaAdjust_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image GammaAdjust_bug.png {Beetle with gamma adjustment applied}
     \endtable
 
     \section1 Example
@@ -64,9 +64,9 @@ luminance = pow(original_luminance, 1.0 / gamma); // The luminance is assumed to
         \li
         \li
         \row
-            \li \image GammaAdjust_gamma1.png
-            \li \image GammaAdjust_gamma2.png
-            \li \image GammaAdjust_gamma3.png
+            \li \image GammaAdjust_gamma1.png {Darkened beetle, gamma 0.5}
+            \li \image GammaAdjust_gamma2.png {Beetle at normal gamma}
+            \li \image GammaAdjust_gamma3.png {Brightened beetle, gamma 2.0}
         \row
             \li \b { gamma: 0.5 }
             \li \b { gamma: 1.0 }
@@ -79,9 +79,9 @@ luminance = pow(original_luminance, 1.0 / gamma); // The luminance is assumed to
             \li
             \li
         \row
-            \li \image GammaAdjust_gamma1_graph.png
-            \li \image GammaAdjust_gamma2_graph.png
-            \li \image GammaAdjust_gamma3_graph.png
+            \li \image GammaAdjust_gamma1_graph.png {Luminance curve for gamma 0.5}
+            \li \image GammaAdjust_gamma2_graph.png {Luminance curve for gamma 1.0}
+            \li \image GammaAdjust_gamma3_graph.png {Luminance curve for gamma 2.0}
         \row
             \li Red curve: default gamma (1.0)
             \li

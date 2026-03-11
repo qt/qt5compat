@@ -26,8 +26,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_butterfly.png
-        \li \image InnerShadow_butterfly.png
+        \li \image Original_butterfly.png {Colorful butterfly graphic}
+        \li \image InnerShadow_butterfly.png {Butterfly with inner shadow effect}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -67,9 +67,9 @@ Item {
         \li
         \li
         \row
-            \li \image InnerShadow_radius1.png
-            \li \image InnerShadow_radius2.png
-            \li \image InnerShadow_radius3.png
+            \li \image InnerShadow_radius1.png {No inner shadow blur}
+            \li \image InnerShadow_radius2.png {Moderate inner shadow blur}
+            \li \image InnerShadow_radius3.png {Heavy inner shadow blur}
         \row
             \li \b { radius: 0 }
             \li \b { radius: 6 }
@@ -132,9 +132,9 @@ Item {
         \li
         \li
         \row
-            \li \image InnerShadow_spread1.png
-            \li \image InnerShadow_spread2.png
-            \li \image InnerShadow_spread3.png
+            \li \image InnerShadow_spread1.png {Inner shadow with no spread}
+            \li \image InnerShadow_spread2.png {Inner shadow with medium spread}
+            \li \image InnerShadow_spread3.png {Inner shadow with high spread}
         \row
             \li \b { spread: 0.0 }
             \li \b { spread: 0.3 }
@@ -175,9 +175,9 @@ Item {
         \li
         \li
         \row
-            \li \image InnerShadow_color1.png
-            \li \image InnerShadow_color2.png
-            \li \image InnerShadow_color3.png
+            \li \image InnerShadow_color1.png {Black inner shadow}
+            \li \image InnerShadow_color2.png {White inner shadow}
+            \li \image InnerShadow_color3.png {Red inner shadow}
         \row
             \li \b { color: #000000 }
             \li \b { color: #ffffff }
@@ -227,9 +227,9 @@ Item {
         \li
         \li
         \row
-            \li \image InnerShadow_horizontalOffset1.png
-            \li \image InnerShadow_horizontalOffset2.png
-            \li \image InnerShadow_horizontalOffset3.png
+            \li \image InnerShadow_horizontalOffset1.png {Shadow offset left}
+            \li \image InnerShadow_horizontalOffset2.png {Shadow centered}
+            \li \image InnerShadow_horizontalOffset3.png {Shadow offset right}
         \row
             \li \b { horizontalOffset: -20 }
             \li \b { horizontalOffset: 0 }
@@ -273,8 +273,8 @@ Item {
         \li
         \li
         \row
-            \li \image InnerShadow_fast1.png
-            \li \image InnerShadow_fast2.png
+            \li \image InnerShadow_fast1.png {High quality inner shadow}
+            \li \image InnerShadow_fast2.png {Fast inner shadow rendering}
         \row
             \li \b { fast: false }
             \li \b { fast: true }

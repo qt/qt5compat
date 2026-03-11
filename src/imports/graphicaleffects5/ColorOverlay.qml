@@ -21,8 +21,9 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_butterfly.png
+        \li \image Original_butterfly.png {Colorful butterfly graphic}
         \li \image ColorOverlay_butterfly.png
+               {Butterfly with color overlay applied}
     \endtable
 
     \section1 Example
@@ -55,9 +56,9 @@ Item {
         \li
         \li
         \row
-            \li \image ColorOverlay_color1.png
-            \li \image ColorOverlay_color2.png
-            \li \image ColorOverlay_color3.png
+            \li \image ColorOverlay_color1.png {Butterfly with red overlay}
+            \li \image ColorOverlay_color2.png {Butterfly with green overlay}
+            \li \image ColorOverlay_color3.png {Butterfly with blue overlay}
         \row
             \li \b { color: #80ff0000 }
             \li \b { color: #8000ff00 }

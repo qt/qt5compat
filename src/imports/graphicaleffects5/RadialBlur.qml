@@ -26,8 +26,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image RadialBlur_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image RadialBlur_bug.png {Beetle with radial blur effect}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -64,9 +64,9 @@ Item {
         \li
         \li
         \row
-            \li \image RadialBlur_angle1.png
-            \li \image RadialBlur_angle2.png
-            \li \image RadialBlur_angle3.png
+            \li \image RadialBlur_angle1.png {No radial blur}
+            \li \image RadialBlur_angle2.png {Moderate radial blur}
+            \li \image RadialBlur_angle3.png {Heavy radial blur}
         \row
             \li \b { angle: 0.0 }
             \li \b { angle: 15.0 }
@@ -117,9 +117,9 @@ Item {
         \li
         \li
         \row
-            \li \image RadialBlur_horizontalOffset1.png
-            \li \image RadialBlur_horizontalOffset2.png
-            \li \image RadialBlur_horizontalOffset3.png
+            \li \image RadialBlur_horizontalOffset1.png {Blur center offset right}
+            \li \image RadialBlur_horizontalOffset2.png {Blur center at origin}
+            \li \image RadialBlur_horizontalOffset3.png {Blur center offset left}
         \row
             \li \b { horizontalOffset: 75.0 }
             \li \b { horizontalOffset: 0.0 }

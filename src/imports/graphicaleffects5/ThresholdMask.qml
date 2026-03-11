@@ -27,9 +27,9 @@ import Qt5Compat.GraphicalEffects.private
         \li MaskSource
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image ThresholdMask_mask.png
-        \li \image ThresholdMask_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image ThresholdMask_mask.png {Circular gradient mask}
+        \li \image ThresholdMask_bug.png {Beetle with threshold mask applied}
     \endtable
 
     \section1 Example
@@ -60,9 +60,9 @@ Item {
             \li Mask
             \li Effect applied
         \row
-            \li \image Original_bug.png
-            \li \image ThresholdMask_mask.png
-            \li \image ThresholdMask_bug.png
+            \li \image Original_bug.png {Black beetle on a leaf}
+            \li \image ThresholdMask_mask.png {Circular gradient mask}
+            \li \image ThresholdMask_bug.png {Beetle with threshold mask applied}
         \endtable
 
         \note It is not supported to let the effect include itself, for
@@ -86,9 +86,9 @@ Item {
         \li
         \li
         \row
-            \li \image ThresholdMask_threshold1.png
-            \li \image ThresholdMask_threshold2.png
-            \li \image ThresholdMask_threshold3.png
+            \li \image ThresholdMask_threshold1.png {Mask with threshold 0.0}
+            \li \image ThresholdMask_threshold2.png {Mask with threshold 0.5}
+            \li \image ThresholdMask_threshold3.png {Mask with threshold 0.7}
         \row
             \li \b { threshold: 0.0 }
             \li \b { threshold: 0.5 }
@@ -117,9 +117,9 @@ Item {
         \li
         \li
         \row
-            \li \image ThresholdMask_spread1.png
-            \li \image ThresholdMask_spread2.png
-            \li \image ThresholdMask_spread3.png
+            \li \image ThresholdMask_spread1.png {Sharp mask edge with spread 0.0}
+            \li \image ThresholdMask_spread2.png {Softened mask edge with spread 0.2}
+            \li \image ThresholdMask_spread3.png {Smooth mask edge with spread 0.8}
         \row
             \li \b { spread: 0.0 }
             \li \b { spread: 0.2 }

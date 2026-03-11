@@ -21,9 +21,10 @@ import Qt5Compat.GraphicalEffects.private
         \li foregroundSource
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image Original_butterfly.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image Original_butterfly.png {Colorful butterfly graphic}
         \li \image Blend_bug_and_butterfly.png
+               {Beetle and butterfly blended together}
     \endtable
 
     \note This effect is available when running with OpenGL.
@@ -160,8 +161,8 @@ Item {
             \li Example source
             \li Example foregroundSource
         \row
-            \li \image Original_bug.png
-            \li \image Original_butterfly.png
+            \li \image Original_bug.png {Black beetle on a leaf}
+            \li \image Original_butterfly.png {Colorful butterfly graphic}
         \endtable
 
         \table
@@ -170,63 +171,63 @@ Item {
         \li
         \li
         \row
-            \li \image Blend_mode1.png
-            \li \image Blend_mode2.png
-            \li \image Blend_mode3.png
+            \li \image Blend_mode1.png {Blend effect with normal mode}
+            \li \image Blend_mode2.png {Blend effect with addition mode}
+            \li \image Blend_mode3.png {Blend effect with average mode}
         \row
             \li \b { mode: normal }
             \li \b { mode: addition }
             \li \b { mode: average }
         \row
-            \li \image Blend_mode4.png
-            \li \image Blend_mode5.png
-            \li \image Blend_mode6.png
+            \li \image Blend_mode4.png {Blend effect with color mode}
+            \li \image Blend_mode5.png {Blend effect with colorBurn mode}
+            \li \image Blend_mode6.png {Blend effect with colorDodge mode}
         \row
             \li \b { mode: color }
             \li \b { mode: colorBurn }
             \li \b { mode: colorDodge }
         \row
-            \li \image Blend_mode7.png
-            \li \image Blend_mode8.png
-            \li \image Blend_mode9.png
+            \li \image Blend_mode7.png {Blend effect with darken mode}
+            \li \image Blend_mode8.png {Blend effect with darkerColor mode}
+            \li \image Blend_mode9.png {Blend effect with difference mode}
         \row
             \li \b { mode: darken }
             \li \b { mode: darkerColor }
             \li \b { mode: difference }
         \row
-            \li \image Blend_mode10.png
-            \li \image Blend_mode11.png
-            \li \image Blend_mode12.png
+            \li \image Blend_mode10.png {Blend effect with divide mode}
+            \li \image Blend_mode11.png {Blend effect with exclusion mode}
+            \li \image Blend_mode12.png {Blend effect with hardLight mode}
         \row
             \li \b { mode: divide }
             \li \b { mode: exclusion }
             \li \b { mode: hardlight }
         \row
-            \li \image Blend_mode13.png
-            \li \image Blend_mode14.png
-            \li \image Blend_mode15.png
+            \li \image Blend_mode13.png {Blend effect with hue mode}
+            \li \image Blend_mode14.png {Blend effect with lighten mode}
+            \li \image Blend_mode15.png {Blend effect with lighterColor mode}
         \row
             \li \b { mode: hue }
             \li \b { mode: lighten }
             \li \b { mode: lighterColor }
         \row
-            \li \image Blend_mode16.png
-            \li \image Blend_mode17.png
-            \li \image Blend_mode18.png
+            \li \image Blend_mode16.png {Blend effect with lightness mode}
+            \li \image Blend_mode17.png {Blend effect with negation mode}
+            \li \image Blend_mode18.png {Blend effect with multiply mode}
         \row
             \li \b { mode: lightness }
             \li \b { mode: negation }
             \li \b { mode: multiply }
         \row
-            \li \image Blend_mode19.png
-            \li \image Blend_mode20.png
-            \li \image Blend_mode21.png
+            \li \image Blend_mode19.png {Blend effect with saturation mode}
+            \li \image Blend_mode20.png {Blend effect with screen mode}
+            \li \image Blend_mode21.png {Blend effect with subtract mode}
         \row
             \li \b { mode: saturation }
             \li \b { mode: screen }
             \li \b { mode: subtract }
         \row
-            \li \image Blend_mode22.png
+            \li \image Blend_mode22.png {Blend effect with softLight mode}
         \row
             \li \b { mode: softLight }
         \endtable

@@ -21,8 +21,8 @@ import Qt5Compat.GraphicalEffects.private
         \li Source
         \li Effect applied
     \row
-        \li \image Original_bug.png
-        \li \image Desaturate_bug.png
+        \li \image Original_bug.png {Black beetle on a leaf}
+        \li \image Desaturate_bug.png {Beetle with colors desaturated}
     \endtable
 
     \section1 Example
@@ -55,9 +55,9 @@ Item {
         \li
         \li
         \row
-            \li \image Desaturate_desaturation1.png
-            \li \image Desaturate_desaturation2.png
-            \li \image Desaturate_desaturation3.png
+            \li \image Desaturate_desaturation1.png {Beetle at full color}
+            \li \image Desaturate_desaturation2.png {Beetle partially desaturated}
+            \li \image Desaturate_desaturation3.png {Beetle fully desaturated to grayscale}
         \row
             \li \b { desaturation: 0.0 }
             \li \b { desaturation: 0.5 }

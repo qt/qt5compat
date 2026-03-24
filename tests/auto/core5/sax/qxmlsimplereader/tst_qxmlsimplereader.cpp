@@ -265,7 +265,7 @@ void tst_QXmlSimpleReader::testGoodXmlFile_data()
     QTest::addColumn<QString>("file_name");
     QStringList::const_iterator it = good_file_list.begin();
     for (; it != good_file_list.end(); ++it)
-        QTest::newRow((*it).toLatin1()) << *it;
+        QTest::newRow(qPrintable(*it)) << *it;
 }
 
 void tst_QXmlSimpleReader::testGoodXmlFile()
@@ -303,7 +303,7 @@ void tst_QXmlSimpleReader::testBadXmlFile_data()
     QTest::addColumn<QString>("file_name");
     QStringList::const_iterator it = bad_file_list.begin();
     for (; it != bad_file_list.end(); ++it)
-        QTest::newRow((*it).toLatin1()) << *it;
+        QTest::newRow(qPrintable(*it)) << *it;
 }
 
 void tst_QXmlSimpleReader::testBadXmlFile()
@@ -400,7 +400,7 @@ void tst_QXmlSimpleReader::testIncrementalParsing_data()
                         *it == skip52 ) ) {
                 continue; // TODO: fails at the moment -- don't bother
             }
-            QTest::newRow(QString("%1 %2").arg(*it).arg(i).toLatin1()) << *it << i;
+            QTest::addRow("%s %d", qPrintable(*it), i) << *it << i;
         }
     }
 }
@@ -523,7 +523,7 @@ void tst_QXmlSimpleReader::inputFromSocket_data()
     QTest::addColumn<QString>("file_name");
 
     for (const QString &file_name : files)
-        QTest::newRow(file_name.toLatin1()) << file_name;
+        QTest::newRow(qPrintable(file_name)) << file_name;
 }
 
 void tst_QXmlSimpleReader::inputFromSocket()

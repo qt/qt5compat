@@ -1,6 +1,10 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#ifdef QT_NO_JAVA_STYLE_ITERATORS
+#  undef QT_NO_JAVA_STYLE_ITERATORS // this file tests them
+#endif
+
 #include <QtTest/QtTest>
 #include <QLinkedList>
 

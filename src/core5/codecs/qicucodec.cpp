@@ -467,14 +467,14 @@ QTextCodec *QIcuCodec::codecForNameUnlocked(const char *name)
 
     for (TextCodecListConstIt it = globalData->allCodecs.constBegin(), cend = globalData->allCodecs.constEnd(); it != cend; ++it) {
         QTextCodec *cursor = *it;
-        if (qTextCodecNameMatch(cursor->name(), standardName)) {
+        if (qTextCodecNameMatch(cursor->name().constData(), standardName)) {
             if (cache)
                 cache->insert(standardName, cursor);
             return cursor;
         }
         QList<QByteArray> aliases = cursor->aliases();
         for (ByteArrayListConstIt ait = aliases.constBegin(), acend = aliases.constEnd(); ait != acend; ++ait) {
-            if (qTextCodecNameMatch(*ait, standardName)) {
+            if (qTextCodecNameMatch(ait->constData(), standardName)) {
                 if (cache)
                     cache->insert(standardName, cursor);
                 return cursor;

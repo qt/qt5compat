@@ -19,5 +19,3 @@ qt_internal_add_test(tst_qlinkedlist
     LIBRARIES
         Qt::Core5Compat
 )
-
-qt_internal_undefine_global_definition(tst_qlinkedlist QT_NO_JAVA_STYLE_ITERATORS)

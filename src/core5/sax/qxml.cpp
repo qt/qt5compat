@@ -223,11 +223,6 @@ public:
         : column(-1), line(-1)
     {
     }
-    QXmlParseExceptionPrivate(const QXmlParseExceptionPrivate &other)
-        : msg(other.msg), column(other.column), line(other.line),
-          pub(other.pub), sys(other.sys)
-    {
-    }
 
     QString msg;
     int column;

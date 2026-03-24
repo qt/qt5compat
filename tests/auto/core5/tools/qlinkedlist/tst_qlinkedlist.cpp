@@ -4,6 +4,9 @@
 #ifdef QT_NO_JAVA_STYLE_ITERATORS
 #  undef QT_NO_JAVA_STYLE_ITERATORS // this file tests them
 #endif
+#ifdef QT_ENABLE_STRICT_MODE_UP_TO
+#  undef QT_ENABLE_STRICT_MODE_UP_TO // this enables QT_NO_JAVA_STYLE_ITERATORS
+#endif
 
 #include <QtTest/QtTest>
 #include <QLinkedList>

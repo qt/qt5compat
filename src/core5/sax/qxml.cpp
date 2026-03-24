@@ -216,17 +216,13 @@ public:
     QString encodingDeclChars;
     bool lookingForEncodingDecl;
 };
+
 class QXmlParseExceptionPrivate
 {
 public:
-    QXmlParseExceptionPrivate()
-        : column(-1), line(-1)
-    {
-    }
-
     QString msg;
-    int column;
-    int line;
+    int column = -1;
+    int line = -1;
     QString pub;
     QString sys;
 

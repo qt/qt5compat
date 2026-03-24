@@ -309,8 +309,6 @@ void tst_QRegExp::indexIn_addMoreRows(const QByteArray &stri)
 
         while ( squareRegExp[ii] != 0 ) {
             for ( int j = 0; j < 100; j++ ) {
-                const QString name = QString::asprintf( "square%.1d%.2d", ii, j );
-
                 QString target = "";
                 target.fill( 'a', j );
 
@@ -325,7 +323,7 @@ void tst_QRegExp::indexIn_addMoreRows(const QByteArray &stri)
                     }
                 }
 
-                QTest::newRow( name.toLatin1() ) << QString( squareRegExp[ii] ) << target
+                QTest::addRow("square%.1d%.2d", ii, j) << QString(squareRegExp[ii]) << target
                                 << pos << len << QStringList( "IGNORE ME" );
             }
             ii++;

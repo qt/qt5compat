@@ -723,14 +723,15 @@ QJpUnicodeConv *QJpUnicodeConv::newConverter(int rule)
     if (rule == Default && !env.isNull()) {
         for (int i = 0; i < (int)env.length();) {
             int j = env.indexOf(',', i);
-            QByteArray s;
+            QByteArray part;
             if (j < 0) {
-                s = env.mid(i).trimmed();
+                part = env.mid(i).trimmed();
                 i = env.length();
             } else {
-                s = env.mid(i, j - i).trimmed();
+                part = env.mid(i, j - i).trimmed();
                 i = j + 1;
             }
+            const auto s = part.constData();
             if (qstricmp(s, "unicode-0.9") == 0) {
                 rule = (rule & 0xff00) | Unicode;
             } else if (qstricmp(s, "unicode-0201") == 0) {

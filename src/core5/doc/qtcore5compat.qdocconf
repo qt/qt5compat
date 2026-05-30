@@ -41,3 +41,6 @@ navigation.cppclassespage = "Qt 5 Core Compatibility C++ Classes"
 
 # Allow zero warnings when testing documentation in CI
 warninglimit = 0
+
+# Report warnings for images without alt text
+reportmissingalttextforimages = true

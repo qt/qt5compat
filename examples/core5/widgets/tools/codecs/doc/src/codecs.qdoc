@@ -11,5 +11,6 @@
     using codecs to ensure that characters are encoded properly, avoiding loss of data
     and retaining the correct symbols used in various scripts.
 
-    \image codecs-example.png
+    \image codecs-example.png {Choose Encoding dialog with an encoding combo
+           box set to ISO-8859-1 above a list of multilingual book titles}
 */

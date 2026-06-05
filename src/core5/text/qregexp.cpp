@@ -13,6 +13,7 @@
 #include "qlist.h"
 #include "qmap.h"
 #include "qmutex.h"
+#include <QtCore/qscopedvaluerollback.h>
 #include "qstring.h"
 #include "qstringlist.h"
 #include "qstringmatcher.h"
@@ -874,7 +875,7 @@ class QRegExpEngine;
 */
 struct QRegExpMatchState
 {
-    const QChar *in; // a pointer to the input string data
+    const QChar *in = nullptr; // a pointer to the input string data
     int pos; // the current position in the string
     int caretPos;
     int len; // the length of the input string
@@ -1395,9 +1396,8 @@ void QRegExpMatchState::match(const QChar *str0, int len0, int pos0,
     } else
 #endif
     {
-        in = str0;
-        if (in == nullptr)
-            in = &char_null;
+        Q_PRE(in == nullptr);
+        const QScopedValueRollback guard(in, str0 ? str0 : &char_null);
         pos = pos0;
         caretPos = caretIndex;
         len = len0;

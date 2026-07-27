@@ -96,6 +96,8 @@ Item {
             \li \l samples: 25
         \endtable
 
+        \note The \c radius property is used to calculate the size of the effect's offscreen buffer.
+        Higher values will cause larger memory allocations.
     */
     property alias radius: blur.radius
 

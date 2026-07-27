@@ -80,6 +80,8 @@ Item {
             \li \l loops: 20
         \endtable
 
+        \note The \c radius property is used to calculate the size of the effect's offscreen buffer.
+        Higher values will cause larger memory allocations.
     */
     property real radius: 0.0
 

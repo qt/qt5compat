@@ -103,6 +103,8 @@ Item {
             \li \l deviation: 3
         \endtable
 
+        \note The \c radius property is used to calculate the size of the effect's offscreen buffer.
+        Higher values will cause larger memory allocations.
     */
     property real radius: Math.floor(samples / 2);
 

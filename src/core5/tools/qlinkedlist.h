@@ -662,8 +662,8 @@ template<typename T>
 QLinkedList<T> &QLinkedList<T>::operator+=(const QLinkedList<T> &l)
 {
     detach();
+    const auto oldSize = d->size;
     int n = l.d->size;
-    d->size += n;
     Node *original = l.e->n;
     while (n--) {
         QT_TRY
@@ -674,11 +674,12 @@ QLinkedList<T> &QLinkedList<T>::operator+=(const QLinkedList<T> &l)
             copy->p = e->p;
             copy->p->n = copy;
             e->p = copy;
+            ++d->size;
         }
         QT_CATCH(...)
         {
             // restore the original list
-            while (n++ < d->size)
+            while (d->size != oldSize)
                 removeLast();
             QT_RETHROW;
         }

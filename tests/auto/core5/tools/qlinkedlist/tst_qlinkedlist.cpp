@@ -206,6 +206,9 @@ private slots:
 
     void iterators() const;
 
+    void operatorPlusEqualRestoresSizeOnThrow_data();
+    void operatorPlusEqualRestoresSizeOnThrow();
+
 private:
     template<typename T>
     void length() const;
@@ -1261,6 +1264,92 @@ void tst_QLinkedList::iterators() const
         while (i.findNext(42))
             i.remove();
     }
+}
+
+// The class can throw an exception in the copy-ctor()
+class ThrowingValue
+{
+public:
+    ThrowingValue() = default;
+    ~ThrowingValue() = default;
+
+    ThrowingValue(const ThrowingValue &)
+    {
+        maybeThrowException();
+    }
+
+    ThrowingValue &operator=(const ThrowingValue &)
+    {
+        maybeThrowException();
+        return *this;
+    }
+
+    ThrowingValue(ThrowingValue &&) = delete;
+    ThrowingValue &operator=(ThrowingValue &&) = delete;
+
+    static int throwCounter; // -1 means "do not throw"
+
+private:
+    void maybeThrowException()
+    {
+        if (--throwCounter == 0)
+            QT_THROW(int(42));
+    }
+};
+
+int ThrowingValue::throwCounter = -1;
+
+void tst_QLinkedList::operatorPlusEqualRestoresSizeOnThrow_data()
+{
+    QTest::addColumn<int>("initialSize");
+    QTest::addColumn<int>("otherSize");
+
+#ifdef QT_NO_EXCEPTIONS
+    QSKIP("This test requires exception support.");
+#endif
+
+    QTest::newRow("append_three_to_zero") << 0 << 3;
+    QTest::newRow("append_three_to_one") << 1 << 3;
+    QTest::newRow("append_five_to_three") << 3 << 5;
+    QTest::newRow("append_three_to_five") << 5 << 3;
+}
+
+void tst_QLinkedList::operatorPlusEqualRestoresSizeOnThrow()
+{
+    QFETCH(const int, initialSize);
+    QFETCH(const int, otherSize);
+
+    Q_ASSERT(otherSize > 0); // Appending 0 does not make sense here
+
+    ThrowingValue::throwCounter = -1; // do not throw while creating the lists
+
+    const int maxSize = (std::max)(initialSize, otherSize);
+    std::vector<ThrowingValue> vals(maxSize, ThrowingValue());
+
+    using ThrowingList = QLinkedList<ThrowingValue>;
+
+    // initial can be empty
+    ThrowingList initial = initialSize > 0 ? ThrowingList(vals.begin(), vals.begin() + initialSize)
+                                           : ThrowingList();
+    QCOMPARE(initial.size(), initialSize);
+
+    ThrowingList other = ThrowingList(vals.begin(), vals.begin() + otherSize);
+    QCOMPARE(other.size(), otherSize);
+
+    ThrowingValue::throwCounter = otherSize - 1; // last by one copy should throw
+
+    QT_TRY {
+        initial += other;
+    } QT_CATCH(...) {
+    }
+
+    // QTBUG-149006: size should be restored to original.
+    QCOMPARE(initial.size(), initialSize);
+
+    // The loop should finish successfully, previously it would hang forever
+    while (!initial.isEmpty())
+        initial.removeLast();
+    QCOMPARE(initial.size(), 0);
 }
 
 QT_END_NAMESPACE

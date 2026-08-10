@@ -162,7 +162,10 @@ QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation)
     memcpy(&root, data.constData() + sizeof(QBinaryJsonPrivate::Header),
            sizeof(QBinaryJsonPrivate::Base));
 
-    const uint size = sizeof(QBinaryJsonPrivate::Header) + root.size;
+    uint size = 0;
+    if (qAddOverflow(uint{sizeof(QBinaryJsonPrivate::Header)}, uint{root.size}, &size))
+        return QJsonDocument(); // not representable in Private::ConstData
+
     if (h.tag != QJsonDocument::BinaryFormatTag || h.version != 1U || size > uint(data.size()))
         return QJsonDocument();
 

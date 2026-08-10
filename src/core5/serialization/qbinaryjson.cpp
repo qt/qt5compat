@@ -434,6 +434,9 @@ uint Object::indexOf(QStringView key, bool *exists) const
 
 bool Object::isValidHelper(uint maxSize, IsValidStack &stack) const
 {
+    if (!isAlignedOffset(tableOffset))
+        return false;
+
     if (size > maxSize || tableOffset + length() * sizeof(offset) > size)
         return false;
 
@@ -456,6 +459,9 @@ bool Object::isValidHelper(uint maxSize, IsValidStack &stack) const
 
 bool Array::isValidHelper(uint maxSize, IsValidStack &stack) const
 {
+    if (!isAlignedOffset(tableOffset))
+        return false;
+
     if (size > maxSize || tableOffset + length() * sizeof(offset) > size)
         return false;
 

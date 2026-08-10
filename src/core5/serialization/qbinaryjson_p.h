@@ -115,6 +115,13 @@ using offset = qle_uint;
 // round the size up to the next 4 byte boundary
 inline uint alignedSize(uint size) { return (size + 3) & ~3; }
 
+// Every structure in the binary format (Base, Entry, Value, offset, String::Data,
+// Latin1String::Data) is placed at a 4 byte boundary, and the writer only ever emits
+// offsets that are multiples of 4. Offsets read from untrusted data must be checked
+// against that invariant before they are turned into pointers, or we dereference
+// misaligned pointers (undefined behavior) while validating the data.
+inline bool isAlignedOffset(uint offset) { return (offset & 3) == 0; }
+
 const int MaxLatin1Length = 0x7fff;
 
 static inline bool useCompressed(QStringView s)

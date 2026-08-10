@@ -527,6 +527,7 @@ QJsonValue Value::toScalarJsonValue(const Base *b) const
 inline bool isValidValueOffset(uint offset, uint tableOffset)
 {
     return offset >= sizeof(Base)
+        && isAlignedOffset(offset)
         && offset + sizeof(uint) <= tableOffset;
 }
 

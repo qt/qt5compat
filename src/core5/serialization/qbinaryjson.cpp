@@ -438,10 +438,11 @@ bool Object::isValidHelper(uint maxSize, IsValidStack &stack) const
 
     QString lastKey;
     for (uint i = 0; i < length(); ++i) {
-        if (table()[i] + sizeof(Entry) >= tableOffset)
+        const uint entryOffset = table()[i];
+        if (!isAlignedOffset(entryOffset) || entryOffset + sizeof(Entry) >= tableOffset)
             return false;
         const Entry *e = entryAt(i);
-        if (!e->isValid(tableOffset - table()[i]))
+        if (!e->isValid(tableOffset - entryOffset))
             return false;
         const QString key = e->key();
         if (key < lastKey)

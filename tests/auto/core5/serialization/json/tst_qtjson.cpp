@@ -5,6 +5,7 @@
 
 #include "qbinaryjson.h"
 
+#include <QtCore/qendian.h>
 #include "qjsonarray.h"
 #include "qjsonobject.h"
 #include "qjsonvalue.h"
@@ -33,6 +34,9 @@ private Q_SLOTS:
     void compactObject();
     void validation();
     void testCompactionError();
+
+    void binaryDataOutOfBoundsRead_data();
+    void binaryDataOutOfBoundsRead();
 private:
     QString testDataDir;
 };
@@ -274,6 +278,124 @@ void tst_QtJson::testCompactionError()
         QByteArray hash = QCryptographicHash::hash(QBinaryJson::toBinaryData(doc), QCryptographicHash::Md5).toHex();
         schemaObject.insert("_Version", QString::fromLatin1(hash.constData(), hash.size()));
     }
+}
+
+enum class CallType : quint8
+{
+    Binary,
+    Raw,
+};
+
+void tst_QtJson::binaryDataOutOfBoundsRead_data()
+{
+    QTest::addColumn<quint32>("corruptedSize");
+    QTest::addColumn<int>("corruptedTableOffset");
+    QTest::addColumn<CallType>("callType");
+
+    // The case with 0xFFFFFFF4 should be handled properly, because the
+    // calculation does not roundtrip
+    QTest::newRow("0xFFFFFFF4_128_binary") << 0xFFFFFFF4u << 128 << CallType::Binary;
+    QTest::newRow("0xFFFFFFF8_32_binary") << 0xFFFFFFF8u << 32 << CallType::Binary;
+    QTest::newRow("0xFFFFFFFC_512_binary") << 0xFFFFFFFCu << 512 << CallType::Binary;
+    QTest::newRow("0xFFFFFFFF_4088_binary") << 0xFFFFFFFFu<<  4088 << CallType::Binary;
+
+    QTest::newRow("0xFFFFFFF4_128_raw") << 0xFFFFFFF4u << 128 << CallType::Raw;
+    QTest::newRow("0xFFFFFFF8_32_raw") << 0xFFFFFFF8u << 32 << CallType::Raw;
+    QTest::newRow("0xFFFFFFFC_512_raw") << 0xFFFFFFFCu << 512 << CallType::Raw;
+    QTest::newRow("0xFFFFFFFF_4088_raw") << 0xFFFFFFFFu<<  4088 << CallType::Raw;
+}
+
+void tst_QtJson::binaryDataOutOfBoundsRead()
+{
+    QFETCH(const quint32, corruptedSize);
+    QFETCH(const int, corruptedTableOffset);
+    QFETCH(const CallType, callType);
+
+    // Two single element arrays whose value is small enough to be stored inline
+    // in the root's value table: Value packs a 27 bit signed int, and
+    // Value::isValid() accepts an inline int without checking any offset. Both
+    // therefore encode to Header(8) + Base(12) + one 4 byte Value = 24 bytes
+    // with no out-of-line data, so moving the table moves the value with it.
+    const QJsonDocument original = QJsonDocument::fromJson("[1]");
+    const QJsonDocument planted = QJsonDocument::fromJson("[424242]");
+    QVERIFY(!original.isNull());
+    QVERIFY(!planted.isNull());
+
+    const QByteArray originalBlob = QBinaryJson::toBinaryData(original);
+    const QByteArray plantedBlob = QBinaryJson::toBinaryData(planted);
+
+    const qsizetype originalBlobSize = originalBlob.size();
+
+    constexpr qsizetype HeaderSize = 8;   // Header { qle_uint tag; qle_uint version; }
+    constexpr qsizetype RootSizeOffset = HeaderSize;        // Base::size
+    constexpr qsizetype TableOffsetOffset = HeaderSize + 8; // Base::tableOffset
+
+    // A backing allocation much larger than the buffer the parser will be
+    // given. Everything past the first originalBlobSize bytes is memory that
+    // a correct parser must never touch; planting known bytes there is what
+    // makes the out-of-bounds read observable rather than merely undefined.
+    // Pointing tableOffset past a tightly sized allocation instead would be a
+    // genuine heap-buffer-overflow, but it would only be diagnosed under a
+    // sanitizer and would otherwise crash the test run.
+    QByteArray buffer(4096, '\0');
+    Q_ASSERT(corruptedTableOffset + qsizetype(sizeof(quint32)) <= buffer.size());
+    // Copy the original blob at the beginning
+    memcpy(buffer.data(), originalBlob.constData(), originalBlobSize);
+
+    // Copy the other document's 4 byte table entry out of bounds.
+    const quint32 plantedBlobTableOffset =
+            qFromLittleEndian<quint32>(plantedBlob.constData() + TableOffsetOffset);
+    memcpy(buffer.data() + corruptedTableOffset,
+           plantedBlob.constData() + HeaderSize + plantedBlobTableOffset,
+           sizeof(quint32));
+
+    // fromBinaryData() computes the document bound as
+    //     const uint size = sizeof(Header) + root.size;
+    // sizeof() is 64 bit while root.size is a 32 bit field taken straight from
+    // the input, so the sum is evaluated in 64 bits and then truncated on
+    // assignment to uint. Every root.size in [0xfffffff8, 0xffffffff] collapses
+    // to 0..7 and trivially passes the "size > uint(data.size())" check that is
+    // supposed to keep the root inside the buffer. ConstData::isValid() then
+    // recomputes maxSize as "alloc - sizeof(Header)", which underflows straight
+    // back to root.size, so the root ends up being validated against its own
+    // attacker-supplied length instead of against the real buffer.
+    //
+    // Once that happens nothing constrains tableOffset either: the guard
+    // "tableOffset + length() * sizeof(offset) > size" now compares against
+    // root.size instead of against the buffer, so both Array::isValid() and
+    // Array::toJsonArray() read the value table from 32 bytes past the end.
+
+    // Modify the size of the original blob
+    qToLittleEndian(corruptedSize, buffer.data() + RootSizeOffset);
+    // Modify the tableOffset to point to a newly-injected table
+    qToLittleEndian(quint32(corruptedTableOffset - HeaderSize),
+                    buffer.data() + TableOffsetOffset);
+
+    // Hand the parser a view over the first origianlBlobSize bytes only.
+    // That size is the only bound it is given, so anything it reads beyond it
+    // is out of bounds.
+    const QByteArray nonOwningArray =
+            QByteArray::fromRawData(buffer.constData(), originalBlobSize);
+    QCOMPARE(nonOwningArray.size(), originalBlobSize);
+
+    // The code below passes a correct size to fromRawData() call.
+    // Surely we could observe the same problem, if we passed corruptedSize
+    // instead, but that's a typical problem for all APIs that take a pointer
+    // and a size.
+    const QJsonDocument doc = (callType == CallType::Binary)
+            ? QBinaryJson::fromBinaryData(nonOwningArray)
+            : QBinaryJson::fromRawData(nonOwningArray.constData(), int(nonOwningArray.size()));
+    if (!doc.isNull()) {
+        QFAIL(qPrintable(QString::asprintf(
+                "fromBinaryData() was handed %lld bytes but read the root array's value "
+                "table from offset %lld: it returned %s, which was planted out of bounds, "
+                "instead of rejecting the document",
+                qlonglong(nonOwningArray.size()), qlonglong(corruptedTableOffset),
+                doc.toJson(QJsonDocument::Compact).simplified().constData())));
+    }
+
+    // Check that the original blob can still be parsed correctly
+    QCOMPARE(QBinaryJson::fromBinaryData(originalBlob), original);
 }
 
 QTEST_MAIN(tst_QtJson)

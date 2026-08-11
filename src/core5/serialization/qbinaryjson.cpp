@@ -157,7 +157,7 @@ const char *toRawData(const QJsonDocument &document, int *size)
 */
 QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation)
 {
-    if (uint(data.size()) < sizeof(QBinaryJsonPrivate::Header) + sizeof(QBinaryJsonPrivate::Base))
+    if (size_t(data.size()) < sizeof(QBinaryJsonPrivate::Header) + sizeof(QBinaryJsonPrivate::Base))
         return QJsonDocument();
 
     QBinaryJsonPrivate::Header h;
@@ -170,7 +170,7 @@ QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation)
     if (qAddOverflow(uint{sizeof(QBinaryJsonPrivate::Header)}, uint{root.size}, &size))
         return QJsonDocument(); // not representable in Private::ConstData
 
-    if (h.tag != QJsonDocument::BinaryFormatTag || h.version != 1U || size > uint(data.size()))
+    if (h.tag != QJsonDocument::BinaryFormatTag || h.version != 1U || size > size_t(data.size()))
         return QJsonDocument();
 
     std::unique_ptr<QBinaryJsonPrivate::ConstData> d

@@ -10,6 +10,8 @@
 #include "qjsonvalue.h"
 #include "qjsondocument.h"
 #include "qregularexpression.h"
+#include "qscopeguard.h"
+
 #include <limits>
 
 #define INVALID_UNICODE "\xCE\xBA\xE1"
@@ -86,7 +88,14 @@ void tst_QtJson::toAndFromBinary()
     }
     {
         int size = -1;
+        QTest::ignoreMessage(QtWarningMsg,
+                             "QBinaryJson: In Qt 6, unlike Qt 5, toRawData() transfers ownership "
+                             "of the pointer to the caller. Prefer toBinaryData() instead.");
         auto rawData = QBinaryJson::toRawData(doc, &size);
+        // we own the returned data
+        const auto releaseRawData = qScopeGuard([rawData]() {
+            free(const_cast<char *>(rawData));
+        });
         QVERIFY(size > 0);
         QJsonDocument outdoc = QBinaryJson::fromRawData(rawData, size);
         QVERIFY(!outdoc.isNull());

@@ -6,6 +6,7 @@
 
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qjsonarray.h>
+#include <QtCore/qscopeguard.h>
 
 #include <private/qbinaryjsonarray_p.h>
 #include <private/qbinaryjsonobject_p.h>
@@ -82,23 +83,7 @@ QJsonDocument fromRawData(const char *data, int size, DataValidation validation)
             : QJsonDocument();
 }
 
-/*!
-    Returns the raw binary representation of \a document.
-    \a size will contain the size of the returned data.
-
-    This method is useful to e.g. stream the JSON document
-    in its binary form to a file.
-
-    \note The binary JSON encoding is only retained for backwards
-    compatibility. It is undocumented and restrictive in the maximum size of JSON
-    documents that can be encoded. Qt JSON types can be converted to Qt CBOR types,
-    which can in turn be serialized into the CBOR binary format and vice versa. The
-    CBOR format is a well-defined and less restrictive binary representation for a
-    superset of JSON.
-
-    \sa fromRawData(), fromBinaryData(), toBinaryData(), QCborValue
-*/
-const char *toRawData(const QJsonDocument &document, int *size)
+static char *toRawDataHelper(const QJsonDocument &document, int *size)
 {
     if (document.isNull()) {
         *size = 0;
@@ -120,6 +105,34 @@ const char *toRawData(const QJsonDocument &document, int *size)
 
     *size = static_cast<int>(rawDataSize);
     return rawData;
+}
+
+/*!
+    Returns the raw binary representation of \a document.
+    \a size will contain the size of the returned data.
+
+    This method is useful to e.g. stream the JSON document
+    in its binary form to a file.
+
+    \warning In Qt 6, unlike Qt 5, the caller takes ownership of the returned
+    data and must release it with \c{free()} once it is not needed anymore.
+    Use toBinaryData() to get the binary representation in a QByteArray, which
+    manages the memory automatically.
+
+    \note The binary JSON encoding is only retained for backwards
+    compatibility. It is undocumented and restrictive in the maximum size of JSON
+    documents that can be encoded. Qt JSON types can be converted to Qt CBOR types,
+    which can in turn be serialized into the CBOR binary format and vice versa. The
+    CBOR format is a well-defined and less restrictive binary representation for a
+    superset of JSON.
+
+    \sa fromRawData(), fromBinaryData(), toBinaryData(), QCborValue
+*/
+const char *toRawData(const QJsonDocument &document, int *size)
+{
+    qWarning("QBinaryJson: In Qt 6, unlike Qt 5, toRawData() transfers ownership "
+             "of the pointer to the caller. Prefer toBinaryData() instead.");
+    return toRawDataHelper(document, size);
 }
 
 /*!
@@ -183,7 +196,11 @@ QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation)
 QByteArray toBinaryData(const QJsonDocument &document)
 {
     int size = 0;
-    const char *raw = toRawData(document, &size);
+    char *raw = toRawDataHelper(document, &size);
+    // We have to cleanup the raw data, because QBA makes a copy of it.
+    const auto releaseRawData = qScopeGuard([raw]() {
+        free(raw);
+    });
     return QByteArray(raw, size);
 }
 

@@ -86,12 +86,15 @@ void tst_QtJson::toAndFromBinary()
         QVERIFY(!outdoc.isNull());
         QCOMPARE(doc, outdoc);
     }
+#if QT_DEPRECATED_SINCE(6, 12)
     {
         int size = -1;
         QTest::ignoreMessage(QtWarningMsg,
                              "QBinaryJson: In Qt 6, unlike Qt 5, toRawData() transfers ownership "
                              "of the pointer to the caller. Prefer toBinaryData() instead.");
+        QT_IGNORE_DEPRECATIONS(
         auto rawData = QBinaryJson::toRawData(doc, &size);
+        )
         // we own the returned data
         const auto releaseRawData = qScopeGuard([rawData]() {
             free(const_cast<char *>(rawData));
@@ -101,6 +104,7 @@ void tst_QtJson::toAndFromBinary()
         QVERIFY(!outdoc.isNull());
         QCOMPARE(doc, outdoc);
     }
+#endif // QT_DEPRECATED_SINCE(6, 12)
 }
 
 void tst_QtJson::invalidBinaryData()

@@ -107,7 +107,10 @@ static char *toRawDataHelper(const QJsonDocument &document, int *size)
     return rawData;
 }
 
+#if QT_DEPRECATED_SINCE(6, 12)
 /*!
+    \deprecated [6.12] Use toBinaryData() instead.
+
     Returns the raw binary representation of \a document.
     \a size will contain the size of the returned data.
 
@@ -134,6 +137,7 @@ const char *toRawData(const QJsonDocument &document, int *size)
              "of the pointer to the caller. Prefer toBinaryData() instead.");
     return toRawDataHelper(document, size);
 }
+#endif // QT_DEPRECATED_SINCE(6, 12)
 
 /*!
     Creates a QJsonDocument from \a data.

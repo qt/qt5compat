@@ -12,6 +12,7 @@
 #include <QtCore/qcontainertools_impl.h>
 #include <QtCore/qdatastream.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/qscopeguard.h>
 #include <QtCore/qtypeinfo.h>
 
 #include <algorithm>
@@ -557,17 +558,15 @@ bool QLinkedList<T>::removeOne(const T &_t)
 template<typename T>
 inline T QLinkedList<T>::takeFirst()
 {
-    T t = std::move(first());
-    removeFirst();
-    return t;
+    const auto remover = qScopeGuard([&] { removeFirst(); });
+    return std::move(first());
 }
 
 template<typename T>
 inline T QLinkedList<T>::takeLast()
 {
-    T t = std::move(last());
-    removeLast();
-    return t;
+    const auto remover = qScopeGuard([&] { removeLast(); });
+    return std::move(last());
 }
 
 template<typename T>

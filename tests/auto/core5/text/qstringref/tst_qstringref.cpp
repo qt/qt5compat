@@ -15,6 +15,11 @@
 
 #include <type_traits>
 
+#if QT_POINTER_SIZE > 4
+// truncating qsizetype -> int can change sign:
+static_assert(int(qsizetype(1) << 31) < 0);
+#endif
+
 static_assert(std::is_convertible_v<      QStringRef  , QStringView>);
 static_assert(std::is_convertible_v<      QStringRef& , QStringView>);
 static_assert(std::is_convertible_v<const QStringRef  , QStringView>);

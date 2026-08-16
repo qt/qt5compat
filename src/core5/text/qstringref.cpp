@@ -18,6 +18,7 @@
 #include <private/qstringalgorithms_p.h>
 #include <private/qstringconverter_p.h>
 #include <private/qstringiterator_p.h>
+#include <private/qtools_p.h>
 #include <private/qunicodetables_p.h>
 
 #include <limits.h>
@@ -213,10 +214,11 @@ int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const QCha
 int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const char *data2, qsizetype length2,
                             Qt::CaseSensitivity cs)
 {
+    using namespace QtMiscUtils;
     Q_ASSERT(length1 >= 0);
     Q_ASSERT(data1 || length1 == 0);
     if (!data2)
-        return length1;
+        return qt_lencmp(length1, 0);
     if (Q_UNLIKELY(length2 < 0))
         length2 = qsizetype(strlen(data2));
     return QtPrivate::compareStrings(QStringView(data1, length1),

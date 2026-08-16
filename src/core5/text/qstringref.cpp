@@ -212,7 +212,7 @@ int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const QCha
     \since 5.0
 */
 int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const char *data2, qsizetype length2,
-                            Qt::CaseSensitivity cs)
+                               Qt::CaseSensitivity cs) noexcept
 {
     using namespace QtMiscUtils;
     Q_ASSERT(length1 >= 0);

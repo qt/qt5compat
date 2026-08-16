@@ -219,11 +219,8 @@ int QStringRef::compare_helper(const QChar *data1, qsizetype length1, const char
         return length1;
     if (Q_UNLIKELY(length2 < 0))
         length2 = qsizetype(strlen(data2));
-    // ### make me nothrow in all cases
-    QVarLengthArray<ushort> s2(length2);
-    const auto beg = reinterpret_cast<QChar *>(s2.data());
-    const auto end = QUtf8::convertToUnicode(beg, QByteArrayView(data2, length2));
-    return qt_compare_strings(QStringView(data1, length1), QStringView(beg, end - beg), cs);
+    return QtPrivate::compareStrings(QStringView(data1, length1),
+                                     QUtf8StringView(data2, length2), cs);
 }
 
 /*!

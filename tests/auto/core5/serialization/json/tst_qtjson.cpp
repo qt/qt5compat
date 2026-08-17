@@ -37,6 +37,10 @@ private Q_SLOTS:
 
     void binaryDataOutOfBoundsRead_data();
     void binaryDataOutOfBoundsRead();
+    void binaryDataDeepNestingArray_data();
+    void binaryDataDeepNestingArray();
+    void binaryDataDeepNestingObject_data();
+    void binaryDataDeepNestingObject();
 private:
     QString testDataDir;
 };
@@ -392,6 +396,212 @@ void tst_QtJson::binaryDataOutOfBoundsRead()
 
     // Check that the original blob can still be parsed correctly
     QCOMPARE(QBinaryJson::fromBinaryData(originalBlob), original);
+}
+
+// Builds a binary JSON document made of `depth` arrays nested directly inside
+// one another, the innermost one empty. The format lays the Bases out
+// consecutively from the outermost inwards, followed by the one-entry value
+// tables in the opposite order:
+//
+//     [Header][Base 0][Base 1]...[Base d-1][table d-2]...[table 0]
+//
+// so every extra level costs exactly sizeof(Base) + sizeof(offset) = 16 bytes.
+// This has to be written by hand: going through QJsonArray instead would
+// recurse in the Qt API long before the code under test got a chance to.
+static QByteArray nestedArrayBinaryJson(int depth)
+{
+    Q_ASSERT(depth >= 1);
+
+    constexpr qsizetype HeaderSize = 8;   // Header { qle_uint tag; qle_uint version; }
+    constexpr qsizetype BaseSize = 12;    // Base { size; isObjectAndLength; tableOffset; }
+    constexpr qsizetype EntrySize = 4;    // one Value
+
+    // Borrow a real document's header rather than spelling out the format tag.
+    // The document has to be non-empty.
+    const QByteArray header =
+            QBinaryJson::toBinaryData(QJsonDocument::fromJson("[0]")).left(HeaderSize);
+    Q_ASSERT(header.size() == HeaderSize);
+
+    QByteArray blob(HeaderSize + BaseSize * depth + EntrySize * (depth - 1), '\0');
+    memcpy(blob.data(), header.constData(), HeaderSize);
+
+    char *const root = blob.data() + HeaderSize;
+    const qsizetype tablesStart = BaseSize * depth;
+
+    for (int i = 0; i < depth; ++i) {
+        char *const base = root + BaseSize * i;
+        const bool innermost = (i == depth - 1);
+
+        // Everything belonging to this array: its own Base, every level nested
+        // below it, and their tables.
+        const quint32 size = quint32(BaseSize + 16 * (depth - i - 1));
+        // isObject is bit 0 -- zero for an array -- and length is bits 1..31.
+        const quint32 isObjectAndLength = innermost ? 0u : (1u << 1);
+        const quint32 tableOffset = innermost
+                ? quint32(BaseSize)
+                : quint32(tablesStart + EntrySize * (depth - 2 - i) - BaseSize * i);
+
+        qToLittleEndian(size, base);
+        qToLittleEndian(isObjectAndLength, base + 4);
+        qToLittleEndian(tableOffset, base + 8);
+
+        if (!innermost) {
+            // A Value naming the next Base, 12 bytes further in: the type goes
+            // in bits 0..2 and the payload offset in bits 5..31.
+            const quint32 entry = quint32(QJsonValue::Array) | (quint32(BaseSize) << 5);
+            qToLittleEndian(entry, base + tableOffset);
+        }
+    }
+
+    return blob;
+}
+
+void tst_QtJson::binaryDataDeepNestingArray_data()
+{
+    QTest::addColumn<QBinaryJson::DataValidation>("mode");
+    QTest::addColumn<int>("depth");
+
+    QTest::newRow("validate_4096")
+            << QBinaryJson::Validate << 4096;
+    QTest::newRow("bypass_validation_4096")
+            << QBinaryJson::BypassValidation << 4096;
+}
+
+void tst_QtJson::binaryDataDeepNestingArray()
+{
+    QFETCH(const QBinaryJson::DataValidation, mode);
+    QFETCH(const int, depth);
+
+    // nestedArrayBinaryJson() is hand-rolled, so check it really does produce a
+    // well formed document at a depth that is obviously fine. Without this the
+    // deep case below could pass for the wrong reason: a malformed blob that is
+    // rejected on its first field never recurses at all.
+    QCOMPARE(QBinaryJson::fromBinaryData(nestedArrayBinaryJson(3), mode),
+             QJsonDocument::fromJson("[[[]]]"));
+
+    // Depending on the mode, this checks either the validation path, or the
+    // JSON construction path. Both could recurse and cause stack overflow with
+    // deeply nested documents.
+    const QJsonDocument doc = QBinaryJson::fromBinaryData(nestedArrayBinaryJson(depth), mode);
+    QVERIFY(!doc.isNull());
+    QVERIFY(doc.isArray());
+
+    QJsonArray arr = doc.array();
+    // We have depth-1 nested arrays
+    for (int i = 0; i < depth - 1; ++i) {
+        QVERIFY(!arr.isEmpty());
+        QJsonValue val = arr.first();
+        QVERIFY(val.isArray());
+        arr = val.toArray();
+    }
+    // And the last array is empty
+    QVERIFY(arr.isEmpty());
+}
+
+// The object counterpart of nestedArrayBinaryJson(): `depth` objects nested
+// directly inside one another, each holding the single key "a", the innermost
+// one empty -- {"a":{"a":...{}}}.
+//
+// Objects do not store their values in the table the way arrays do. The table
+// holds offsets to Entry records, and an Entry is a Value followed by its key,
+// so a level costs Base(12) + Entry(8) + table(4) = 24 bytes rather than 16.
+// Relative to each Base the layout is
+//
+//     [Base][child subtree][Entry][table]
+//
+// which satisfies Object::isValid(): the Entry sits immediately before the
+// table, so the "table()[i] + sizeof(Entry) >= tableOffset" guard passes and
+// Entry::isValid() is handed exactly the 8 bytes the Entry occupies.
+static QByteArray nestedObjectBinaryJson(int depth)
+{
+    Q_ASSERT(depth >= 1);
+
+    constexpr qsizetype HeaderSize = 8;   // Header { qle_uint tag; qle_uint version; }
+    constexpr qsizetype BaseSize = 12;    // Base { size; isObjectAndLength; tableOffset; }
+    constexpr qsizetype EntrySize = 8;    // Value(4) + latin1 key "a" (2 + 1), padded to 4
+    constexpr qsizetype TableSize = 4;    // one offset
+    constexpr qsizetype LevelSize = BaseSize + EntrySize + TableSize;
+
+    const QByteArray header =
+            QBinaryJson::toBinaryData(QJsonDocument::fromJson("[0]")).left(HeaderSize);
+    Q_ASSERT(header.size() == HeaderSize);
+
+    // Bytes belonging to the object at level i: its own Base, every level
+    // nested below it, and their Entries and tables.
+    const auto subtreeSize = [depth](int i) {
+        return quint32(BaseSize + LevelSize * (depth - 1 - i));
+    };
+
+    QByteArray blob(HeaderSize + subtreeSize(0), '\0');
+    memcpy(blob.data(), header.constData(), HeaderSize);
+
+    char *const root = blob.data() + HeaderSize;
+
+    for (int i = 0; i < depth; ++i) {
+        char *const base = root + BaseSize * i;
+        const bool innermost = (i == depth - 1);
+
+        const quint32 size = subtreeSize(i);
+        // isObject is bit 0 -- one for an object -- and length is bits 1..31.
+        const quint32 isObjectAndLength = innermost ? 1u : (1u | (1u << 1));
+        const quint32 entryOffset =
+                innermost ? 0u : quint32(BaseSize) + subtreeSize(i + 1);
+        const quint32 tableOffset =
+                innermost ? quint32(BaseSize) : entryOffset + quint32(EntrySize);
+
+        qToLittleEndian(size, base);
+        qToLittleEndian(isObjectAndLength, base + 4);
+        qToLittleEndian(tableOffset, base + 8);
+
+        if (innermost)
+            continue;
+
+        // The table holds one offset, naming the Entry.
+        qToLittleEndian(entryOffset, base + tableOffset);
+
+        // Entry: a Value of type Object pointing at the next Base 12 bytes
+        // further in, with the latin1-key bit set, followed by the key stored
+        // as Latin1String::Data { qle_ushort length; char latin1[1]; }.
+        constexpr quint32 LatinKeyBit = 1u << 4;
+        const quint32 value = quint32(QJsonValue::Object) | LatinKeyBit
+                | (quint32(BaseSize) << 5);
+        qToLittleEndian(value, base + entryOffset);
+        qToLittleEndian(quint16(1), base + entryOffset + 4);
+        base[entryOffset + 6] = 'a';
+    }
+
+    return blob;
+}
+
+void tst_QtJson::binaryDataDeepNestingObject_data()
+{
+    binaryDataDeepNestingArray_data();
+}
+
+void tst_QtJson::binaryDataDeepNestingObject()
+{
+    QFETCH(const QBinaryJson::DataValidation, mode);
+    QFETCH(const int, depth);
+
+    QCOMPARE(QBinaryJson::fromBinaryData(nestedObjectBinaryJson(3), mode),
+             QJsonDocument::fromJson(R"({"a":{"a":{}}})"));
+
+    // Similarly to the array case, this could recurse either in validation
+    // or JSON construction path, potentially causing stack overflow.
+    const QJsonDocument doc = QBinaryJson::fromBinaryData(nestedObjectBinaryJson(depth), mode);
+    QVERIFY(!doc.isNull());
+    QVERIFY(doc.isObject());
+
+    QJsonObject obj = doc.object();
+    // We have depth-1 objects with key "a"...
+    for (int i = 0; i < depth - 1; ++i) {
+        QVERIFY(obj.contains("a"));
+        QJsonValue val = obj.value("a");
+        QVERIFY(val.isObject());
+        obj = val.toObject();
+    }
+    // And the last one is an empty object
+    QVERIFY(obj.isEmpty());
 }
 
 QTEST_MAIN(tst_QtJson)

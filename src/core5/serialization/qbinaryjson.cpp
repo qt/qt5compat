@@ -7,6 +7,7 @@
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qscopeguard.h>
+#include <QtCore/qvarlengtharray.h>
 
 #include <private/qbinaryjsonarray_p.h>
 #include <private/qbinaryjsonobject_p.h>
@@ -309,17 +310,75 @@ bool ConstData::isValid() const
 
     const Base *root = header->root();
     const uint maxSize = alloc - sizeof(Header);
-    return root->isObject()
-            ? static_cast<const Object *>(root)->isValid(maxSize)
-            : static_cast<const Array *>(root)->isValid(maxSize);
+
+    IsValidStack stack;
+    stack.push_back(IsValidFrame(root, maxSize));
+    while (!stack.isEmpty()) {
+        const auto [base, size] = stack.last();
+        stack.removeLast();
+        const bool res = base->isObject()
+                ? static_cast<const Object *>(base)->isValidHelper(size, stack)
+                : static_cast<const Array *>(base)->isValidHelper(size, stack);
+        if (!res)
+            return false;
+    }
+    return true;
 }
 
 QJsonDocument ConstData::toJsonDocument() const
 {
-    const Base *root = header->root();
-    return root->isObject()
-            ? QJsonDocument(static_cast<const Object *>(root)->toJsonObject())
-            : QJsonDocument(static_cast<const Array *>(root)->toJsonArray());
+    DocumentStack stack;
+    stack.push_back(DocumentFrame(header->root()));
+
+    while (true) {
+        DocumentFrame &frame = stack.last();
+
+        if (frame.index < frame.base->length()) {
+            const uint i = frame.index++;
+
+            const Value *value = nullptr;
+            QString key;
+            if (frame.isObject) {
+                const Entry *e = static_cast<const Object *>(frame.base)->entryAt(i);
+                value = &e->value;
+                key = e->key();
+            } else {
+                value = static_cast<const Array *>(frame.base)->at(i);
+            }
+
+            const uint type = value->type();
+            if (type == QJsonValue::Array || type == QJsonValue::Object) {
+                const Base *child = value->base(frame.base);
+                // This may reallocate, so frame must not be touched afterwards.
+                stack.push_back(DocumentFrame(child, std::move(key)));
+                continue;
+            }
+
+            const QJsonValue scalar = value->toScalarJsonValue(frame.base);
+            if (frame.isObject)
+                frame.object.insert(key, scalar);
+            else
+                frame.array.append(scalar);
+            continue;
+        }
+
+        // This container is complete: hand it to its parent, or return it.
+        if (stack.size() == 1) {
+            return frame.isObject ? QJsonDocument(std::move(frame.object))
+                                  : QJsonDocument(std::move(frame.array));
+        } else {
+            const QJsonValue val = frame.isObject ? QJsonValue(std::move(frame.object))
+                                                  : QJsonValue(std::move(frame.array));
+            const QString key = std::move(frame.key);
+            stack.removeLast();
+
+            DocumentFrame &parent = stack.last();
+            if (parent.isObject)
+                parent.object.insert(key, val);
+            else
+                parent.array.append(val);
+        }
+    }
 }
 
 uint Base::reserveSpace(uint dataSize, uint posInTable, uint numItems, bool replace)
@@ -373,17 +432,7 @@ uint Object::indexOf(QStringView key, bool *exists) const
     return min;
 }
 
-QJsonObject Object::toJsonObject() const
-{
-    QJsonObject object;
-    for (uint i = 0; i < length(); ++i) {
-        const Entry *e = entryAt(i);
-        object.insert(e->key(), e->value.toJsonValue(this));
-    }
-    return object;
-}
-
-bool Object::isValid(uint maxSize) const
+bool Object::isValidHelper(uint maxSize, IsValidStack &stack) const
 {
     if (size > maxSize || tableOffset + length() * sizeof(offset) > size)
         return false;
@@ -398,30 +447,21 @@ bool Object::isValid(uint maxSize) const
         const QString key = e->key();
         if (key < lastKey)
             return false;
-        if (!e->value.isValid(this))
+        if (!e->value.isValidHelper(this, stack))
             return false;
         lastKey = key;
     }
     return true;
 }
 
-QJsonArray Array::toJsonArray() const
-{
-    QJsonArray array;
-    const offset *values = table();
-    for (uint i = 0; i < length(); ++i)
-        array.append(reinterpret_cast<const Value *>(values + i)->toJsonValue(this));
-    return array;
-}
-
-bool Array::isValid(uint maxSize) const
+bool Array::isValidHelper(uint maxSize, IsValidStack &stack) const
 {
     if (size > maxSize || tableOffset + length() * sizeof(offset) > size)
         return false;
 
     const offset *values = table();
     for (uint i = 0; i < length(); ++i) {
-        if (!reinterpret_cast<const Value *>(values + i)->isValid(this))
+        if (!reinterpret_cast<const Value *>(values + i)->isValidHelper(this, stack))
             return false;
     }
     return true;
@@ -456,8 +496,10 @@ uint Value::usedStorage(const Base *b) const
     return alignedSize(s);
 }
 
-QJsonValue Value::toJsonValue(const Base *b) const
+QJsonValue Value::toScalarJsonValue(const Base *b) const
 {
+    Q_ASSERT(type() != QJsonValue::Array && type() != QJsonValue::Object);
+
     switch (type()) {
     case QJsonValue::Null:
         return QJsonValue(QJsonValue::Null);
@@ -467,14 +509,12 @@ QJsonValue Value::toJsonValue(const Base *b) const
         return QJsonValue(toDouble(b));
     case QJsonValue::String:
         return QJsonValue(toString(b));
-    case QJsonValue::Array:
-        return static_cast<const Array *>(base(b))->toJsonArray();
-    case QJsonValue::Object:
-        return static_cast<const Object *>(base(b))->toJsonObject();
-    case QJsonValue::Undefined:
+    default:
+        // This handled Undefined, and the out-of-range type codes 6 and 7,
+        // which fit the three bit type field.
+        // We should handle them gracefully, rather than trigger Q_UNREACHABLE()
         return QJsonValue(QJsonValue::Undefined);
     }
-    Q_UNREACHABLE_RETURN(QJsonValue(QJsonValue::Undefined));
 }
 
 inline bool isValidValueOffset(uint offset, uint tableOffset)
@@ -483,7 +523,7 @@ inline bool isValidValueOffset(uint offset, uint tableOffset)
         && offset + sizeof(uint) <= tableOffset;
 }
 
-bool Value::isValid(const Base *b) const
+bool Value::isValidHelper(const Base *b, IsValidStack &stack) const
 {
     switch (type()) {
     case QJsonValue::Null:
@@ -498,11 +538,15 @@ bool Value::isValid(const Base *b) const
             return asLatin1String(b).isValid(b->tableOffset - value());
         return asString(b).isValid(b->tableOffset - value());
     case QJsonValue::Array:
-        return isValidValueOffset(value(), b->tableOffset)
-                && static_cast<const Array *>(base(b))->isValid(b->tableOffset - value());
     case QJsonValue::Object:
-        return isValidValueOffset(value(), b->tableOffset)
-                && static_cast<const Object *>(base(b))->isValid(b->tableOffset - value());
+        // do not recurse, instead only check the offset and push the nested
+        // object check on the stack
+        if (isValidValueOffset(value(), b->tableOffset)) {
+            stack.push_back(IsValidFrame(base(b), b->tableOffset - value()));
+            return true;
+        } else {
+            return false;
+        }
     default:
         return false;
     }

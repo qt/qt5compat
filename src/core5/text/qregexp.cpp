@@ -95,6 +95,20 @@ QT_BEGIN_NAMESPACE
     compatible implementation of regular expressions and is recommended
     in place of QRegExp.
 
+    \section1 Security Considerations
+
+    QRegExp enforces no limit on the resources a pattern may consume, and the
+    sizing of its internal buffers can overflow. A relatively small crafted
+    pattern can therefore exhaust the available memory, overflow the stack, or
+    corrupt memory. This happens while the pattern is being compiled, that is,
+    as soon as the pattern is assigned, and does not require any text to be
+    matched. The same applies to \l{QRegExp::Wildcard}{wildcard} patterns,
+    which are internally translated into regular expressions.
+
+    Only use QRegExp with patterns from a trusted source. Prefer using
+    \l QRegularExpression instead, which limits the resources a match may
+    consume.
+
     \section1 Introduction
 
     Regexps are built up from expressions, quantifiers, and

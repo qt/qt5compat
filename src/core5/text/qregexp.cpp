@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 
     This class is deprecated in Qt 6. Please use QRegularExpression instead
     for all new code. For guidelines on porting old code from QRegExp to
-    QRegularExpression, see {Porting to QRegularExpression}
+    QRegularExpression, see \l {Porting to QRegularExpression}.
 
     A regular expression, or "regexp", is a pattern for matching
     substrings in a text. This is useful in many contexts, e.g.,

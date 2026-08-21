@@ -95,6 +95,8 @@ private slots:
 
     void tsciiEncoderDoesNotReadPastTheEnd_data();
     void tsciiEncoderDoesNotReadPastTheEnd();
+
+    void iconvEncoderPendingSurrogateDoesNotOverflow();
 };
 
 void tst_QTextCodec::toUnicode_data()
@@ -2886,6 +2888,47 @@ void tst_QTextCodec::tsciiEncoderDoesNotReadPastTheEnd()
     // Test with Stateless flag
     const QByteArray stateless = codec->fromUnicode(QStringView(data, input.size()));
     QCOMPARE(stateless, expected);
+}
+
+/*
+    This test catches a size miscalculation error in the Iconv codec
+    in the case when encoding continues with a high surrogate kept
+    in the state from the encoding of the previous chunk.
+*/
+void tst_QTextCodec::iconvEncoderPendingSurrogateDoesNotOverflow()
+{
+    constexpr char32_t Ucs4NonBmp = 0x10437; // DESERET SMALL LETTER YEE
+    // Before the fix such tail was leading to allocating 4096 bytes,
+    // while the full buffer required 4086 _QChars_ (so, almost twice more)
+    constexpr int IconvTailLength = 4064;
+
+    // QIconvCodec registers itself as "System", but it's only available
+    // when the configuration disables ICU and explicitly enables iconv.
+    QTextCodec *codec = QTextCodec::codecForName("System");
+    if (!codec)
+        QSKIP("QIconvCodec was not found (disable ICU and enable iconv explicitly)");
+
+    QString start(10, u'x');
+    start += QChar::highSurrogate(Ucs4NonBmp);
+
+    QString rest;
+    rest += QChar::lowSurrogate(Ucs4NonBmp);
+    rest += QString(IconvTailLength, u'x');
+
+    const QByteArray expected = codec->fromUnicode(start + rest);
+
+    // Encode the first block that ends with the high surrogate.
+    // It should be stored in the converter state.
+    QTextCodec::ConverterState state;
+    QByteArray continued = codec->fromUnicode(start.constData(), int(start.size()), &state);
+
+    // Encode the second block.
+    // Before the fix, this would cause an overrun in the QByteArray
+    // buffer. Detection left for an ASan or Valgrind-checked build.
+    continued += codec->fromUnicode(rest.constData(), int(rest.size()), &state);
+
+    QCOMPARE(continued, expected);
+    QCOMPARE(state.remainingChars, qsizetype(0));
 }
 
 QT_END_NAMESPACE

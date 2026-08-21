@@ -296,7 +296,7 @@ QByteArray QIconvCodec::convertFromUnicode(const QChar *uc, int len, ConverterSt
     QByteArray in;
     if (convState && convState->remainingChars) {
         // we have one surrogate char to be prepended
-        in.resize(sizeof(QChar) + len);
+        in.resize(sizeof(QChar) + inBytesLeft);
         inBytes = in.data();
 
         QChar remaining(convState->state_data[0]);

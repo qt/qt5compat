@@ -9,6 +9,7 @@
 #include "qlatincodec_p.h"
 #include "qsimplecodec_p.h"
 #include "qdebug.h"
+#include <QtCore/qloggingcategory.h>
 
 #include "unicode/ucnv.h"
 
@@ -19,8 +20,17 @@
 
 QT_BEGIN_NAMESPACE
 
+Q_STATIC_LOGGING_CATEGORY(lcIcu, "qt.core5compat.qtextcodec.icu");
+
 typedef QList<QTextCodec*>::ConstIterator TextCodecListConstIt;
 typedef QList<QByteArray>::ConstIterator ByteArrayListConstIt;
+
+Q_DECL_COLD_FUNCTION
+static void warnOnLongInput()
+{
+    qWarning(lcIcu, "Unable to allocate an output buffer of a proper size - the input"
+                    " is too long. Pass the input data in smaller chunks instead.");
+}
 
 static void qIcuCodecStateFree(QTextCodec::ConverterState *state) noexcept
 {
@@ -596,7 +606,16 @@ QString QIcuCodec::convertToUnicode(const char *chars, int length, QTextCodec::C
 {
     UConverter *conv = getConverter(state);
 
-    QString string(length + 2, QT_PREPEND_NAMESPACE(Qt::Uninitialized));
+    // ICU requires the input and output buffers to stay within INT_MAX bytes.
+    constexpr int MaxStringSize = (std::numeric_limits<int>::max)() / sizeof(QChar);
+
+    QString string;
+    if (length > MaxStringSize - 2) {
+        warnOnLongInput();
+        return string;
+    }
+
+    string.resize(length + 2);
 
     const char *end = chars + length;
     int convertedChars = 0;
@@ -620,7 +639,11 @@ QString QIcuCodec::convertToUnicode(const char *chars, int length, QTextCodec::C
         convertedChars = uc - (UChar *)string.data();
         if (chars >= end)
             break;
-        string.resize(string.size()*2);
+        // Increase the size, but keep in mind that ICU is limited by INT_MAX bytes
+        if (string.size() <= MaxStringSize / 2)
+            string.resize(string.size() * 2);
+        else
+            break;
     }
     string.resize(convertedChars);
 
@@ -634,8 +657,20 @@ QByteArray QIcuCodec::convertFromUnicode(const QChar *unicode, int length, QText
 {
     UConverter *conv = getConverter(state);
 
-    int requiredLength = UCNV_GET_MAX_BYTES_FOR_STRING(length, ucnv_getMaxCharSize(conv));
-    QByteArray string(requiredLength, QT_PREPEND_NAMESPACE(Qt::Uninitialized));
+    QByteArray string;
+
+    // That was UCNV_GET_MAX_BYTES_FOR_STRING, but we want to do the calculation in
+    // int64, so that the result does not overflow
+    qint64 requiredLength = (qint64{length} + 10) * qint64{ucnv_getMaxCharSize(conv)};
+
+    // ICU requires the input and output buffers to stay within INT_MAX bytes.
+    constexpr int MaxBufferSize = (std::numeric_limits<int>::max)();
+    if (requiredLength > MaxBufferSize) {
+        warnOnLongInput();
+        return string;
+    }
+
+    string.resize(static_cast<QByteArray::size_type>(requiredLength));
 
     const UChar *uc = (const UChar *)unicode;
     const UChar *end = uc + length;
@@ -658,7 +693,12 @@ QByteArray QIcuCodec::convertFromUnicode(const QChar *unicode, int length, QText
         convertedChars = ch - string.data();
         if (uc >= end)
             break;
-        string.resize(string.size()*2);
+        // Increase the size, but keep in mind that the calculation can overflow,
+        // and that ICU is limited by INT_MAX
+        if (string.size() <= MaxBufferSize / 2)
+            string.resize(string.size() * 2);
+        else
+            break;
     }
     string.resize(convertedChars);
 

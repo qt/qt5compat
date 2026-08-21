@@ -50,13 +50,13 @@ QByteArray QTsciiCodec::convertFromUnicode(const QChar *uc, int len, ConverterSt
         if (ch.row() == 0x00 && ch.cell() < 0x80) {
             // ASCII
             j = ch.cell();
-        } else if ((j = qt_UnicodeToTSCII(uc[i].unicode(),
-                                          uc[i + 1].unicode(),
-                                          uc[i + 2].unicode()))) {
+        } else if ((i < len - 2) && (j = qt_UnicodeToTSCII(uc[i].unicode(),
+                                                           uc[i + 1].unicode(),
+                                                           uc[i + 2].unicode()))) {
             // We have to check the combined chars first!
             i += 2;
-        } else if ((j = qt_UnicodeToTSCII(uc[i].unicode(),
-                                          uc[i + 1].unicode(), 0))) {
+        } else if ((i < len - 1) && (j = qt_UnicodeToTSCII(uc[i].unicode(),
+                                                           uc[i + 1].unicode(), 0))) {
             i++;
         } else if ((j = qt_UnicodeToTSCII(uc[i].unicode(), 0, 0))) {
         } else {

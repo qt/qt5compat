@@ -322,6 +322,20 @@ QList<QStringRef> QStringRef::split(QChar sep, Qt::SplitBehavior behavior, Qt::C
     replacing standard string operations with the optimized substring
     handling provided by this class.
 
+    \target qstringref_security_considerations
+    \section1 Security Considerations
+
+    This class uses \c {int} to store the size() and position(). As a result,
+    it is not able to represent portions of strings that are longer than
+    \c {INT_MAX} or start at a larger offset. It is undefined behavior to
+    attempt to reference such portions. Note that QStringRef construction
+    from QString is affected, too, if the QString's size exceeds \c {INT_MAX},
+    even though no explicit sizes are being passed.
+
+    Use QStringView instead, keeping in mind its ownership model is looser than
+    QStringRefs. See \l {Changes to Qt Core#String related classes}
+    {the porting guide} for more details.
+
     \sa {Implicitly Shared Classes}
 */
 
@@ -384,6 +398,13 @@ i.e, 0 <= position < string->length() and
 /*! \fn QStringRef::QStringRef(const QString *string)
 
 Constructs a string reference to the given \a string.
+
+//! [qstring-size-fits-int]
+\warning QStringRef uses \c {int} (32 bits) to represent its \l size().
+In Qt 6, the size of QString is represented as \c {qsizetype}, which is 64
+bits for 64-bit builds. Make sure that the input's size fits into 32 bits,
+otherwise \l {qstringref_security_considerations}{the behavior is undefined}.
+//! [qstring-size-fits-int]
 */
 
 /*! \fn QStringRef::QStringRef(const QStringRef &other)
@@ -747,6 +768,8 @@ bool operator<(const QStringRef &s1,const QStringRef &s2) noexcept
 
     Constructs a string reference to the given \a string and assigns it to
     this string reference, returning the result.
+
+    \include qstringref.cpp qstring-size-fits-int
 */
 
 /*!

@@ -27,6 +27,7 @@
 
 #include <climits>
 #include <iterator>
+#include <QtCore/q20utility.h>
 
 #ifdef truncate
 #error qstringref.h must be included before any header file that defines truncate
@@ -49,7 +50,10 @@ public:
 
     constexpr QStringRef() noexcept
         : m_string(nullptr), m_position(0), m_size(0) { }
+#if QT_CORE5COMPAT_REMOVED_SINCE(6, 12) && QT_POINTER_SIZE != 4
     inline QStringRef(const QString *string, int position, int size);
+#endif
+    inline QStringRef(const QString *string, qsizetype position, qsizetype size);
     inline QStringRef(const QString *string);
 
     inline const QString *string() const { return m_string; }
@@ -264,8 +268,17 @@ inline QStringRef &QStringRef::operator=(const QString *aString)
     return *this;
 }
 
+#if QT_CORE5COMPAT_REMOVED_SINCE(6, 12) && QT_POINTER_SIZE != 4
 inline QStringRef::QStringRef(const QString *aString, int aPosition, int aSize)
         :m_string(aString), m_position(aPosition), m_size(aSize){}
+#endif
+
+QStringRef::QStringRef(const QString *aString, qsizetype aPosition, qsizetype aSize)
+    : m_string(aString),
+      m_position{(Q_PRE(q20::in_range<int>(aPosition)), int(aPosition))},
+      m_size{(Q_PRE(q20::in_range<int>(aSize)), int(aSize))}
+{
+}
 
 inline QStringRef::QStringRef(const QString *aString)
     :m_string(aString), m_position(0), m_size(aString ? int(aString->size()) : 0)

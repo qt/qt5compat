@@ -379,20 +379,26 @@ QList<QStringRef> QStringRef::split(QChar sep, Qt::SplitBehavior behavior, Qt::C
  Constructs an empty string reference.
 */
 
-/*! \fn QStringRef::QStringRef(const QString *string, int position, int length)
+/*! \fn QStringRef::QStringRef(const QString *string, qsizetype position, qsizetype length)
 
 Constructs a string reference to the range of characters in the given
 \a string specified by the starting \a position and \a length in characters.
 
 \warning This function exists to improve performance as much as possible,
 and performs no bounds checking. For program correctness, \a position and
-\a length must describe a valid substring of \a string.
+\a length must describe a valid substring of \a string and be representable
+in \c {int}.
 
 This means that the starting \a position must be positive or 0 and smaller
 than \a string's length, and \a length must be positive or 0 but smaller than
 the string's length minus the starting \a position;
 i.e, 0 <= position < string->length() and
 0 <= length <= string->length() - position must both be satisfied.
+
+\warning Starting from Qt 6.12 this constructor takes \c {qsizetype} \a position
+and \a length instead of \c {int}. This prevents silent narrowing on the calling
+site. However, passing values that cannot be represented in \c {int} still
+results in \l {qstringref_security_considerations}{undefined behavior}.
 */
 
 /*! \fn QStringRef::QStringRef(const QString *string)

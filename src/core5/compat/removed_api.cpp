@@ -10,6 +10,8 @@ QT_USE_NAMESPACE
 
 #if QT_CORE5COMPAT_REMOVED_SINCE(6, 12)
 
+#include "qstringref.h" // inline API in an exported class
+
 // #include "qotherheader.h"
 // // implement removed functions from qotherheader.h
 // order sections alphabetically to reduce chances of merge conflicts

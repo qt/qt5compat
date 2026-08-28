@@ -1109,13 +1109,19 @@ QStringRef QStringRef::left(int n) const
     If \a n is greater than or equal to size(), or less than zero,
     a reference to the entire string is returned.
 
+    If the new position() cannot be represented in \c {int}, a reference to the
+    entire string is returned.
+
     \sa left(), mid(), endsWith(), chopped(), chop(), truncate()
 */
 QStringRef QStringRef::right(int n) const
 {
     if (size_t(n) >= size_t(m_size))
         return *this;
-    return QStringRef(m_string, m_size - n + m_position, n);
+    int newPos = m_size - n; // does not overflow, see the check above
+    if (qAddOverflow(newPos, m_position, &newPos))
+        return *this;
+    return QStringRef(m_string, newPos, n);
 }
 
 /*!
@@ -1127,6 +1133,9 @@ QStringRef QStringRef::right(int n) const
 
     If the \a position exceeds the length of the string, a null
     reference is returned.
+
+    If the resulting position() cannot be represented in \c {int}, a null
+    QStringRef is returned.
 
     If there are less than \a n characters available in the string,
     starting at the given \a position, or if \a n is -1 (default), the
@@ -1148,6 +1157,8 @@ QStringRef QStringRef::mid(int pos, int n) const
     case QContainerImplHelper::Full:
         return *this;
     case QContainerImplHelper::Subset:
+        if (p > INT_MAX - m_position)
+            return QStringRef();
         return QStringRef(m_string, p + m_position, l);
     }
     Q_UNREACHABLE_RETURN(QStringRef());
@@ -1806,6 +1817,9 @@ QList<uint> QStringRef::toUcs4() const
 
     Unlike QString::simplified(), trimmed() leaves internal whitespace alone.
 
+    If after removing the whitespaces the new position() cannot be represented
+    in \c {int}, the behavior is undefined.
+
     \since 5.1
 
     \sa QString::trimmed()
@@ -1817,7 +1831,10 @@ QStringRef QStringRef::trimmed() const
     auto end = trimmed.cend();
     if (begin == cbegin() && end == cend())
         return *this;
-    int position = m_position + (begin - cbegin());
+    const int startOffset = int(begin - cbegin());
+    int position;
+    [[maybe_unused]] const bool overflowed = qAddOverflow(m_position, startOffset, &position);
+    Q_PRE(!overflowed);
     return QStringRef(m_string, position, end - begin);
 }
 

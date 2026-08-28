@@ -2059,6 +2059,42 @@ void tst_QStringRef::right()
 
     QCOMPARE(ref.right(-1), ref);
     QCOMPARE(ref.right(100), ref);
+
+#if QT_POINTER_SIZE != 4
+    QT_TRY {
+        QString largeString(qsizetype{std::numeric_limits<int>::max()} + 100, Qt::Uninitialized);
+
+        const qsizetype startPos = std::numeric_limits<int>::max() - 50;
+        // fill the last QChars
+        std::fill(largeString.begin() + startPos, largeString.end(), QLatin1Char('a'));
+
+        QStringRef refToLong(&largeString, startPos, 100); // ends at INT_MAX + 50
+        QCOMPARE(refToLong.position(), startPos);
+        QCOMPARE(refToLong.size(), 100);
+
+        // Ask for a subset with new position() after INT_MAX - this should fail.
+        QStringRef aboveIntMax = refToLong.right(20); // INT_MAX + 30
+        // Should return the same QStringRef
+        QCOMPARE(aboveIntMax, refToLong);
+
+        aboveIntMax = refToLong.right(0); // INT_MAX + 50
+        QCOMPARE(aboveIntMax, refToLong);
+
+        aboveIntMax = refToLong.right(49); // INT_MAX + 1
+        QCOMPARE(aboveIntMax, refToLong);
+
+        // now request a subset with new position() <= INT_MAX
+        QStringRef belowIntMax = refToLong.right(50); // INT_MAX
+        QCOMPARE(belowIntMax.position(), INT_MAX);
+        QCOMPARE(belowIntMax.size(), 50);
+
+        belowIntMax = refToLong.right(51); // INT_MAX - 1
+        QCOMPARE(belowIntMax.position(), INT_MAX - 1);
+        QCOMPARE(belowIntMax.size(), 51);
+    } QT_CATCH (const std::bad_alloc &) {
+        qDebug("Failed to allocate a QString with INT_MAX + 100 elements");
+    }
+#endif
 }
 
 void tst_QStringRef::mid()
@@ -2147,6 +2183,42 @@ void tst_QStringRef::mid()
     QVERIFY(emptyRef.mid(0).isEmpty());
     QVERIFY(emptyRef.mid(0, 3).isEmpty());
     QVERIFY(emptyRef.mid(-10, 3).isEmpty());
+
+#if QT_POINTER_SIZE != 4
+    QT_TRY {
+        QString largeString(qsizetype{std::numeric_limits<int>::max()} + 100, Qt::Uninitialized);
+
+        const qsizetype startPos = std::numeric_limits<int>::max() - 50;
+        // fill the last QChars
+        std::fill(largeString.begin() + startPos, largeString.end(), QLatin1Char('a'));
+
+        QStringRef refToLong(&largeString, startPos, 100); // ends at INT_MAX + 50
+        QCOMPARE(refToLong.position(), startPos);
+        QCOMPARE(refToLong.size(), 100);
+
+        // Ask for a subset with new position() after INT_MAX - this should fail.
+        QStringRef aboveIntMax = refToLong.mid(70, 10); // INT_MAX + 20
+        // Should return a null QStringRef
+        QCOMPARE(aboveIntMax, QStringRef());
+
+        aboveIntMax = refToLong.mid(100); // INT_MAX + 50
+        QCOMPARE(aboveIntMax, QStringRef());
+
+        aboveIntMax = refToLong.mid(51, 10); // INT_MAX + 1
+        QCOMPARE(aboveIntMax, QStringRef());
+
+        // Now ask for a subset with new position() <= INT_MAX
+        QStringRef belowIntMax = refToLong.mid(50, 10); // INT_MAX
+        QCOMPARE(belowIntMax.position(), INT_MAX);
+        QCOMPARE(belowIntMax.size(), 10);
+
+        belowIntMax = refToLong.mid(49, 10); // INT_MAX - 1
+        QCOMPARE(belowIntMax.position(), INT_MAX - 1);
+        QCOMPARE(belowIntMax.size(), 10);
+    } QT_CATCH (const std::bad_alloc &) {
+        qDebug("Failed to allocate a QString with INT_MAX + 100 elements");
+    }
+#endif
 }
 
 static bool operator ==(const QStringList &left, const QList<QStringRef> &right)

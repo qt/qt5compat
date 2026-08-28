@@ -166,7 +166,10 @@ public:
     QStringRef appendTo(QString *string) const;
 
     inline const QChar at(int i) const
-        { Q_ASSERT(uint(i) < uint(size())); return m_string->at(i + m_position); }
+    {
+        Q_PRE(uint(i) < uint(size()));
+        return m_string->at(qsizetype{i} + m_position);
+    }
     QChar operator[](int i) const { return at(i); }
     Q_REQUIRED_RESULT QChar front() const { return at(0); }
     Q_REQUIRED_RESULT QChar back() const { return at(size() - 1); }

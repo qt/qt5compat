@@ -590,18 +590,18 @@ public:
         Q_ASSERT(valueType == QJsonValue::Array || valueType == QJsonValue::Object);
 
         alloc = sizeof(Header) + sizeof(Base) + reserved + sizeof(offset);
-        header = reinterpret_cast<Header *>(malloc(alloc));
-        Q_CHECK_PTR(header);
+        void *mem = malloc(alloc);
+        Q_CHECK_PTR(mem);
+        header = new (mem) Header;
         header->tag = QJsonDocument::BinaryFormatTag;
         header->version = 1;
-        Base *b = header->root();
-        b->size = sizeof(Base);
+        Base *b = new (static_cast<void *>(header->root())) Base{
+            qle_uint{sizeof(Base)},
+            {}, // isObject == false && length == 0
+            offset{sizeof(Base)}
+        };
         if (valueType == QJsonValue::Object)
             b->setIsObject();
-        else
-            b->setIsArray();
-        b->tableOffset = sizeof(Base);
-        b->setLength(0);
     }
 
     ~MutableData()

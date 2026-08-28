@@ -30,7 +30,6 @@ qt_internal_add_module(Core5Compat
         Qt::Core
     PRIVATE_MODULE_INTERFACE
         Qt::CorePrivate Qt::CorePrivate
-    NO_GENERATE_CPP_EXPORTS
     ATTRIBUTION_FILE_DIR_PATHS
         codecs
 )

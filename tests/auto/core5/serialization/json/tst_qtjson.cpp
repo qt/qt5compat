@@ -15,6 +15,8 @@
 
 #include <limits>
 
+using namespace Qt::StringLiterals;
+
 #define INVALID_UNICODE "\xCE\xBA\xE1"
 #define UNICODE_NON_CHARACTER "\xEF\xBF\xBF"
 #define UNICODE_DJE "\320\202" // Character from the Serbian Cyrillic alphabet
@@ -29,6 +31,7 @@ private Q_SLOTS:
     void fromBinary();
     void toAndFromBinary_data();
     void toAndFromBinary();
+    void invalidBinaryData_data();
     void invalidBinaryData();
     void compactArray();
     void compactObject();
@@ -111,14 +114,22 @@ void tst_QtJson::toAndFromBinary()
     }
 }
 
+void tst_QtJson::invalidBinaryData_data()
+{
+    QTest::addColumn<QString>("name");
+    QDir dir(testDataDir + "/invalidBinaryData");
+    const QStringList files = dir.entryList({u"*.bjson"_s},
+                                            QDir::Filter::Files, QDir::SortFlag::Name);
+    for (const QString &file : files)
+        QTest::addRow("%s", QFile::encodeName(file).constData()) << file;
+}
+
 void tst_QtJson::invalidBinaryData()
 {
-    QDir dir(testDataDir + "/invalidBinaryData");
-    QFileInfoList files = dir.entryInfoList();
-    for (int i = 0; i < files.size(); ++i) {
-        if (!files.at(i).isFile())
-            continue;
-        QFile file(files.at(i).filePath());
+    QFETCH(const QString, name);
+    const QDir dir(testDataDir + "/invalidBinaryData");
+    {
+        QFile file(dir.filePath(name));
         QVERIFY(file.open(QIODevice::ReadOnly));
         QByteArray bytes = file.readAll();
         bytes.squeeze();

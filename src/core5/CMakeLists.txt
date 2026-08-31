@@ -12,6 +12,7 @@ qt_internal_add_module(Core5Compat
         codecs/qcodecmacros_p.h
         codecs/qtextcodec_p.h
         codecs/qutfcodec.cpp codecs/qutfcodec_p.h
+        compat/removed_api.cpp
         qcore5global.h
         sax/qxml.cpp sax/qxml.h sax/qxml_p.h
         serialization/qbinaryjson.cpp serialization/qbinaryjson.h serialization/qbinaryjson_p.h
@@ -21,6 +22,8 @@ qt_internal_add_module(Core5Compat
         text/qregexp.cpp text/qregexp.h
         text/qstringref.cpp text/qstringref.h
         tools/qlinkedlist.cpp tools/qlinkedlist.h
+    NO_PCH_SOURCES
+        compat/removed_api.cpp
     DEFINES
         QT_USE_FAST_OPERATOR_PLUS
         QT_USE_QSTRINGBUILDER

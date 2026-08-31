@@ -39,6 +39,11 @@ if(ANDROID OR QT_FORCE_BUILTIN_TESTDATA)
         "test3.json"
     )
 
+    file(GLOB invalid_binary_data_files
+        RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "invalidBinaryData/*.bjson"
+    )
+
 # special case begin
     qt_internal_add_resource(tst_qt5compat_json "json"
 # special case end
@@ -46,6 +51,7 @@ if(ANDROID OR QT_FORCE_BUILTIN_TESTDATA)
             "/"
         FILES
             ${json_resource_files}
+            ${invalid_binary_data_files}
     )
 endif()
 

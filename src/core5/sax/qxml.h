@@ -39,7 +39,6 @@ class QXmlNamespaceSupportPrivate;
 class QXmlInputSourcePrivate;
 class QXmlParseExceptionPrivate;
 class QXmlLocatorPrivate;
-class QXmlDefaultHandlerPrivate;
 
 //
 // SAX Namespace Support
@@ -382,7 +381,9 @@ public:
     QString errorString() const override;
 
 private:
-    QXmlDefaultHandlerPrivate *d;
+#if QT_VERSION < QT_VERSION_CHECK(7, 0, 0)
+    Q_DECL_UNUSED_MEMBER void *unusable;
+#endif
     Q_DISABLE_COPY(QXmlDefaultHandler)
 };
 

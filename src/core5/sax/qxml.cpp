@@ -228,10 +228,6 @@ class QXmlLocatorPrivate
 {
 };
 
-class QXmlDefaultHandlerPrivate
-{
-};
-
 /*!
     \class QXmlParseException
     \reentrant
@@ -2118,11 +2114,7 @@ QXmlDeclHandler::~QXmlDeclHandler()
     Constructs a handler for use with subclasses of QXmlReader.
 */
 QXmlDefaultHandler::QXmlDefaultHandler()
-{
-    // ### In Qt 5.0, this function was inlined and d was not initialized
-    // The member cannot be used until Qt 6.0
-    Q_UNUSED(d);
-}
+    = default;
 
 /*!
     \fn QXmlDefaultHandler::~QXmlDefaultHandler()

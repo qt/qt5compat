@@ -180,10 +180,6 @@ static bool stripTextDecl(QString& str)
     return true;
 }
 
-class QXmlAttributesPrivate
-{
-};
-
 /* \class QXmlInputSourcePrivate
     \internal
 
@@ -715,11 +711,7 @@ void QXmlNamespaceSupport::reset()
     Constructs an empty attribute list.
 */
 QXmlAttributes::QXmlAttributes()
-{
-    // ### In Qt 5.0, this function was inlined and d was not initialized
-    // The member cannot be used until Qt 6.0
-    Q_UNUSED(d);
-}
+    = default;
 
 /*!
     \fn QXmlAttributes::~QXmlAttributes()

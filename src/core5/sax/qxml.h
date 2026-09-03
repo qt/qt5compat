@@ -36,7 +36,6 @@ class QXmlSimpleReader;
 
 class QXmlSimpleReaderPrivate;
 class QXmlNamespaceSupportPrivate;
-class QXmlAttributesPrivate;
 class QXmlInputSourcePrivate;
 class QXmlParseExceptionPrivate;
 class QXmlLocatorPrivate;
@@ -90,7 +89,6 @@ public:
     void swap(QXmlAttributes &other) noexcept
     {
         attList.swap(other.attList);
-        qt_ptr_swap(d, other.d);
     }
 
     int index(const QString& qName) const;
@@ -119,8 +117,9 @@ private:
     friend class QTypeInfo<Attribute>;
     typedef QList<Attribute> AttributeList;
     AttributeList attList;
-
-    QXmlAttributesPrivate *d;
+#if QT_VERSION < QT_VERSION_CHECK(7, 0, 0)
+    Q_DECL_UNUSED_MEMBER void *unusable = nullptr;
+#endif
 };
 
 Q_DECLARE_TYPEINFO(QXmlAttributes::Attribute, Q_RELOCATABLE_TYPE);

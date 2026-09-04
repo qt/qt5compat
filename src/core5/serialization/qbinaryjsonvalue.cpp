@@ -95,17 +95,4 @@ QString QBinaryJsonValue::toString() const
     return stringData;
 }
 
-void QBinaryJsonValue::detach()
-{
-    if (!d)
-        return;
-
-    QBinaryJsonPrivate::MutableData *x = d->clone(base);
-    x->ref.ref();
-    if (!d->ref.deref())
-        delete d;
-    d = x;
-    base = static_cast<QBinaryJsonPrivate::Object *>(d->header->root());
-}
-
 QT_END_NAMESPACE

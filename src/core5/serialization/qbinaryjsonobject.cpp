@@ -93,10 +93,12 @@ bool QBinaryJsonObject::detach(uint reserve)
     QBinaryJsonPrivate::MutableData *x = d->clone(o, reserve);
     if (!x)
         return false;
-    x->ref.ref();
-    if (!d->ref.deref())
-        delete d;
-    d = x;
+    if (x != d) {
+        x->ref.ref();
+        if (!d->ref.deref())
+            delete d;
+        d = x;
+    }
     o = static_cast<QBinaryJsonPrivate::Object *>(d->header->root());
     return true;
 }

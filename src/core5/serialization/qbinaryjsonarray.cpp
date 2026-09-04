@@ -28,15 +28,14 @@ QBinaryJsonArray QBinaryJsonArray::fromJsonArray(const QJsonArray &array)
 
 void QBinaryJsonArray::append(const QBinaryJsonValue &value)
 {
-    const uint i = a ? a->length() : 0;
-
     bool compressed;
     uint valueSize = QBinaryJsonPrivate::Value::requiredStorage(value, &compressed);
 
     if (!detach(valueSize + sizeof(QBinaryJsonPrivate::Value)))
         return;
 
-    if (!a->length())
+    const uint i = a->length();
+    if (!i)
         a->tableOffset = sizeof(QBinaryJsonPrivate::Array);
 
     uint valueOffset = a->reserveSpace(valueSize, i, 1, false);

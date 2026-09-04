@@ -21,3 +21,10 @@ qt_internal_add_test(tst_qxmlinputsource
         Qt::Network
         Qt::Xml
 )
+
+# This test and tst_qxmlsimplereader both bind the same hard-coded TCP
+# port (1088). Serialize their runs:
+if(TEST tst_qxmlinputsource)
+    set_tests_properties(tst_qxmlinputsource PROPERTIES
+        RESOURCE_LOCK tcp_port_1088)
+endif()

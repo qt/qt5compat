@@ -945,7 +945,6 @@ struct QRegExpAutomatonState
     QMap<int, int> reenter; // atoms reentered when transiting out
     QMap<int, int> anchors; // anchors met when transiting out
 
-    inline QRegExpAutomatonState() { }
 #ifndef QT_NO_REGEXP_CAPTURE
     inline QRegExpAutomatonState(int a, int m)
         : atom(a), match(m) { }

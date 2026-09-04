@@ -83,8 +83,6 @@ private:
     QBinaryJsonValue(QBinaryJsonPrivate::MutableData *d, QBinaryJsonPrivate::Base *parent,
                      const QBinaryJsonPrivate::Value &v);
 
-    void detach();
-
     union {
         quint64 ui;
         bool b;

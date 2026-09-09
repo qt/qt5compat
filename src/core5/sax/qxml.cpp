@@ -731,6 +731,9 @@ QXmlAttributes::~QXmlAttributes()
 */
 int QXmlAttributes::index(const QString& qName) const
 {
+#if QT_POINTER_SIZE != 4
+    Q_PRE(attList.size() <= INT_MAX);
+#endif
     for (int i = 0; i < attList.size(); ++i) {
         if (attList.at(i).qname == qName)
             return i;
@@ -742,6 +745,9 @@ int QXmlAttributes::index(const QString& qName) const
   */
 int QXmlAttributes::index(QLatin1String qName) const
 {
+#if QT_POINTER_SIZE != 4
+    Q_PRE(attList.size() <= INT_MAX);
+#endif
     for (int i = 0; i < attList.size(); ++i) {
         if (attList.at(i).qname == qName)
             return i;
@@ -762,6 +768,9 @@ int QXmlAttributes::index(QLatin1String qName) const
 */
 int QXmlAttributes::index(const QString& uri, const QString& localPart) const
 {
+#if QT_POINTER_SIZE != 4
+    Q_PRE(attList.size() <= INT_MAX);
+#endif
     for (int i = 0; i < attList.size(); ++i) {
         const Attribute &att = attList.at(i);
         if (att.uri == uri && att.localname == localPart)
@@ -930,6 +939,8 @@ void QXmlAttributes::clear()
 */
 void QXmlAttributes::append(const QString &qName, const QString &uri, const QString &localPart, const QString &value)
 {
+    Q_PRE(attList.size() < INT_MAX);
+
     Attribute att;
     att.qname = qName;
     att.uri = uri;
@@ -3816,6 +3827,15 @@ bool QXmlSimpleReaderPrivate::processElementAttribute()
     const QString &name = QXmlSimpleReaderPrivate::name();
     const QString &string = QXmlSimpleReaderPrivate::string();
 
+    auto tryAppend = [this](const QString &qName, const QString &uri,
+                            const QString &localPart, const QString &value) {
+        if (attList.length() < INT_MAX) {
+            attList.append(qName, uri, localPart, value);
+            return true;
+        }
+        return false;
+    };
+
     // add the attribute to the list
     if (useNamespaces) {
         // is it a namespace declaration?
@@ -3827,7 +3847,11 @@ bool QXmlSimpleReaderPrivate::processElementAttribute()
                 // according to http://www.w3.org/2000/xmlns/, the "prefix"
                 // xmlns maps to the namespace name
                 // http://www.w3.org/2000/xmlns/
-                attList.append(name, QLatin1String("http://www.w3.org/2000/xmlns/"), lname, string);
+                if (!tryAppend(name, QLatin1String("http://www.w3.org/2000/xmlns/"),
+                               lname, string)) {
+                    reportParseError(QLatin1String(XMLERR_ERRORPARSINGELEMENT));
+                    return false;
+                }
             }
             // call the handler for prefix mapping
             if (contentHnd) {
@@ -3839,11 +3863,17 @@ bool QXmlSimpleReaderPrivate::processElementAttribute()
         } else {
             // no namespace delcaration
             namespaceSupport.processName(name, true, uri, lname);
-            attList.append(name, uri, lname, string);
+            if (!tryAppend(name, uri, lname, string)) {
+                reportParseError(QLatin1String(XMLERR_ERRORPARSINGELEMENT));
+                return false;
+            }
         }
     } else {
         // no namespace support
-        attList.append(name, uri, lname, string);
+        if (!tryAppend(name, uri, lname, string)) {
+            reportParseError(QLatin1String(XMLERR_ERRORPARSINGELEMENT));
+            return false;
+        }
     }
     return true;
 }

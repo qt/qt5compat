@@ -14,6 +14,8 @@
 #include <qbuffer.h>
 #include "parser/parser.h"
 
+#include <limits>
+
 static const char *const inputString = "<!DOCTYPE inferno [<!ELEMENT inferno (circle+)><!ELEMENT circle (#PCDATA)>]><inferno><circle /><circle /></inferno>";
 static const char *const refString = "setDocumentLocator(locator={columnNumber=1, lineNumber=1})\nstartDocument()\nstartDTD(name=\"inferno\", publicId=\"\", systemId=\"\")\nendDTD()\nstartElement(namespaceURI=\"\", localName=\"inferno\", qName=\"inferno\", atts=[])\nstartElement(namespaceURI=\"\", localName=\"circle\", qName=\"circle\", atts=[])\nendElement(namespaceURI=\"\", localName=\"circle\", qName=\"circle\")\nstartElement(namespaceURI=\"\", localName=\"circle\", qName=\"circle\", atts=[])\nendElement(namespaceURI=\"\", localName=\"circle\", qName=\"circle\")\nendElement(namespaceURI=\"\", localName=\"inferno\", qName=\"inferno\")\nendDocument()\n";
 
@@ -126,6 +128,8 @@ class tst_QXmlSimpleReader : public QObject
         void reportNamespace_data() const;
         void roundtripWithNamespaces() const;
         void dtdRecursionLimit();
+
+        void valueLongerThanIntMaxDoesNotCrash();
 
     private:
         static QDomDocument fromByteArray(const QString &title, const QByteArray &ba, bool *ok);
@@ -781,6 +785,109 @@ void tst_QXmlSimpleReader::dtdRecursionLimit()
         xmlReader.setErrorHandler(&handler);
         QVERIFY(!xmlReader.parse(&source));
         QCOMPARE(handler.recursionCount, 2);
+    }
+}
+
+void tst_QXmlSimpleReader::valueLongerThanIntMaxDoesNotCrash()
+{
+    if constexpr (QT_POINTER_SIZE == 4)
+        QSKIP("An allocated QString does not fit into a 32 bit address space.");
+
+    if (qgetenv("QTEST_ENVIRONMENT").split(' ').contains("ci"))
+        QSKIP("Too slow and consumes at least 4 GiB of memory - skipping on CI.");
+
+
+    // Serves prefix + runLength copies of runChar + suffix in chunks to avoid
+    // storing a multi-Gb input
+    class RepeatedRunDevice : public QIODevice
+    {
+    public:
+        RepeatedRunDevice(const QByteArray &prefix, qint64 runLength, const QByteArray &suffix,
+                          char runChar = 'a')
+            : m_prefix(prefix), m_suffix(suffix), m_runLength(runLength), m_runChar(runChar)
+        {
+        }
+
+        qint64 size() const override { return m_prefix.size() + m_runLength + m_suffix.size(); }
+
+    protected:
+        qint64 readData(char *data, qint64 maxSize) override
+        {
+            const qint64 runStart = m_prefix.size();
+            const qint64 suffixStart = runStart + m_runLength;
+            qint64 offset = pos();
+            qint64 written = 0;
+
+            while (written < maxSize && offset < size()) {
+                const char *source = nullptr;
+                qint64 available = 0;
+                if (offset < runStart) {
+                    source = m_prefix.constData() + offset;
+                    available = runStart - offset;
+                } else if (offset < suffixStart) {
+                    available = suffixStart - offset;
+                } else {
+                    source = m_suffix.constData() + (offset - suffixStart);
+                    available = size() - offset;
+                }
+
+                const qint64 chunk = qMin(available, maxSize - written);
+                if (source)
+                    memcpy(data + written, source, chunk);
+                else
+                    memset(data + written, m_runChar, chunk);
+                written += chunk;
+                offset += chunk;
+            }
+
+            return written;
+        }
+
+        qint64 writeData(const char *, qint64) override { return -1; }
+
+    private:
+        QByteArray m_prefix;
+        QByteArray m_suffix;
+        qint64 m_runLength;
+        char m_runChar;
+    };
+
+    class CharacterCountingHandler : public QXmlDefaultHandler
+    {
+    public:
+        bool characters(const QString &ch) override
+        {
+            characterCount += ch.size();
+            return true;
+        }
+
+        bool fatalError(const QXmlParseException &exception) override
+        {
+            errorMessage = exception.message();
+            return false;
+        }
+
+        qsizetype characterCount = 0;
+        QString errorMessage;
+    };
+
+    // The buffer is flushed every 256 characters, so a handful of characters
+    // past INT_MAX is enough to be sure the boundary is crossed.
+    constexpr auto runLength = std::numeric_limits<int>::max() + qint64{10};
+
+    CharacterCountingHandler handler;
+    QXmlSimpleReader reader;
+    reader.setContentHandler(&handler);
+    reader.setErrorHandler(&handler);
+
+    QT_TRY {
+        RepeatedRunDevice device("<d>", runLength, "</d>");
+        QVERIFY(device.open(QIODevice::ReadOnly));
+        QXmlInputSource source(&device);
+        QVERIFY2(reader.parse(source), qPrintable(handler.errorMessage));
+        QCOMPARE(handler.characterCount, runLength);
+    } QT_CATCH (const std::bad_alloc &) {
+        QSKIP("Not enough memory to accumulate INT_MAX characters.");
     }
 }
 

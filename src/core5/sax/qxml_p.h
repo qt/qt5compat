@@ -168,6 +168,7 @@ private:
     QXmlInputSource *inputSource;
 
     QChar c; // the character at reading position
+    // The public API is int-based, range-checked in reportedPosition().
     qsizetype   lineNr; // number of line
     qsizetype   columnNr; // position in line
 

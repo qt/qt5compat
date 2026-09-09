@@ -16,6 +16,8 @@
 #include "qstack.h"
 #include <qdebug.h>
 
+#include <climits>
+
 #ifdef Q_CC_BOR // borland 6 finds bogus warnings when building this file in uic3
 #    pragma warn -8080
 #endif
@@ -389,6 +391,21 @@ QXmlLocator::~QXmlLocator()
     number available.
 */
 
+/*
+    The public API returns position as int.
+    Returns the value + 1, since human-readable line and column numbers start
+    from 1.
+
+    Report -1 if the value does not fit into the int range, in line with the
+    columnNumber() and lineNumber() docs.
+*/
+static int reportedPosition(qsizetype position)
+{
+    if (position >= INT_MAX - 1)
+        return -1;
+    return int(position + 1);
+}
+
 class QXmlSimpleReaderLocator : public QXmlLocator
 {
 public:
@@ -402,11 +419,11 @@ public:
 
     int columnNumber() const override
     {
-        return (reader->d_ptr->columnNr == -1 ? -1 : reader->d_ptr->columnNr + 1);
+        return (reader->d_ptr->columnNr == -1 ? -1 : reportedPosition(reader->d_ptr->columnNr));
     }
     int lineNumber() const override
     {
-        return (reader->d_ptr->lineNr == -1 ? -1 : reader->d_ptr->lineNr + 1);
+        return (reader->d_ptr->lineNr == -1 ? -1 : reportedPosition(reader->d_ptr->lineNr));
     }
 
 private:
@@ -7862,12 +7879,12 @@ void QXmlSimpleReaderPrivate::reportParseError(const QString& error)
     this->error = error;
     if (errorHnd) {
         if (this->error.isNull()) {
-            const QXmlParseException ex(QLatin1String(XMLERR_OK), columnNr+1, lineNr+1,
-                                        thisPublicId, thisSystemId);
+            const QXmlParseException ex(QLatin1String(XMLERR_OK), reportedPosition(columnNr),
+                                        reportedPosition(lineNr), thisPublicId, thisSystemId);
             errorHnd->fatalError(ex);
         } else {
-            const QXmlParseException ex(this->error, columnNr+1, lineNr+1,
-                                        thisPublicId, thisSystemId);
+            const QXmlParseException ex(this->error, reportedPosition(columnNr),
+                                        reportedPosition(lineNr), thisPublicId, thisSystemId);
             errorHnd->fatalError(ex);
         }
     }

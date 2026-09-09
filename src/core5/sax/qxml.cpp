@@ -201,8 +201,8 @@ public:
 
     QString str;
     const QChar *unicode;
-    int pos;
-    int length;
+    qsizetype pos;
+    qsizetype length;
     bool nextReturnedEndOfData;
 #if QT_CONFIG(textcodec)
     QTextDecoder *encMapper;
@@ -532,7 +532,7 @@ QString QXmlNamespaceSupport::uri(const QString& prefix) const
 void QXmlNamespaceSupport::splitName(const QString& qname, QString& prefix,
                                      QString& localname) const
 {
-    int pos = qname.indexOf(QLatin1Char(':'));
+    auto pos = qname.indexOf(u':');
     if (pos == -1)
         pos = qname.size();
 
@@ -561,14 +561,10 @@ void QXmlNamespaceSupport::processName(const QString& qname,
         bool isAttribute,
         QString& nsuri, QString& localname) const
 {
-    int len = qname.size();
-    const QChar *data = qname.constData();
-    for (int pos = 0; pos < len; ++pos) {
-        if (data[pos] == QLatin1Char(':')) {
-            nsuri = uri(qname.left(pos));
-            localname = qname.mid(pos + 1);
-            return;
-        }
+    if (const auto pos = qname.indexOf(u':'); pos >= 0) {
+        nsuri = uri(qname.left(pos));
+        localname = qname.mid(pos + 1);
+        return;
     }
 
     // there was no ':'
@@ -1204,7 +1200,7 @@ void QXmlInputSource::fetchData()
             if (d->inputStream && d->inputStream->string()) {
                 QString *s = d->inputStream->string();
                 rawData = QByteArray(reinterpret_cast<const char *>(s->constData()),
-                                     int(s->size() * sizeof(QChar)));
+                                     s->size() * qsizetype(sizeof(QChar)));
             }
         } else if (device->isOpen() || device->open(QIODevice::ReadOnly)) {
             rawData.resize(BufferSize);
@@ -1228,18 +1224,18 @@ static QString extractEncodingDecl(const QString &text, bool *needMoreText)
 {
     *needMoreText = false;
 
-    int l = text.size();
-    const QLatin1String snip("<?xml", std::min(l, 5));
+    qsizetype l = text.size();
+    const QLatin1String snip("<?xml", std::min(l, qsizetype(5)));
     if (l > 0 && !text.startsWith(snip))
         return QString();
 
-    int endPos = text.indexOf(QLatin1Char('>'));
+    qsizetype endPos = text.indexOf(QLatin1Char('>'));
     if (endPos == -1) {
         *needMoreText = l < 255; // we won't look forever
         return QString();
     }
 
-    int pos = text.indexOf(QLatin1String("encoding"));
+    qsizetype pos = text.indexOf(QLatin1String("encoding"));
     if (pos == -1 || pos >= endPos)
         return QString();
 
@@ -2436,16 +2432,19 @@ inline bool QXmlSimpleReaderPrivate::atEnd()
 
 inline void QXmlSimpleReaderPrivate::stringClear()
 {
-    stringValueLen = 0; stringArrayPos = 0;
+    stringValue.resize(0);
+    stringArrayPos = 0;
 }
 inline void QXmlSimpleReaderPrivate::nameClear()
 {
-    nameValueLen = 0; nameArrayPos = 0;
+    nameValue.resize(0);
+    nameArrayPos = 0;
 }
 
 inline void QXmlSimpleReaderPrivate::refClear()
 {
-    refValueLen = 0; refArrayPos = 0;
+    refValue.resize(0);
+    refArrayPos = 0;
 }
 
 QXmlSimpleReaderPrivate::QXmlSimpleReaderPrivate(QXmlSimpleReader *reader)
@@ -4208,7 +4207,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
 
 bool QXmlSimpleReaderPrivate::reportEndEntities()
 {
-    int count = (int)xmlRefStack.size();
+    qsizetype count = xmlRefStack.size();
     while (count != 0 && xmlRefStack.top().isEmpty()) {
         if (contentHnd) {
             if (reportWhitespaceCharData || !string().simplified().isEmpty()) {
@@ -6400,7 +6399,7 @@ bool QXmlSimpleReaderPrivate::isExpandedEntityValueTooLarge(QString *errorMessag
                  ++referencedIt) {
                 const QString &entityName = referencedIt.key();
 
-                for (int i = 0; i < leftOvers.size() && i != -1; ) {
+                for (qsizetype i = 0; i < leftOvers.size() && i != -1; ) {
                     entityNameBuffer = QLatin1Char('&') + entityName + QLatin1Char(';');
 
                     i = leftOvers.indexOf(entityNameBuffer, i);
@@ -6415,19 +6414,19 @@ bool QXmlSimpleReaderPrivate::isExpandedEntityValueTooLarge(QString *errorMessag
         }
     }
 
-    for (QHash<QString, QHash<QString, int> >::const_iterator entityIt = referencesToOtherEntities.constBegin();
+    for (QHash<QString, QHash<QString, qsizetype> >::const_iterator entityIt = referencesToOtherEntities.constBegin();
          entityIt != referencesToOtherEntities.constEnd();
          ++entityIt) {
         const QString &entity = entityIt.key();
 
-        QHash<QString, int>::iterator expandedIt = expandedSizes.find(entity);
+        QHash<QString, qsizetype>::iterator expandedIt = expandedSizes.find(entity);
         if (expandedIt == expandedSizes.end()) {
             expandedIt = expandedSizes.insert(entity, literalEntitySizes.value(entity));
-            for (QHash<QString, int>::const_iterator referenceIt = entityIt->constBegin();
+            for (QHash<QString, qsizetype>::const_iterator referenceIt = entityIt->constBegin();
                  referenceIt != entityIt->constEnd();
                  ++referenceIt) {
                 const QString &referenceTo = referenceIt.key();
-                const int references = referencesToOtherEntities.value(entity).value(referenceTo);
+                const qsizetype references = referencesToOtherEntities.value(entity).value(referenceTo);
                 // The total size of an entity's value is the expanded size of all of its referenced entities, plus its literal size.
                 *expandedIt += expandedSizes.value(referenceTo) * references + literalEntitySizes.value(referenceTo) * references;
             }
@@ -7724,7 +7723,7 @@ bool QXmlSimpleReaderPrivate::insertXmlRef(const QString &data, const QString &n
     } else {
         xmlRefStack.push(XmlRef(name, data));
     }
-    int n = qMax(parameterEntities.size(), entities.size());
+    qsizetype n = qMax(parameterEntities.size(), entities.size());
     if (xmlRefStack.size() > n+1) {
         // recursive entities
         reportParseError(QLatin1String(XMLERR_RECURSIVEENTITIES));
@@ -7744,7 +7743,7 @@ bool QXmlSimpleReaderPrivate::insertXmlRef(const QString &data, const QString &n
 */
 void QXmlSimpleReaderPrivate::next()
 {
-    int count = xmlRefStack.size();
+    qsizetype count = xmlRefStack.size();
     while (count != 0) {
         if (xmlRefStack.top().isEmpty()) {
             xmlRefStack.pop_back();
@@ -7922,47 +7921,47 @@ void QXmlSimpleReaderPrivate::pushParseState(ParseFunction function, int state)
     parseStack->push(ps);
 }
 
-inline static void updateValue(QString &value, const QChar *array, int &arrayPos, int &valueLen)
+inline static void updateValue(QString &value, const QChar *array, int &arrayPos)
 {
-    value.resize(valueLen + arrayPos);
-    memcpy(value.data() + valueLen, array, arrayPos * sizeof(QChar));
-    valueLen += arrayPos;
+    const auto sz = value.size();
+    value.resize(sz + arrayPos);
+    memcpy(value.data() + sz, array, arrayPos * sizeof(QChar));
     arrayPos = 0;
 }
 
 // use buffers instead of QString::operator+= when single characters are read
 const QString& QXmlSimpleReaderPrivate::string()
 {
-    updateValue(stringValue, stringArray, stringArrayPos, stringValueLen);
+    updateValue(stringValue, stringArray, stringArrayPos);
     return stringValue;
 }
 const QString& QXmlSimpleReaderPrivate::name()
 {
-    updateValue(nameValue, nameArray, nameArrayPos, nameValueLen);
+    updateValue(nameValue, nameArray, nameArrayPos);
     return nameValue;
 }
 const QString& QXmlSimpleReaderPrivate::ref()
 {
-    updateValue(refValue, refArray, refArrayPos, refValueLen);
+    updateValue(refValue, refArray, refArrayPos);
     return refValue;
 }
 
 void QXmlSimpleReaderPrivate::stringAddC(QChar ch)
 {
     if (stringArrayPos == 256)
-        updateValue(stringValue, stringArray, stringArrayPos, stringValueLen);
+        updateValue(stringValue, stringArray, stringArrayPos);
     stringArray[stringArrayPos++] = ch;
 }
 void QXmlSimpleReaderPrivate::nameAddC(QChar ch)
 {
     if (nameArrayPos == 256)
-        updateValue(nameValue, nameArray, nameArrayPos, nameValueLen);
+        updateValue(nameValue, nameArray, nameArrayPos);
     nameArray[nameArrayPos++] = ch;
 }
 void QXmlSimpleReaderPrivate::refAddC(QChar ch)
 {
     if (refArrayPos == 256)
-        updateValue(refValue, refArray, refArrayPos, refValueLen);
+        updateValue(refValue, refArray, refArrayPos);
     refArray[refArrayPos++] = ch;
 }
 

@@ -141,6 +141,9 @@ class tst_QXmlSimpleReader : public QObject
         void entityExpansionLimitEntityResolver_data();
         void entityExpansionLimitEntityResolver();
 
+        void entityExpansionProperty_data();
+        void entityExpansionProperty();
+
     private:
         static QDomDocument fromByteArray(const QString &title, const QByteArray &ba, bool *ok);
         XmlServer *server;
@@ -1490,6 +1493,59 @@ void tst_QXmlSimpleReader::entityExpansionLimitEntityResolver()
     QCOMPARE(handler.errorMessage.isEmpty(), expectSuccess);
     QCOMPARE_LE(handler.expandedCharacters, EntityCharacterLimit);
     QCOMPARE(handler.resolveCount, 1);
+}
+
+void tst_QXmlSimpleReader::entityExpansionProperty_data()
+{
+    QTest::addColumn<qint64>("limit");
+    QTest::addColumn<qint64>("expectedLimit");
+    QTest::addColumn<int>("entityLength");
+    QTest::addColumn<bool>("wellFormed");
+
+    QTest::newRow("large_limit_valid_length") << qint64(8192) << qint64(8192) << 8000 << true;
+    QTest::newRow("small_limit_invalid_length") << qint64(32) << qint64(32) << 64 << false;
+    QTest::newRow("zero_limit_uses_default") << qint64(0) << qint64(4096) << 5000 << false;
+    QTest::newRow("negative_limit_uses_default") << qint64(-1) << qint64(4096) << 4000 << true;
+    if constexpr (sizeof(qintptr) > sizeof(int)) {
+        QTest::newRow("too_large_limit_uses_default")
+                << qint64(std::numeric_limits<int>::max()) + 1 << qint64(4096) << 5000 << false;
+    }
+}
+
+void tst_QXmlSimpleReader::entityExpansionProperty()
+{
+    QFETCH(const qint64, limit);
+    QFETCH(const qint64, expectedLimit);
+    QFETCH(const int, entityLength);
+    QFETCH(const bool, wellFormed);
+
+    constexpr const char *propName = "http://qt-project.org/xml/properties/entity-expansion-limit";
+
+    QXmlSimpleReader reader;
+
+    QVERIFY(reader.hasProperty(QLatin1String(propName)));
+
+    bool ok = false;
+    void *value = reader.property(QLatin1String(propName), &ok);
+    QVERIFY(ok);
+    QCOMPARE(reinterpret_cast<qintptr>(value), qintptr(4096));
+
+    reader.setProperty(QLatin1String(propName), reinterpret_cast<void *>(qintptr(limit)));
+
+    // verify the limit
+    ok = false;
+    value = reader.property(QLatin1String(propName), &ok);
+    QVERIFY(ok);
+    QCOMPARE(reinterpret_cast<qintptr>(value), qintptr(expectedLimit));
+
+    QByteArray xml =
+            "<!DOCTYPE d [<!ENTITY e '" + QByteArray(entityLength, 'A') + "'>]><d>&e;</d>";
+
+    QBuffer buffer(&xml);
+    QVERIFY(buffer.open(QIODevice::ReadOnly));
+    QXmlInputSource source(&buffer);
+
+    QCOMPARE(reader.parse(source), wellFormed);
 }
 
 QTEST_MAIN(tst_QXmlSimpleReader)

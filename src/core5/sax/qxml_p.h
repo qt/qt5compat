@@ -203,11 +203,15 @@ private:
     // The amount of characters that parameter entity references have contributed
     // to the parameter entity value that is currently being parsed.
     qsizetype includedParameterEntitySize = 0;
+
+    int entityCharacterLimit = DefaultEntityCharacterLimit;
+
     // The limit to the amount of times the DTD parsing functions can be called
     // for the DTD currently being parsed.
     static const int dtdRecursionLimit = 2;
-    // The maximum amount of characters an entity value may contain, after expansion.
-    static const int entityCharacterLimit = 4096;
+    // The default maximum amount of characters an entity value may contain,
+    // after expansion.
+    static constexpr int DefaultEntityCharacterLimit = 4096;
 
     const QString &string();
     void stringClear();

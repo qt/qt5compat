@@ -7485,9 +7485,8 @@ bool QXmlSimpleReaderPrivate::processReference()
                     {
                         // Bypassed
                         stringAddC(QLatin1Char('&'));
-                        for (int i=0; i<(int)reference.size(); i++) {
-                            stringAddC(reference[i]);
-                        }
+                        for (const QChar c : std::as_const(reference))
+                            stringAddC(c);
                         stringAddC(QLatin1Char(';'));
                         parseReference_charDataRead = true;
                     }
@@ -7507,9 +7506,8 @@ bool QXmlSimpleReaderPrivate::processReference()
                 if (parseReference_context == InEntityValue) {
                     // Bypassed
                     stringAddC(QLatin1Char('&'));
-                    for (int i=0; i<(int)reference.size(); i++) {
-                        stringAddC(reference[i]);
-                    }
+                    for (const QChar c : std::as_const(reference))
+                        stringAddC(c);
                     stringAddC(QLatin1Char(';'));
                     parseReference_charDataRead = true;
                 } else {
@@ -7590,9 +7588,8 @@ bool QXmlSimpleReaderPrivate::processReference()
                         {
                             // Bypassed
                             stringAddC(QLatin1Char('&'));
-                            for (int i=0; i<(int)reference.size(); i++) {
-                                stringAddC(reference[i]);
-                            }
+                            for (const QChar c : std::as_const(reference))
+                                stringAddC(c);
                             stringAddC(QLatin1Char(';'));
                             parseReference_charDataRead = true;
                         }

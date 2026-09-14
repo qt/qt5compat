@@ -8,6 +8,7 @@
 #####################################################################
 
 qt_internal_add_module(Core5Compat
+    EXCEPTIONS
     SOURCES
         codecs/qcodecmacros_p.h
         codecs/qtextcodec_p.h

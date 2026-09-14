@@ -1008,7 +1008,7 @@ void QXmlInputSource::init()
 {
     d = new QXmlInputSourcePrivate;
 
-    QT_TRY {
+    try {
         d->inputDevice = nullptr;
         d->inputStream = nullptr;
 
@@ -1021,9 +1021,9 @@ void QXmlInputSource::init()
         d->encodingDeclBytes.clear();
         d->encodingDeclChars.clear();
         d->lookingForEncodingDecl = true;
-    } QT_CATCH(...) {
+    } catch (...) {
         delete(d);
-        QT_RETHROW;
+        throw;
     }
 }
 

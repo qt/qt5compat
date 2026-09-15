@@ -146,6 +146,8 @@ private:
     };
     friend class QTypeInfo<ParseState>;
     QStack<ParseState> *parseStack;
+    int tryUnwindParseStack(ParseState::ParseFunction func);
+
 
     // used in parseProlog()
     bool xmldecl_possible;

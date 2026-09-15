@@ -3340,6 +3340,8 @@ bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
             return &QXmlSimpleReaderPrivate::parseElement;
         case FrameType::Content:
             return &QXmlSimpleReaderPrivate::parseContent;
+        case FrameType::ChoiceSeq:
+            return &QXmlSimpleReaderPrivate::parseChoiceSeq;
         }
         Q_UNREACHABLE_RETURN(nullptr);
     };
@@ -3371,6 +3373,8 @@ bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
                 frames.append({FrameType::Element, parseStack->pop().state});
             else if (func == &QXmlSimpleReaderPrivate::parseContent)
                 frames.append({FrameType::Content, parseStack->pop().state});
+            else if (func == &QXmlSimpleReaderPrivate::parseChoiceSeq)
+                frames.append({FrameType::ChoiceSeq, parseStack->pop().state});
             else
                 break;
         }
@@ -3391,6 +3395,8 @@ bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
             return parseContentFrame(innermost.state);
         case FrameType::Element:
             return parseElementFrame(innermost.state);
+        case FrameType::ChoiceSeq:
+            return parseChoiceSeqFrame(innermost.state);
         }
         Q_UNREACHABLE_RETURN(FrameParseResult::Failed);
     };
@@ -3402,6 +3408,9 @@ bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
             break;
         case FrameParseResult::EnterElement:
             enterFrame(FrameType::Element);
+            break;
+        case FrameParseResult::EnterChoiceSeq:
+            enterFrame(FrameType::ChoiceSeq);
             break;
         case FrameParseResult::Done:
             frames.removeLast();
@@ -6158,6 +6167,18 @@ bool QXmlSimpleReaderPrivate::parseNotationDecl()
 */
 bool QXmlSimpleReaderPrivate::parseChoiceSeq()
 {
+    return parseNestedFrames(FrameType::ChoiceSeq);
+}
+
+/*
+    Parses one choice or seq, but stops at a nested choice or seq.
+    Returns FrameParseResult::EnterChoiceSeq when it reaches a nested group,
+    so that parseNestedFrames() could call parseChoiceSeqFrame() from the outer
+    loop to parse the next choice or seq. Continues parsing when the nested
+    item is handled.
+*/
+QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseChoiceSeqFrame(int &state)
+{
     const signed char Init             = 0;
     const signed char Ws1              = 1; // eat whitespace
     const signed char CoS              = 2; // choice or set
@@ -6188,23 +6209,19 @@ bool QXmlSimpleReaderPrivate::parseChoiceSeq()
     static_assert(Init == ItemInitState);
     signed char input;
 
-    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseChoiceSeq);
-    if (state < Init)
-        return false;
-
     for (;;) {
         switch (state) {
             case Done:
-                return true;
+                return FrameParseResult::Done;
             case -1:
                 // Error
                 reportParseError(QLatin1String(XMLERR_UNEXPECTEDCHARACTER));
-                return false;
+                return FrameParseResult::Failed;
         }
 
         if (atEnd()) {
             unexpectedEof(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-            return false;
+            return FrameParseResult::Failed;
         }
         if (is_S(c)) {
             input = InpWs;
@@ -6231,32 +6248,29 @@ bool QXmlSimpleReaderPrivate::parseChoiceSeq()
             case Ws1:
                 if (!next_eat_ws()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case CoS:
-                if (!parseChoiceSeq()) {
-                    parseFailed(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-                    return false;
-                }
-                break;
+                // a nested choice or seq follows
+                return FrameParseResult::EnterChoiceSeq;
             case Ws2:
                 if (!next_eat_ws()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case More:
                 if (!next_eat_ws()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Name:
                 parseName_useRef = false;
                 if (!parseName()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseChoiceSeq, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Done:
@@ -6264,7 +6278,7 @@ bool QXmlSimpleReaderPrivate::parseChoiceSeq()
                 break;
         }
     }
-    return false;
+    return FrameParseResult::Failed;
 }
 
 bool QXmlSimpleReaderPrivate::isExpandedEntityValueTooLarge(QString *errorMessage)

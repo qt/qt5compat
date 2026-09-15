@@ -229,6 +229,7 @@ private:
     {
         Element,
         Content,
+        ChoiceSeq,
     };
 
     enum class FrameParseResult
@@ -237,6 +238,7 @@ private:
         Failed,
         EnterElement,
         EnterContent,
+        EnterChoiceSeq,
     };
 
     struct FrameState
@@ -247,6 +249,7 @@ private:
     bool parseNestedFrames(FrameType outermost);
     FrameParseResult parseElementFrame(int &state);
     FrameParseResult parseContentFrame(int &state);
+    FrameParseResult parseChoiceSeqFrame(int &state);
 
     bool parseProlog();
     bool parseElement();

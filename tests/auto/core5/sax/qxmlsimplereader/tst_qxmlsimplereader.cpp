@@ -862,6 +862,17 @@ void tst_QXmlSimpleReader::deepElementNesting_data()
 
         QTest::newRow("mixed content") << xml << depth;
     }
+    {
+        QByteArray xml;
+        xml += "<!DOCTYPE a [<!ELEMENT a ";
+        xml.reserve(xml.size() + depth * 2);
+        xml.resize(xml.size() + depth, '(');
+        xml += 'b';
+        xml.resize(xml.size() + depth, ')');
+        xml += ">]><a/>";
+
+        QTest::newRow("DTD nesting") << xml << 1;
+    }
 }
 
 void tst_QXmlSimpleReader::deepElementNesting()

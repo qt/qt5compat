@@ -14,6 +14,7 @@
 #include "qmap.h"
 #include "qhash.h"
 #include "qstack.h"
+#include <QtCore/qvarlengtharray.h>
 #include <qdebug.h>
 
 #ifdef Q_CC_BOR // borland 6 finds bogus warnings when building this file in uic3
@@ -3321,9 +3322,17 @@ bool QXmlSimpleReaderPrivate::parseBeginOrContinue(int state, bool incremental)
     return true;
 }
 
+/*
+    Parses parts of the document that can potentially recurse.
+    For example, when parsing an element, we can have:
+      element -> content -> element -> content -> ...
+
+    Instead of recursing into the parse*() calls, this method creates a local
+    stack of calls.
+*/
 bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
 {
-    int state;
+    QVarLengthArray<FrameState, 16> frames;
 
     const auto frameTypeToFunc = [](FrameType t) -> ParseFunction {
         switch (t) {
@@ -3335,47 +3344,80 @@ bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
         Q_UNREACHABLE_RETURN(nullptr);
     };
 
-    const auto enterFrame = [this, &state](FrameType t) {
+    // Suspends frames[0..last], innermost first, so the outermost ends up on
+    // top of parseStack.
+    const auto suspendFrames = [&frames, &frameTypeToFunc, this](qsizetype last) {
+        for (qsizetype i = last; i >= 0; --i)
+            parseFailed(frameTypeToFunc(frames[i].frame), frames[i].state);
+    };
+
+    const auto enterFrame = [this, &frames](FrameType t) {
         if (t == FrameType::Content)
             contentCharDataRead = false;
-        state = ItemInitState;
+        frames.append({t, ItemInitState});
     };
 
     if (parseStack == nullptr || parseStack->isEmpty()) {
         enterFrame(outermost);
     } else {
-        state = parseStack->pop().state;
-        ParseFunction func = frameTypeToFunc(outermost);
+        // Continuing an incremental parse: parseStack holds the state of this
+        // frame, then the states of the frames that were nested inside it,
+        // outermost first, and finally the function that ran out of data.
+        Q_ASSERT(parseStack->top().function == frameTypeToFunc(outermost));
+        frames.append({outermost, parseStack->pop().state});
+        while (!parseStack->isEmpty()) {
+            const ParseFunction func = parseStack->top().function;
+            if (func == &QXmlSimpleReaderPrivate::parseElement)
+                frames.append({FrameType::Element, parseStack->pop().state});
+            else if (func == &QXmlSimpleReaderPrivate::parseContent)
+                frames.append({FrameType::Content, parseStack->pop().state});
+            else
+                break;
+        }
+        // Now all the potentially recursing calls are added to frames
 #if defined(QT_QXML_DEBUG)
-        qDebug("QXmlSimpleReader: %s (cont) in state %d",
-               func == &QXmlSimpleReaderPrivate::parseElement ?      "parseElement" :
-               func == &QXmlSimpleReaderPrivate::parseContent ?      "parseContent" :
-               /* else */                                            "<unknown function>",
-               state);
+        qDebug("QXmlSimpleReader: parseNestedFrames (cont) with %lld frames",
+               qlonglong(frames.size()));
 #endif
         if (!resumeSuspendedCall()) {
-            parseFailed(func, state);
+            suspendFrames(frames.size() - 1);
             return false;
         }
     }
 
-    const auto stepFrame = [this, &state](FrameType type) {
-        switch (type) {
+    const auto stepFrame = [this](FrameState &innermost) {
+        switch (innermost.frame) {
         case FrameType::Content:
-            return parseContentFrame(state);
+            return parseContentFrame(innermost.state);
         case FrameType::Element:
-            return parseElementFrame(state);
+            return parseElementFrame(innermost.state);
         }
         Q_UNREACHABLE_RETURN(FrameParseResult::Failed);
     };
 
-    switch (stepFrame(outermost)) {
-    case FrameParseResult::Done:
-        return true;
-    case FrameParseResult::Failed:
-        return false;
+    while (true) {
+        switch (stepFrame(frames.back())) {
+        case FrameParseResult::EnterContent:
+            enterFrame(FrameType::Content);
+            break;
+        case FrameParseResult::EnterElement:
+            enterFrame(FrameType::Element);
+            break;
+        case FrameParseResult::Done:
+            frames.removeLast();
+            if (frames.isEmpty())
+                return true;
+            break;
+        case FrameParseResult::Failed:
+            // The innermost frame either ran out of data while parsing
+            // incrementally, in which case it has saved its own state
+            // already and only the frames around it still need to save
+            // theirs, or it reported a parse error, in which case no state
+            // is saved at all.
+            suspendFrames(frames.size() - 2);
+            return false;
+        }
     }
-    Q_UNREACHABLE_RETURN(false);
 }
 
 //
@@ -3636,9 +3678,10 @@ bool QXmlSimpleReaderPrivate::parseElement()
 }
 
 /*
-    Implements parseElement() without the parse stack unwinding.
-    \a state is the state to start parsing in, and is updated as the parsing
-    progresses.
+    Parses the element, except its content.
+    Returns FrameParseResult::EnterContent when it reaches the content, so that
+    parseNestedFrames() could call parseContentFrame() from the outer loop.
+    Continues parsing the element when its content is handled.
 */
 QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseElementFrame(int &state)
 {
@@ -3759,11 +3802,8 @@ QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseElementF
                 next();
                 break;
             case STagEnd2:
-                if (!parseContent()) {
-                    parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return FrameParseResult::Failed;
-                }
-                break;
+                // the content of this element follows
+                return FrameParseResult::EnterContent;
             case ETagBegin:
                 next();
                 break;
@@ -3962,9 +4002,10 @@ bool QXmlSimpleReaderPrivate::parseContent()
 }
 
 /*
-    Implements parseContent() without the parse stack unwinding.
-    \a state is the state to start parsing in, and is updated as the parsing
-    progresses.
+    Parses the element's content, but stops at a nested element.
+    Returns FrameParseResult::EnterElement when it reaches the nested element,
+    so that parseNestedFrames() could call parseElementFrame() from the outer
+    loop. Continues parsing the content when the nested element is handled.
 */
 QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseContentFrame(int &state)
 {
@@ -4226,11 +4267,8 @@ QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseContentF
                 }
                 break;
             case Elem:
-                if (!parseElement()) {
-                    parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                    return FrameParseResult::Failed;
-                }
-                break;
+                // a child element follows
+                return FrameParseResult::EnterElement;
             case Em:
                 next();
                 break;

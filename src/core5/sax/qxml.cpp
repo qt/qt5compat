@@ -2470,6 +2470,27 @@ void QXmlSimpleReaderPrivate::initIncrementalParsing()
         parseStack = new QStack<ParseState>;
 }
 
+/*!
+    \internal
+
+    A helper function that executes the topmost function from the
+    stack. Returns the result of the execution
+*/
+bool QXmlSimpleReaderPrivate::resumeSuspendedCall()
+{
+    if (!parseStack->isEmpty()) {
+        ParseFunction function = parseStack->top().function;
+        if (function == &QXmlSimpleReaderPrivate::eat_ws) {
+            parseStack->pop();
+#if defined(QT_QXML_DEBUG)
+            qDebug("QXmlSimpleReader: eat_ws (cont)");
+#endif
+        }
+        return (this->*function)();
+    }
+    return true; // nothing to execute
+}
+
 constexpr int ItemInitState = 0;
 
 /*!
@@ -2512,18 +2533,9 @@ int QXmlSimpleReaderPrivate::tryUnwindParseStack(ParseState::ParseFunction func)
                /* else */                                            "<unknown function>",
                state);
 #endif
-        if (!parseStack->isEmpty()) {
-            ParseFunction function = parseStack->top().function;
-            if (function == &QXmlSimpleReaderPrivate::eat_ws) {
-                parseStack->pop();
-#if defined(QT_QXML_DEBUG)
-                qDebug("QXmlSimpleReader: eat_ws (cont)");
-#endif
-            }
-            if (!(this->*function)()) {
-                parseFailed(func, state);
-                return -1;
-            }
+        if (!resumeSuspendedCall()) {
+            parseFailed(func, state);
+            return -1;
         }
     }
 

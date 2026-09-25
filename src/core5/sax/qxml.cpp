@@ -3602,6 +3602,26 @@ bool QXmlSimpleReaderPrivate::parseProlog()
 */
 bool QXmlSimpleReaderPrivate::parseElement()
 {
+    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseElement);
+    if (state < ItemInitState)
+        return false;
+
+    switch (parseElementFrame(state)) {
+    case FrameParseResult::Done:
+        return true;
+    case FrameParseResult::Failed:
+        return false;
+    }
+    Q_UNREACHABLE_RETURN(false);
+}
+
+/*
+    Implements parseElement() without the parse stack unwinding.
+    \a state is the state to start parsing in, and is updated as the parsing
+    progresses.
+*/
+QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseElementFrame(int &state)
+{
     const int Init             =  0;
     const int ReadName         =  1;
     const int Ws1              =  2;
@@ -3640,10 +3660,6 @@ bool QXmlSimpleReaderPrivate::parseElement()
     static_assert(Init == ItemInitState);
     int input;
 
-    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseElement);
-    if (state < Init)
-        return false;
-
     for (;;) {
         switch (state) {
             case ReadName:
@@ -3656,23 +3672,23 @@ bool QXmlSimpleReaderPrivate::parseElement()
                 break;
             case ETagBegin2:
                 if (!processElementETagBegin2())
-                    return false;
+                    return FrameParseResult::Failed;
                 break;
             case Attrib:
                 if (!processElementAttribute())
-                    return false;
+                    return FrameParseResult::Failed;
                 state = AttribPro;
                 break;
             case Done:
-                return true;
+                return FrameParseResult::Done;
             case -1:
                 reportParseError(QLatin1String(XMLERR_ERRORPARSINGELEMENT));
-                return false;
+                return FrameParseResult::Failed;
         }
 
         if (atEnd()) {
             unexpectedEof(&QXmlSimpleReaderPrivate::parseElement, state);
-            return false;
+            return FrameParseResult::Failed;
         }
         if (fastDetermineNameChar(c) == NameBeginning) {
             input = InpNameBe;
@@ -3692,7 +3708,7 @@ bool QXmlSimpleReaderPrivate::parseElement()
                 parseName_useRef = false;
                 if (!parseName()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Ws1:
@@ -3700,7 +3716,7 @@ bool QXmlSimpleReaderPrivate::parseElement()
             case Ws3:
                 if (!eat_ws()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case STagEnd:
@@ -3711,12 +3727,12 @@ bool QXmlSimpleReaderPrivate::parseElement()
                         namespaceSupport.processName(tags.top(), false, uri, lname);
                         if (!contentHnd->startElement(uri, lname, tags.top(), attList)) {
                             reportParseError(contentHnd->errorString());
-                            return false;
+                            return FrameParseResult::Failed;
                         }
                     } else {
                         if (!contentHnd->startElement(QString(), QString(), tags.top(), attList)) {
                             reportParseError(contentHnd->errorString());
-                            return false;
+                            return FrameParseResult::Failed;
                         }
                     }
                 }
@@ -3725,7 +3741,7 @@ bool QXmlSimpleReaderPrivate::parseElement()
             case STagEnd2:
                 if (!parseContent()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case ETagBegin:
@@ -3736,16 +3752,16 @@ bool QXmlSimpleReaderPrivate::parseElement()
                 parseName_useRef = false;
                 if (!parseName()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case EmptyTag:
                 if (tags.empty()) {
                     reportParseError(QLatin1String(XMLERR_TAGMISMATCH));
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 if (!processElementEmptyTag())
-                    return false;
+                    return FrameParseResult::Failed;
                 next();
                 break;
             case Attrib:
@@ -3753,7 +3769,7 @@ bool QXmlSimpleReaderPrivate::parseElement()
                 // get name and value of attribute
                 if (!parseAttribute()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseElement, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Done:
@@ -3761,7 +3777,7 @@ bool QXmlSimpleReaderPrivate::parseElement()
                 break;
         }
     }
-    return false;
+    return FrameParseResult::Failed;
 }
 
 /*
@@ -3941,6 +3957,29 @@ bool QXmlSimpleReaderPrivate::processElementAttribute()
 */
 bool QXmlSimpleReaderPrivate::parseContent()
 {
+    if (parseStack == nullptr || parseStack->isEmpty())
+        contentCharDataRead = false;
+
+    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseContent);
+    if (state < ItemInitState)
+        return false;
+
+    switch (parseContentFrame(state)) {
+    case FrameParseResult::Done:
+        return true;
+    case FrameParseResult::Failed:
+        return false;
+    }
+    Q_UNREACHABLE_RETURN(false);
+}
+
+/*
+    Implements parseContent() without the parse stack unwinding.
+    \a state is the state to start parsing in, and is updated as the parsing
+    progresses.
+*/
+QXmlSimpleReaderPrivate::FrameParseResult QXmlSimpleReaderPrivate::parseContentFrame(int &state)
+{
     const signed char Init             =  0;
     const signed char ChD              =  1; // CharData
     const signed char ChD1             =  2; // CharData help state
@@ -4010,13 +4049,6 @@ bool QXmlSimpleReaderPrivate::parseContent()
     static_assert(Init == ItemInitState);
     signed char input;
 
-    if (parseStack == nullptr || parseStack->isEmpty())
-        contentCharDataRead = false;
-
-    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseContent);
-    if (state < Init)
-        return false;
-
     for (;;) {
         switch (state) {
             case Ref:
@@ -4027,7 +4059,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 if (contentHnd) {
                     if (!contentHnd->processingInstruction(name(),string())) {
                         reportParseError(contentHnd->errorString());
-                        return false;
+                        return FrameParseResult::Failed;
                     }
                 }
                 state = PInstrR;
@@ -4036,7 +4068,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 if (lexicalHnd) {
                     if (!lexicalHnd->comment(string())) {
                         reportParseError(lexicalHnd->errorString());
-                        return false;
+                        return FrameParseResult::Failed;
                     }
                 }
                 state = ComR;
@@ -4056,19 +4088,19 @@ bool QXmlSimpleReaderPrivate::parseContent()
                         if (lexicalHnd) {
                             if (!lexicalHnd->startCDATA()) {
                                 reportParseError(lexicalHnd->errorString());
-                                return false;
+                                return FrameParseResult::Failed;
                             }
                         }
                         if (contentHnd) {
                             if (!contentHnd->characters(string())) {
                                 reportParseError(contentHnd->errorString());
-                                return false;
+                                return FrameParseResult::Failed;
                             }
                         }
                         if (lexicalHnd) {
                             if (!lexicalHnd->endCDATA()) {
                                 reportParseError(lexicalHnd->errorString());
-                                return false;
+                                return FrameParseResult::Failed;
                             }
                         }
                     } else if (c == QLatin1Char(']')) {
@@ -4088,24 +4120,24 @@ bool QXmlSimpleReaderPrivate::parseContent()
                         if (reportWhitespaceCharData || !string().simplified().isEmpty()) {
                             if (!contentHnd->characters(string())) {
                                 reportParseError(contentHnd->errorString());
-                                return false;
+                                return FrameParseResult::Failed;
                             }
                         }
                     }
                 }
                 // Done
-                return true;
+                return FrameParseResult::Done;
             case -1:
                 // Error
                 reportParseError(QLatin1String(XMLERR_ERRORPARSINGCONTENT));
-                return false;
+                return FrameParseResult::Failed;
         }
 
         // get input (use lookup-table instead of nested ifs for performance
         // reasons)
         if (atEnd()) {
             unexpectedEof(&QXmlSimpleReaderPrivate::parseContent, state);
-            return false;
+            return FrameParseResult::Failed;
         }
         if (c.row()) {
             input = InpUnknown;
@@ -4128,7 +4160,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 stringAddC();
                 if (reportEntities) {
                     if (!reportEndEntities())
-                        return false;
+                        return FrameParseResult::Failed;
                 }
                 next();
                 break;
@@ -4141,7 +4173,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 stringAddC();
                 if (reportEntities) {
                     if (!reportEndEntities())
-                        return false;
+                        return FrameParseResult::Failed;
                 }
                 next();
                 break;
@@ -4149,7 +4181,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 stringAddC();
                 if (reportEntities) {
                     if (!reportEndEntities())
-                        return false;
+                        return FrameParseResult::Failed;
                 }
                 next();
                 break;
@@ -4160,7 +4192,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                     parseReference_context = InContent;
                     if (!parseReference()) {
                         parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                        return false;
+                        return FrameParseResult::Failed;
                     }
                 } else {
                     if (reportEntities) {
@@ -4169,7 +4201,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                             if (reportWhitespaceCharData || !string().simplified().isEmpty()) {
                                 if (!contentHnd->characters(string())) {
                                     reportParseError(contentHnd->errorString());
-                                    return false;
+                                    return FrameParseResult::Failed;
                                 }
                             }
                         }
@@ -4178,7 +4210,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                     parseReference_context = InContent;
                     if (!parseReference()) {
                         parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                        return false;
+                        return FrameParseResult::Failed;
                     }
                 }
                 break;
@@ -4189,7 +4221,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                         if (reportWhitespaceCharData || !string().simplified().isEmpty()) {
                             if (!contentHnd->characters(string())) {
                                 reportParseError(contentHnd->errorString());
-                                return false;
+                                return FrameParseResult::Failed;
                             }
                         }
                     }
@@ -4202,13 +4234,13 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 parsePI_xmldecl = false;
                 if (!parsePI()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Elem:
                 if (!parseElement()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case Em:
@@ -4218,14 +4250,14 @@ bool QXmlSimpleReaderPrivate::parseContent()
             case ComR:
                 if (!parseComment()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case CDS:
                 parseString_s = QLatin1String("[CDATA[");
                 if (!parseString()) {
                     parseFailed(&QXmlSimpleReaderPrivate::parseContent, state);
-                    return false;
+                    return FrameParseResult::Failed;
                 }
                 break;
             case CDS1:
@@ -4242,7 +4274,7 @@ bool QXmlSimpleReaderPrivate::parseContent()
                 break;
         }
     }
-    return false;
+    return FrameParseResult::Failed;
 }
 
 bool QXmlSimpleReaderPrivate::reportEndEntities()

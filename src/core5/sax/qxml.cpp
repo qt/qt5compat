@@ -3348,6 +3348,63 @@ bool QXmlSimpleReaderPrivate::parseBeginOrContinue(int state, bool incremental)
     return true;
 }
 
+bool QXmlSimpleReaderPrivate::parseNestedFrames(FrameType outermost)
+{
+    int state;
+
+    const auto frameTypeToFunc = [](FrameType t) -> ParseFunction {
+        switch (t) {
+        case FrameType::Element:
+            return &QXmlSimpleReaderPrivate::parseElement;
+        case FrameType::Content:
+            return &QXmlSimpleReaderPrivate::parseContent;
+        }
+        Q_UNREACHABLE_RETURN(nullptr);
+    };
+
+    const auto enterFrame = [this, &state](FrameType t) {
+        if (t == FrameType::Content)
+            contentCharDataRead = false;
+        state = ItemInitState;
+    };
+
+    if (parseStack == nullptr || parseStack->isEmpty()) {
+        enterFrame(outermost);
+    } else {
+        state = parseStack->pop().state;
+        ParseFunction func = frameTypeToFunc(outermost);
+#if defined(QT_QXML_DEBUG)
+        qDebug("QXmlSimpleReader: %s (cont) in state %d",
+               func == &QXmlSimpleReaderPrivate::parseElement ?      "parseElement" :
+               func == &QXmlSimpleReaderPrivate::parseContent ?      "parseContent" :
+               /* else */                                            "<unknown function>",
+               state);
+#endif
+        if (!resumeSuspendedCall()) {
+            parseFailed(func, state);
+            return false;
+        }
+    }
+
+    const auto stepFrame = [this, &state](FrameType type) {
+        switch (type) {
+        case FrameType::Content:
+            return parseContentFrame(state);
+        case FrameType::Element:
+            return parseElementFrame(state);
+        }
+        Q_UNREACHABLE_RETURN(FrameParseResult::Failed);
+    };
+
+    switch (stepFrame(outermost)) {
+    case FrameParseResult::Done:
+        return true;
+    case FrameParseResult::Failed:
+        return false;
+    }
+    Q_UNREACHABLE_RETURN(false);
+}
+
 //
 // The following private parse functions have another semantics for the return
 // value: They return true iff parsing has finished successfully (i.e. the end
@@ -3602,17 +3659,7 @@ bool QXmlSimpleReaderPrivate::parseProlog()
 */
 bool QXmlSimpleReaderPrivate::parseElement()
 {
-    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseElement);
-    if (state < ItemInitState)
-        return false;
-
-    switch (parseElementFrame(state)) {
-    case FrameParseResult::Done:
-        return true;
-    case FrameParseResult::Failed:
-        return false;
-    }
-    Q_UNREACHABLE_RETURN(false);
+    return parseNestedFrames(FrameType::Element);
 }
 
 /*
@@ -3957,20 +4004,7 @@ bool QXmlSimpleReaderPrivate::processElementAttribute()
 */
 bool QXmlSimpleReaderPrivate::parseContent()
 {
-    if (parseStack == nullptr || parseStack->isEmpty())
-        contentCharDataRead = false;
-
-    int state = tryUnwindParseStack(&QXmlSimpleReaderPrivate::parseContent);
-    if (state < ItemInitState)
-        return false;
-
-    switch (parseContentFrame(state)) {
-    case FrameParseResult::Done:
-        return true;
-    case FrameParseResult::Failed:
-        return false;
-    }
-    Q_UNREACHABLE_RETURN(false);
+    return parseNestedFrames(FrameType::Content);
 }
 
 /*

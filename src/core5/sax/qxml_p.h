@@ -223,11 +223,18 @@ private:
 
     bool parseBeginOrContinue(int state, bool incremental);
 
+    enum class FrameType
+    {
+        Element,
+        Content,
+    };
+
     enum class FrameParseResult
     {
         Done,
         Failed,
     };
+    bool parseNestedFrames(FrameType outermost);
     FrameParseResult parseElementFrame(int &state);
     FrameParseResult parseContentFrame(int &state);
 

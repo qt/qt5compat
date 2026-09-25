@@ -233,6 +233,14 @@ private:
     {
         Done,
         Failed,
+        EnterElement,
+        EnterContent,
+    };
+
+    struct FrameState
+    {
+        FrameType frame;
+        int state;
     };
     bool parseNestedFrames(FrameType outermost);
     FrameParseResult parseElementFrame(int &state);

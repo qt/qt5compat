@@ -129,6 +129,11 @@ class tst_QXmlSimpleReader : public QObject
         void roundtripWithNamespaces() const;
         void dtdRecursionLimit();
 
+        void deepElementNesting_data();
+        void deepElementNesting();
+        void deepElementNestingIncremental_data();
+        void deepElementNestingIncremental();
+
         void valueLongerThanIntMaxDoesNotCrash();
 
     private:
@@ -786,6 +791,169 @@ void tst_QXmlSimpleReader::dtdRecursionLimit()
         QVERIFY(!xmlReader.parse(&source));
         QCOMPARE(handler.recursionCount, 2);
     }
+}
+
+class DepthMeasureHandler : public QXmlDefaultHandler
+{
+public:
+    bool startElement(const QString &, const QString &, const QString &,
+                      const QXmlAttributes &) override
+    {
+        maxDepth = qMax(maxDepth, ++depth);
+        return true;
+    }
+
+    bool endElement(const QString &, const QString &, const QString &) override
+    {
+        --depth;
+        return true;
+    }
+
+    bool fatalError(const QXmlParseException &exception) override
+    {
+        errorMessage = exception.message();
+        return false;
+    }
+
+    int depth = 0;
+    int maxDepth = 0;
+    QString errorMessage;
+};
+
+void tst_QXmlSimpleReader::deepElementNesting_data()
+{
+    QTest::addColumn<QByteArray>("xml");
+    QTest::addColumn<int>("expectedDepth");
+
+    constexpr int depth = 200000;
+
+    {
+        QByteArray xml;
+        xml.reserve(depth * 7);
+        for (int i = 0; i < depth; ++i)
+            xml += "<a>";
+
+        for (int i = 0; i < depth; ++i)
+            xml += "</a>";
+
+        QTest::newRow("closed tags") << xml << depth;
+    }
+    {
+        QByteArray xml;
+        xml += "<n:a xmlns:n='http://example.com/nesting'>";
+        xml.reserve(xml.size() + depth * 11);
+        for (int i = 0; i < depth - 1; ++i) // the outermost element is a level too
+            xml += "<n:a>";
+        for (int i = 0; i < depth; ++i)
+            xml += "</n:a>";
+
+        QTest::newRow("namespace prefixed tags") << xml << depth;
+    }
+    {
+        constexpr char level[] = "<a>text&amp;<!-- comment --><?pi data?><![CDATA[<]]>";
+        qsizetype levelLen = qsizetype(strlen(level));
+
+        QByteArray xml;
+        xml.reserve(depth * (levelLen + 4));
+        for (int i = 0; i < depth; ++i)
+            xml += level;
+        for (int i = 0; i < depth; ++i)
+            xml += "</a>";
+
+        QTest::newRow("mixed content") << xml << depth;
+    }
+}
+
+void tst_QXmlSimpleReader::deepElementNesting()
+{
+    QFETCH(QByteArray, xml);
+    QFETCH(const int, expectedDepth);
+
+    enum class CallType
+    {
+        Ref,
+        Pointer,
+        TwoArg,
+    };
+
+    constexpr CallType types[] = { CallType::Ref, CallType::Pointer, CallType::TwoArg };
+
+    for (CallType type : types) {
+        auto guard = qScopeGuard([type] {
+            qDebug("Failed while handling %s parse() overload",
+                   type == CallType::Ref ?     "const ref" :
+                   type == CallType::Pointer ? "pointer" :
+                   /* else */                  "two arg");
+        });
+
+        QBuffer buffer(&xml);
+        QVERIFY(buffer.open(QIODevice::ReadOnly));
+        QXmlInputSource source(&buffer);
+
+        DepthMeasureHandler handler;
+        QXmlSimpleReader reader;
+        reader.setContentHandler(&handler);
+        reader.setErrorHandler(&handler);
+        reader.setLexicalHandler(&handler);
+
+        switch (type) {
+        case CallType::Ref:
+            QVERIFY(reader.parse(source));
+            break;
+        case CallType::Pointer:
+            QVERIFY(reader.parse(&source));
+            break;
+        case CallType::TwoArg:
+            QVERIFY(reader.parse(&source, false));
+            break;
+        }
+
+        QVERIFY(handler.errorMessage.isEmpty());
+        QCOMPARE(handler.maxDepth, expectedDepth);
+        QCOMPARE(handler.depth, 0);
+
+        guard.dismiss();
+    }
+}
+
+void tst_QXmlSimpleReader::deepElementNestingIncremental_data()
+{
+    deepElementNesting_data();
+}
+
+void tst_QXmlSimpleReader::deepElementNestingIncremental()
+{
+    QFETCH(QByteArray, xml);
+    QFETCH(const int, expectedDepth);
+
+    DepthMeasureHandler handler;
+    QXmlSimpleReader reader;
+    reader.setContentHandler(&handler);
+    reader.setErrorHandler(&handler);
+    reader.setLexicalHandler(&handler);
+
+    const qsizetype chunkSize = xml.size() / 10;
+    QVERIFY(chunkSize > 0);
+
+    QXmlInputSource source;
+    bool first = true;
+    for (qsizetype pos = 0; pos < xml.size(); pos += chunkSize) {
+        source.setData(xml.mid(pos, chunkSize));
+        // In incremental mode running out of data is reported as success, so a
+        // false here would be a real parse error.
+        if (first) {
+            QVERIFY(reader.parse(&source, true));
+            first = false;
+        } else {
+            QVERIFY(reader.parseContinue());
+        }
+    }
+    // detect end of document
+    QVERIFY(reader.parseContinue());
+
+    QVERIFY(handler.errorMessage.isEmpty());
+    QCOMPARE(handler.maxDepth, expectedDepth);
+    QCOMPARE(handler.depth, 0);
 }
 
 void tst_QXmlSimpleReader::valueLongerThanIntMaxDoesNotCrash()

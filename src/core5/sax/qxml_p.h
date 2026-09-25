@@ -146,6 +146,7 @@ private:
     };
     friend class QTypeInfo<ParseState>;
     QStack<ParseState> *parseStack;
+    bool resumeSuspendedCall();
     int tryUnwindParseStack(ParseState::ParseFunction func);
 
 

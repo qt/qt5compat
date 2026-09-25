@@ -225,6 +225,14 @@ private:
 
     bool parseBeginOrContinue(int state, bool incremental);
 
+    enum class FrameParseResult
+    {
+        Done,
+        Failed,
+    };
+    FrameParseResult parseElementFrame(int &state);
+    FrameParseResult parseContentFrame(int &state);
+
     bool parseProlog();
     bool parseElement();
     bool processElementEmptyTag();

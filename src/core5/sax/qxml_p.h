@@ -69,17 +69,25 @@ private:
     QMap<QString,ExternEntity> externEntities;
     QMap<QString,QString> entities;
 
+    enum class ExpansionCheck
+    {
+        None,
+        GeneralEntity,
+    };
+
     // used for parsing of entity references
     struct XmlRef {
         XmlRef()
             : index(0) {}
-        XmlRef(const QString &_name, const QString &_value)
-            : name(_name), value(_value), index(0) {}
+        XmlRef(const QString &_name, const QString &_value, ExpansionCheck _check)
+            : name(_name), value(_value), index(0),
+              check(_check) {}
         bool isEmpty() const { return index == value.size(); }
         QChar next() { return value.at(index++); }
         QString name;
         QString value;
         qsizetype index;
+        ExpansionCheck check = ExpansionCheck::None;
     };
     friend class QTypeInfo<XmlRef>;
     QStack<XmlRef> xmlRefStack;
@@ -186,10 +194,10 @@ private:
     int     stringArrayPos;
     QString emptyStr;
 
-    QHash<QString, qsizetype> literalEntitySizes;
-    // The entity at (QMap<QString,) referenced the entities at (QMap<QString,) (qsizetype>) times.
-    QHash<QString, QHash<QString, qsizetype> > referencesToOtherEntities;
-    QHash<QString, qsizetype> expandedSizes;
+    // The outermost internal general entity that is currently being expanded,
+    // and the amount of characters it has expanded to so far.
+    QString expandedEntityName;
+    qsizetype expandedEntitySize = 0;
     // The limit to the amount of times the DTD parsing functions can be called
     // for the DTD currently being parsed.
     static const int dtdRecursionLimit = 2;
@@ -281,7 +289,8 @@ private:
 
     bool parseString();
 
-    bool insertXmlRef(const QString&, const QString&, bool);
+    bool insertXmlRef(const QString&, const QString&, bool,
+                      ExpansionCheck check = ExpansionCheck::None);
 
     bool reportEndEntities();
     void reportParseError(const QString& error);
@@ -291,7 +300,7 @@ private:
     void parseFailed(ParseFunction where, int state);
     void pushParseState(ParseFunction function, int state);
 
-    bool isExpandedEntityValueTooLarge(QString *errorMessage);
+    bool addToExpandedEntitySize(const QString &name, const QString &value, QString *errorMessage);
 
     Q_DECLARE_PUBLIC(QXmlSimpleReader)
     QXmlSimpleReader *q_ptr;

@@ -73,6 +73,7 @@ private:
     {
         None,
         GeneralEntity,
+        ParameterEntity,
     };
 
     // used for parsing of entity references
@@ -80,8 +81,7 @@ private:
         XmlRef()
             : index(0) {}
         XmlRef(const QString &_name, const QString &_value, ExpansionCheck _check)
-            : name(_name), value(_value), index(0),
-              check(_check) {}
+            : name(_name), value(_value), index(0), check(_check) {}
         bool isEmpty() const { return index == value.size(); }
         QChar next() { return value.at(index++); }
         QString name;
@@ -194,10 +194,15 @@ private:
     int     stringArrayPos;
     QString emptyStr;
 
-    // The outermost internal general entity that is currently being expanded,
+    // The outermost entity that is currently being expanded (an internal
+    // general entity, or an internal parameter entity included in the DTD),
     // and the amount of characters it has expanded to so far.
+    // The parameter entity names are stored with the '%' prefix.
     QString expandedEntityName;
     qsizetype expandedEntitySize = 0;
+    // The amount of characters that parameter entity references have contributed
+    // to the parameter entity value that is currently being parsed.
+    qsizetype includedParameterEntitySize = 0;
     // The limit to the amount of times the DTD parsing functions can be called
     // for the DTD currently being parsed.
     static const int dtdRecursionLimit = 2;
@@ -300,7 +305,8 @@ private:
     void parseFailed(ParseFunction where, int state);
     void pushParseState(ParseFunction function, int state);
 
-    bool addToExpandedEntitySize(const QString &name, const QString &value, QString *errorMessage);
+    bool addToExpandedEntitySize(const QString &name, const QString &value,
+                                 ExpansionCheck entityType, QString *errorMessage);
 
     Q_DECLARE_PUBLIC(QXmlSimpleReader)
     QXmlSimpleReader *q_ptr;

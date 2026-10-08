@@ -1167,6 +1167,22 @@ void tst_QXmlSimpleReader::entityExpansionLimit_data()
         QTest::newRow("parameter_entity_run_in_DTD") << xml;
     }
 
+    // Same as above, but the parameter entity b expands into a huge string in
+    // memory. Needed to test that we properly limit the expansion while
+    // substituting parameter entites, rather than check the full size of expanded
+    // string afterwards.
+    {
+        constexpr qsizetype RunawayReferences = 1'000'000;
+
+        const QByteArray xml =
+                "<!DOCTYPE d [<!ENTITY % a '" + QByteArray(EntityCharacterLimit, 'A') + "'>"
+                "<!ENTITY % b '"
+                + QByteArray("%a;").repeated(RunawayReferences)
+                + "'>]><d/>";
+
+        QTest::newRow("parameter_entity_run_in_DTD_huge_expansion") << xml;
+    }
+
     // Entity e references parameter entity a multiple times. The total expanded
     // size of e exceeds the limit, and parameter entity a itself exceeds the limit.
     {
@@ -1177,6 +1193,49 @@ void tst_QXmlSimpleReader::entityExpansionLimit_data()
                 +"'>]><d/>";
 
         QTest::newRow("parameter_entity_in_entity_value") << xml;
+    }
+
+    // The parameter entity a has references to general entity e1 in its value.
+    // The expansion limit is exceeded only when the parameter entity a is used
+    // in another general entity e2.
+    {
+        const QByteArray xml =
+                "<!DOCTYPE d [<!ENTITY e1 '" + QByteArray(EntityCharacterLimit, 'A') + "'>"
+                "<!ENTITY % a '" + QByteArray("&e1;").repeated(NestedReferences) + "'>"
+                "<!ENTITY e2 '%a;'>]>"
+                "<d>&e2;</d>";
+
+        QTest::newRow("entity_refs_in_parameter_entity") << xml;
+    }
+
+    // The character reference "&#37;" is expanded to '%' when the value of the
+    // parameter entity b is parsed, so b is stored as "%a;%a;", and fits into
+    // the limit. When b is included in the DTD, its value is parsed again, and
+    // every "%a;" includes the value of a. The parameter entity a contains
+    // only spaces, so that it can be included in the DTD.
+    // The expansion limit is exceeded once b is included in the DTD.
+    {
+        const QByteArray xml =
+                "<!DOCTYPE d [<!ENTITY % a '" + QByteArray(EntityCharacterLimit, ' ') + "'>"
+                "<!ENTITY % b '" + QByteArray("&#37;a;").repeated(NestedReferences) + "'>"
+                "%b;]><d/>";
+
+        QTest::newRow("parameter_entity_char_ref_in_DTD") << xml;
+    }
+
+    // The parameter entity p contains an ATTLIST declaration with references to
+    // the general entity e in the default value. The references are bypassed
+    // when p is declared, so p fits into the limit. When p is included in the
+    // DTD, the default value is parsed, and the references to e are expanded.
+    // The expansion limit is exceeded once p is included in the DTD.
+    {
+        const QByteArray xml =
+                "<!DOCTYPE d [<!ENTITY e '" + QByteArray(EntityCharacterLimit, 'A') + "'>"
+                "<!ENTITY % p \"<!ATTLIST d a CDATA '"
+                + QByteArray("&e;").repeated(NestedReferences) + "'>\">"
+                "%p;]><d/>";
+
+        QTest::newRow("general_entity_in_parameter_entity_in_DTD") << xml;
     }
 
     // Expansion of standard XML entities.
@@ -1330,9 +1389,6 @@ void tst_QXmlSimpleReader::entityExpansionLimit()
     reader.setErrorHandler(&handler);
     reader.setDeclHandler(&handler);
 
-    QEXPECT_FAIL("parameter_entity_in_DTD", "QTBUG-149213", Abort);
-    QEXPECT_FAIL("parameter_entity_run_in_DTD", "QTBUG-149213", Abort);
-    QEXPECT_FAIL("parameter_entity_in_entity_value", "QTBUG-149213", Abort);
     QVERIFY(!reader.parse(source));
     QVERIFY(!handler.errorMessage.isEmpty());
     QVERIFY(!handler.attDeclCalled);

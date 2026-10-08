@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QJpUnicodeConv {
 public:
-    virtual ~QJpUnicodeConv() {}
+    virtual ~QJpUnicodeConv();
     enum Rules {
         // "ASCII" is ANSI X.3.4-1986, a.k.a. US-ASCII here.
         Default                        = 0x0000,

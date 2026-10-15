@@ -16,12 +16,16 @@ qhp.QtCore5Compat.virtualFolder       = qtcore5compat
 qhp.QtCore5Compat.indexTitle          = Qt 5 Core Compatibility APIs
 qhp.QtCore5Compat.indexRoot           =
 
-qhp.QtCore5Compat.subprojects         = classes
+qhp.QtCore5Compat.subprojects         = classes codecs
 
 qhp.QtCore5Compat.subprojects.classes.title = C++ Classes
 qhp.QtCore5Compat.subprojects.classes.indexTitle = Qt 5 Core Compatibility C++ Classes
-qhp.QtCore5Compat.subprojects.classes.selectors = class headerfile
+qhp.QtCore5Compat.subprojects.classes.selectors = class headerfile namespace
 qhp.QtCore5Compat.subprojects.classes.sortPages = true
+
+qhp.QtCore5Compat.subprojects.codecs.title = Codecs
+qhp.QtCore5Compat.subprojects.codecs.selectors = group:codecs
+qhp.QtCore5Compat.subprojects.codecs.sortPages = true
 
 headerdirs  += ..
 sourcedirs  += ..
